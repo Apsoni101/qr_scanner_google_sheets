@@ -25,84 +25,44 @@ Note 2 :- The app can only list the sheets that are created in app by user (done
 
 ---
 
-## 🚀 App Flow (Step by Step)
+
+## 🚀 App Flow for saving and local sync when no internet 
+
+
+https://github.com/user-attachments/assets/9d032b9c-1b97-478d-9bc1-c0a85caff0bc
+
+## 🚀 App Screens 
 
 ### 🏠 1. Home Screen
 This is the **first screen** when the app opens.
-
-**What the user sees**
-- A title
-- A **Scan QR Code** button
-
-**UI example**
-- Scan Button: `300 × 60 px`
-- Centered on the screen
-
-🧒 *Example:*  
-Like a big green button saying “Start” in a game.
+It consist of two buttons one to go to scan qr code and one to view history button .
+Home screen is responsible for syncing when network connectivity changes for syncing with remote when saved locally due to no connectivity . 
 
 ---
 
 ### 📷 2. QR Scanner Screen
 This screen opens the **camera**.
-
-**What happens**
-- Camera starts automatically
-- A square box shows where to place the QR code
-
-**UI sizes**
-- Camera: Full screen
-- QR Scan Box: `270 × 270 px`
-- Instruction text above the box
-
-🧒 *Example:*  
-Like placing a paper inside a square frame so the camera can read it.
+It Toggles flash .
+Can Scan Qr And Analyze .
+Can open camera and gallery for capturing QR .
 
 ---
 
-### ✅ 3. Scan Result / Confirmation Screen
+### ✅ 3. Scan Result Screen
 After scanning, the app shows the result.
-
-**What the user can do**
-- See scanned QR data
-- Add a comment
-- Choose a sheet
-- Save the scan
-
-**UI sizes**
-- Result card: `match width`
-- Save button: `250 × 55 px`
-
-🧒 *Example:*  
-Like reading a message and deciding where to store it in a notebook.
+In this screen we can add comments or notes to be saved in sheet . 
 
 ---
 
-### 📄 4. Sheets Screen
-This screen shows all saved sheets.
+### 📄 4. Review and Sheets Selection for saving 
 
-**Features**
-- Create new sheet
-- Select existing sheet
-- View QR history per sheet
-
-🧒 *Example:*  
-Like folders in a school bag, each folder has many notes inside.
+Can review the comment and scanned data before saving . 
+This screen shows all saved sheets for selecting sheet to save .
+Can Also create new sheets . 
 
 ---
 
-### ❌ 5. Error Handling
-If something goes wrong:
-
-- Camera permission denied
-- QR unreadable
-- No internet (if needed)
-
-The app shows:
-- Error message
-- Retry button
-
-🧒 *Example:*  
-Like saying “Oops! Try again” if you make a mistake.
+###  5. Signin Screen 
+Google signin for authentication 
 
 ---
