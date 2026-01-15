@@ -13,7 +13,7 @@ Note 2 :- The app can only list the sheets that are created in app by user (done
 
 | Home Screen | Scanner Screen | Scan Result Screen |
 |------------|---------------|---------------|
-| ![](https://github.com/user-attachments/assets/13654c40-ffea-4afa-bd6c-282c2c9448e4) | ![](https://github.com/user-attachments/assets/aa4691bc-d8ae-4903-b885-aa4d3ee5fc1d) | ![](https://github.com/user-attachments/assets/ae3a04fa-ceca-4524-956b-65210aff1ba0) |
+| ![](https://github.com/user-attachments/assets/ae3a04fa-ceca-4524-956b-65210aff1ba0)  | ![](https://github.com/user-attachments/assets/aa4691bc-d8ae-4903-b885-aa4d3ee5fc1d) | ![](https://github.com/user-attachments/assets/13654c40-ffea-4afa-bd6c-282c2c9448e4)|
 
 | Confirmation and sheet selection for save screen | Create new Sheets | QR History |
 |-------------|-------------|---------|
