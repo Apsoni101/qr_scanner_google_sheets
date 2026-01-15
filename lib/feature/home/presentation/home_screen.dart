@@ -13,202 +13,84 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return BlocProvider<HomeScreenBloc>(
-      create: (context) => AppInjector.getIt<HomeScreenBloc>()
-        ..add(const OnHomeLoadInitial()),
+      create: (final BuildContext context) =>
+          AppInjector.getIt<HomeScreenBloc>()..add(const OnHomeLoadInitial()),
       child: const _HomeScreenView(),
     );
   }
 }
 
-class _HomeScreenView extends StatefulWidget {
+class _HomeScreenView extends StatelessWidget {
   const _HomeScreenView();
 
   @override
-  State<_HomeScreenView> createState() => _HomeScreenViewState();
-}
-
-class _HomeScreenViewState extends State<_HomeScreenView> {
-  @override
-  void initState() {
-    super.initState();
-    // Listen for network status changes
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // You can integrate connectivity_plus or similar package here
-      // For now, assume online
-      context.read<HomeScreenBloc>().add(
-        const OnHomeNetworkStatusChanged(true),
-      );
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return BlocListener<HomeScreenBloc, HomeScreenState>(
-      listener: (context, state) {
-        // Show sync success message
-        if (state.showSyncSuccess && state.pendingSyncCount == 0) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text('All scans synced successfully!'),
-              backgroundColor: context.appColors.c3BA935,
-              duration: const Duration(seconds: 2),
-            ),
-          );
-        }
-
-        // Show sync error
-        if (state.syncError != null && state.syncError!.isNotEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.syncError!),
-              backgroundColor: context.appColors.red,
-            ),
-          );
-        }
-
-        // Show general error
-        if (state.error != null && state.error!.isNotEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error!),
-              backgroundColor: context.appColors.red,
-            ),
-          );
-        }
-      },
+      listener: _handleStateChanges,
       child: Scaffold(
         backgroundColor: context.appColors.cF6F9FF,
         appBar: _buildAppBar(context),
-        body: Center(
-          child: Padding(
+        body: RefreshIndicator(
+          onRefresh: () async {
+            context.read<HomeScreenBloc>().add(const OnHomeRefreshSheets());
+          },
+          color: context.appColors.primaryBlue,
+          backgroundColor: context.appColors.white,
+          child: ListView(
             padding: const EdgeInsets.all(24),
-            child: ListView(
-              children: [
-                // Sync Status Banner
-                BlocSelector<HomeScreenBloc, HomeScreenState,
-                    ({int pendingCount, bool isOnline, bool isSyncing})>(
-                  selector: (state) => (
-                  pendingCount: state.pendingSyncCount,
-                  isOnline: state.isOnline,
-                  isSyncing: state.isSyncing,
-                  ),
-                  builder: (context, data) {
-                    if (data.pendingCount > 0) {
-                      return _buildSyncBanner(
-                        context,
-                        data.pendingCount,
-                        data.isOnline,
-                        data.isSyncing,
-                      );
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-                const SizedBox(height: 32),
-                // Main Icon
-                Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: context.appColors.cEBECFF,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Icon(
-                    Icons.qr_code_scanner,
-                    size: 64,
-                    color: context.appColors.primaryBlue,
-                  ),
-                ),
-                const SizedBox(height: 32),
-                // Title
-                Text(
-                  context.locale.scanQrCode,
-                  style:
-                  AppTextStyles.airbnbCerealW700S24Lh32LsMinus1.copyWith(
-                    color: context.appColors.black,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 12),
-                // Subtitle
-                Text(
-                  context.locale.pointCameraToScanQr,
-                  style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
-                    color: context.appColors.slate,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 48),
-                // Scan QR Button
-                ElevatedButton.icon(
-                  onPressed: () {
-                    context.router.push(const QrScanningRoute());
-                  },
-                  icon: Icon(
-                    Icons.qr_code_scanner,
-                    color: context.appColors.white,
-                  ),
-                  label: Text(
-                    context.locale.scanQrCode,
-                    style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-                      color: context.appColors.white,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: context.appColors.primaryBlue,
-                    foregroundColor: context.appColors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 16,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // History Button
-                OutlinedButton.icon(
-                  onPressed: () {
-                    // TODO: Navigate to history screen
-                  },
-                  icon: Icon(
-                    Icons.history,
-                    color: context.appColors.primaryBlue,
-                  ),
-                  label: Text(
-                    context.locale.viewHistory,
-                    style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-                      color: context.appColors.primaryBlue,
-                    ),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: context.appColors.primaryBlue,
-                    side: BorderSide(
-                      color: context.appColors.primaryBlue,
-                      width: 1.5,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 32,
-                      vertical: 16,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            children: <Widget>[
+              _SyncStatusBanner(),
+              const SizedBox(height: 32),
+              _QrIconSection(context),
+              const SizedBox(height: 32),
+              _QrTitleSection(context),
+              const SizedBox(height: 48),
+              _ActionButtonsSection(context),
+            ],
           ),
         ),
       ),
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
+  void _handleStateChanges(
+    final BuildContext context,
+    final HomeScreenState state,
+  ) {
+    if (state.showSyncSuccess && state.pendingSyncCount == 0) {
+      _showSnackBar(
+        context,
+        context.locale.allScansSuccessfullyMessage,
+        context.appColors.c3BA935,
+      );
+    }
+
+    if (state.syncError != null && state.syncError!.isNotEmpty) {
+      _showSnackBar(context, state.syncError!, context.appColors.red);
+    }
+
+    if (state.error != null && state.error!.isNotEmpty) {
+      _showSnackBar(context, state.error!, context.appColors.red);
+    }
+  }
+
+  void _showSnackBar(
+    final BuildContext context,
+    final String message,
+    final Color bgColor,
+  ) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: bgColor,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  PreferredSizeWidget _buildAppBar(final BuildContext context) {
     return AppBar(
       backgroundColor: context.appColors.white,
       elevation: 0,
@@ -219,164 +101,162 @@ class _HomeScreenViewState extends State<_HomeScreenView> {
         ),
       ),
       centerTitle: true,
-      actions: [
-        BlocSelector<HomeScreenBloc, HomeScreenState,
-            ({int pendingCount, bool isSyncing})>(
-          selector: (state) => (
-          pendingCount: state.pendingSyncCount,
-          isSyncing: state.isSyncing,
-          ),
-          builder: (context, data) {
-            if (data.pendingCount > 0) {
-              return Padding(
-                padding: const EdgeInsets.all(16),
-                child: Center(
-                  child: data.isSyncing
-                      ? SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        context.appColors.primaryBlue,
-                      ),
-                    ),
-                  )
-                      : Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: context.appColors.red.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '${data.pendingCount}',
-                      style: AppTextStyles.airbnbCerealW400S12Lh16
-                          .copyWith(
-                        color: context.appColors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              );
+      actions: <Widget>[_SyncStatusIndicator()],
+    );
+  }
+}
+
+class _SyncStatusBanner extends StatelessWidget {
+  @override
+  Widget build(final BuildContext context) {
+    return BlocSelector<
+      HomeScreenBloc,
+      HomeScreenState,
+      ({int pendingCount, bool isOnline, bool isSyncing})
+    >(
+      selector: (final HomeScreenState state) => (
+        pendingCount: state.pendingSyncCount,
+        isOnline: state.isOnline,
+        isSyncing: state.isSyncing,
+      ),
+      builder:
+          (
+            final BuildContext context,
+            final ({bool isOnline, bool isSyncing, int pendingCount}) data,
+          ) {
+            if (data.pendingCount == 0) {
+              return const SizedBox.shrink();
             }
-            return const SizedBox.shrink();
+
+            if (data.isSyncing) {
+              return _SyncingBanner(pendingCount: data.pendingCount);
+            }
+
+            if (!data.isOnline) {
+              return _OfflineBanner(pendingCount: data.pendingCount);
+            }
+
+            return _ReadyToSyncBanner(pendingCount: data.pendingCount);
           },
-        ),
-      ],
+    );
+  }
+}
+
+class _SyncingBanner extends StatelessWidget {
+  const _SyncingBanner({required this.pendingCount});
+
+  final int pendingCount;
+
+  @override
+  Widget build(final BuildContext context) {
+    return _BannerContainer(
+      backgroundColor: context.appColors.primaryBlue.withAlpha(26),
+      borderColor: context.appColors.primaryBlue.withAlpha(77),
+      child: Row(
+        children: <Widget>[
+          SizedBox(
+            width: 20,
+            height: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                context.appColors.primaryBlue,
+              ),
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              _getSyncingMessage(context, pendingCount),
+              style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
+                color: context.appColors.primaryBlue,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildSyncBanner(
-      BuildContext context,
-      int pendingCount,
-      bool isOnline,
-      bool isSyncing,
-      ) {
-    if (isSyncing) {
-      return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.appColors.primaryBlue.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: context.appColors.primaryBlue.withOpacity(0.3),
-          ),
-        ),
-        child: Row(
-          children: [
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  context.appColors.primaryBlue,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                'Syncing $pendingCount scan${pendingCount > 1 ? 's' : ''}...',
-                style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-                  color: context.appColors.primaryBlue,
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
+  String _getSyncingMessage(final BuildContext context, final int count) {
+    if (count == 1) {
+      return context.locale.syncingMessage(count);
     }
+    return context.locale.syncingMessagePlural(count);
+  }
+}
 
-    if (!isOnline) {
-      return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.appColors.red.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: context.appColors.red.withOpacity(0.3),
-          ),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              Icons.cloud_off,
-              color: context.appColors.red,
-              size: 20,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Offline Mode',
-                    style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-                      color: context.appColors.red,
-                    ),
-                  ),
-                  Text(
-                    '$pendingCount scan${pendingCount > 1 ? 's' : ''} waiting to sync',
-                    style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
-                      color: context.appColors.slate,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      );
-    }
+class _OfflineBanner extends StatelessWidget {
+  const _OfflineBanner({required this.pendingCount});
 
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.appColors.c3BA935.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: context.appColors.c3BA935.withOpacity(0.3),
-        ),
-      ),
+  final int pendingCount;
+
+  @override
+  Widget build(final BuildContext context) {
+    return _BannerContainer(
+      backgroundColor: context.appColors.red.withAlpha(26),
+      borderColor: context.appColors.red.withAlpha(77),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
+        children: <Widget>[
+          Icon(Icons.cloud_off, color: context.appColors.red, size: 20),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
-                  '$pendingCount Scan${pendingCount > 1 ? 's' : ''} to Sync',
+                  context.locale.offlineMode,
+                  style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
+                    color: context.appColors.red,
+                  ),
+                ),
+                Text(
+                  _getWaitingToSyncMessage(context, pendingCount),
+                  style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+                    color: context.appColors.slate,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getWaitingToSyncMessage(final BuildContext context, final int count) {
+    if (count == 1) {
+      return context.locale.waitingToSyncMessage(count);
+    }
+    return context.locale.waitingToSyncMessagePlural(count);
+  }
+}
+
+class _ReadyToSyncBanner extends StatelessWidget {
+  const _ReadyToSyncBanner({required this.pendingCount});
+
+  final int pendingCount;
+
+  @override
+  Widget build(final BuildContext context) {
+    return _BannerContainer(
+      backgroundColor: context.appColors.c3BA935.withAlpha(26),
+      borderColor: context.appColors.c3BA935.withAlpha(77),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  _getScanToSyncMessage(context, pendingCount),
                   style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
                     color: context.appColors.c3BA935,
                   ),
                 ),
                 Text(
-                  'Connection available - click to sync',
+                  context.locale.connectionAvailableSync,
                   style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
                     color: context.appColors.slate,
                   ),
@@ -385,24 +265,260 @@ class _HomeScreenViewState extends State<_HomeScreenView> {
             ),
           ),
           const SizedBox(width: 12),
-          ElevatedButton(
-            onPressed: () {
-              context.read<HomeScreenBloc>().add(
-                const OnHomeSyncPendingScans(),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.appColors.c3BA935,
-              elevation: 0,
-            ),
-            child: Text(
-              'Sync',
-              style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
-                color: context.appColors.white,
-              ),
-            ),
-          ),
+          _SyncButton(),
         ],
+      ),
+    );
+  }
+
+  String _getScanToSyncMessage(final BuildContext context, final int count) {
+    if (count == 1) {
+      return context.locale.scanToSyncMessage(count);
+    }
+    return context.locale.scanToSyncMessagePlural(count);
+  }
+}
+
+class _BannerContainer extends StatelessWidget {
+  const _BannerContainer({
+    required this.backgroundColor,
+    required this.borderColor,
+    required this.child,
+  });
+
+  final Color backgroundColor;
+  final Color borderColor;
+  final Widget child;
+
+  @override
+  Widget build(final BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: borderColor),
+      ),
+      child: child,
+    );
+  }
+}
+
+class _SyncStatusIndicator extends StatelessWidget {
+  @override
+  Widget build(final BuildContext context) {
+    return BlocSelector<
+      HomeScreenBloc,
+      HomeScreenState,
+      ({int pendingCount, bool isSyncing})
+    >(
+      selector: (final HomeScreenState state) =>
+          (pendingCount: state.pendingSyncCount, isSyncing: state.isSyncing),
+      builder:
+          (
+            final BuildContext context,
+            final ({bool isSyncing, int pendingCount}) data,
+          ) {
+            if (data.pendingCount == 0) {
+              return const SizedBox.shrink();
+            }
+
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Center(
+                child: data.isSyncing
+                    ? SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            context.appColors.primaryBlue,
+                          ),
+                        ),
+                      )
+                    : Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: context.appColors.red.withAlpha(51),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          '${data.pendingCount}',
+                          style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+                            color: context.appColors.red,
+                          ),
+                        ),
+                      ),
+              ),
+            );
+          },
+    );
+  }
+}
+
+class _QrIconSection extends StatelessWidget {
+  const _QrIconSection(this.context);
+
+  final BuildContext context;
+
+  @override
+  Widget build(final BuildContext context) {
+    return Container(
+      width: 120,
+      height: 120,
+      decoration: BoxDecoration(
+        color: context.appColors.cEBECFF,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Icon(
+        Icons.qr_code_scanner,
+        size: 64,
+        color: context.appColors.primaryBlue,
+      ),
+    );
+  }
+}
+
+class _QrTitleSection extends StatelessWidget {
+  const _QrTitleSection(this.context);
+
+  final BuildContext context;
+
+  @override
+  Widget build(final BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(
+          context.locale.scanQrCode,
+          style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1.copyWith(
+            color: context.appColors.black,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 12),
+        Text(
+          context.locale.pointCameraToScanQr,
+          style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
+            color: context.appColors.slate,
+          ),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+}
+
+class _ActionButtonsSection extends StatelessWidget {
+  const _ActionButtonsSection(this.context);
+
+  final BuildContext context;
+
+  @override
+  Widget build(final BuildContext context) {
+    return Column(
+      children: <Widget>[
+        _PrimaryButton(
+          icon: Icons.qr_code_scanner,
+          label: context.locale.scanQrCode,
+          onPressed: () => context.router.push(const QrScanningRoute()),
+        ),
+        const SizedBox(height: 16),
+        _SecondaryButton(
+          icon: Icons.history,
+          label: context.locale.viewHistory,
+          onPressed: () {
+            // TODO: Navigate to history screen
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _PrimaryButton extends StatelessWidget {
+  const _PrimaryButton({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(final BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, color: context.appColors.white),
+      label: Text(
+        label,
+        style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
+          color: context.appColors.white,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: context.appColors.primaryBlue,
+        foregroundColor: context.appColors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      ),
+    );
+  }
+}
+
+class _SecondaryButton extends StatelessWidget {
+  const _SecondaryButton({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(final BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, color: context.appColors.primaryBlue),
+      label: Text(
+        label,
+        style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
+          color: context.appColors.primaryBlue,
+        ),
+      ),
+      style: OutlinedButton.styleFrom(
+        foregroundColor: context.appColors.primaryBlue,
+        side: BorderSide(color: context.appColors.primaryBlue, width: 1.5),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      ),
+    );
+  }
+}
+
+class _SyncButton extends StatelessWidget {
+  @override
+  Widget build(final BuildContext context) {
+    return ElevatedButton(
+      onPressed: () =>
+          context.read<HomeScreenBloc>().add(const OnHomeSyncPendingScans()),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: context.appColors.c3BA935,
+        elevation: 0,
+      ),
+      child: Text(
+        context.locale.syncButtonLabel,
+        style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+          color: context.appColors.white,
+        ),
       ),
     );
   }

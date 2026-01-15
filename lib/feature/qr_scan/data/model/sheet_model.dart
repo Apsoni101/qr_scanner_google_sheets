@@ -1,11 +1,15 @@
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/domain/entity/sheet_entity.dart';
 
+part 'sheet_model.g.dart';
+
+@HiveType(typeId: 2)
 class SheetModel extends SheetEntity {
   const SheetModel({
-    required super.id,
-    required super.title,
-    super.createdTime,
-    super.modifiedTime,
+    @HiveField(0) required super.id,
+    @HiveField(1) required super.title,
+    @HiveField(2) super.createdTime,
+    @HiveField(3) super.modifiedTime,
   });
 
   factory SheetModel.fromJson(final Map<String, dynamic> json) {

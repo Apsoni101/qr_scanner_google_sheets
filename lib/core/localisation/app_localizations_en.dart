@@ -103,4 +103,92 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveButton => 'Save';
+
+  @override
+  String get allScansSuccessfullyMessage => 'All scans synced successfully!';
+
+  @override
+  String syncingMessage(int count) {
+    return 'Syncing $count scan';
+  }
+
+  @override
+  String syncingMessagePlural(int count) {
+    return 'Syncing $count scans';
+  }
+
+  @override
+  String get confirmAndSaveTitle => 'Confirm & Save';
+
+  @override
+  String get scanDetailsTitle => 'Scan Details';
+
+  @override
+  String get selectSheetTitle => 'Select Sheet';
+
+  @override
+  String get newSheetNameTitle => 'New Sheet Name';
+
+  @override
+  String get sheetNameHint => 'Enter sheet name (e.g., \"Scans - Jan 2024\")';
+
+  @override
+  String get createSheetButton => 'Create Sheet';
+
+  @override
+  String get switchToSelectSheet => 'Switch to Select Sheet';
+
+  @override
+  String get createNewSheet => 'Create New Sheet';
+
+  @override
+  String get noSheetsAvailable => 'No sheets available. Create a new one!';
+
+  @override
+  String get scanSavedSuccessfully => 'Scan saved successfully!';
+
+  @override
+  String modified(String date) {
+    return 'Modified: $date';
+  }
+
+  @override
+  String get qrCodeDetailsTitle => 'QR Code Details';
+
+  @override
+  String get offlineMode => 'Offline Mode';
+
+  @override
+  String waitingToSyncMessage(int count) {
+    return '$count scan waiting to sync';
+  }
+
+  @override
+  String waitingToSyncMessagePlural(int count) {
+    return '$count scans waiting to sync';
+  }
+
+  @override
+  String scanToSyncMessage(int count) {
+    return '$count Scan to Sync';
+  }
+
+  @override
+  String scanToSyncMessagePlural(int count) {
+    return '$count Scans to Sync';
+  }
+
+  @override
+  String get connectionAvailableSync => 'Connection available - click to sync';
+
+  @override
+  String get syncButtonLabel => 'Sync';
+
+  @override
+  String get noInternetConnection =>
+      'No internet connection. Scans will sync when online.';
+
+  @override
+  String get cannotRefreshSheets =>
+      'No internet connection. Cannot refresh sheets.';
 }

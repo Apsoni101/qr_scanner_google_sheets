@@ -1,192 +1,208 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_scanner_practice/core/services/connectivity_service.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
+import 'package:qr_scanner_practice/feature/qr_scan/domain/entity/pending_sync_entity.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/domain/entity/qr_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/qr_scan/domain/entity/sheet_entity.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/domain/usecase/qr_result_remote_use_case.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/domain/usecase/qr_scan_local_use_case.dart';
 
 part 'home_screen_event.dart';
+
 part 'home_screen_state.dart';
 
 class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   HomeScreenBloc({
     required this.remoteUseCase,
     required this.localUseCase,
+    required this.connectivityService,
   }) : super(const HomeScreenInitial()) {
     on<OnHomeLoadInitial>(_onLoadInitial);
     on<OnHomeSyncPendingScans>(_onSyncPendingScans);
     on<OnHomeRefreshSheets>(_onRefreshSheets);
     on<OnHomeNetworkStatusChanged>(_onNetworkStatusChanged);
+
+    /// Listening to connectivity changes
+    _connectivitySubscription = connectivityService
+        .onConnectivityChanged()
+        .listen((final bool isOnline) {
+          add(OnHomeNetworkStatusChanged(isOnline));
+        });
   }
 
   final QrResultRemoteUseCase remoteUseCase;
   final QrScanLocalUseCase localUseCase;
+  final ConnectivityService connectivityService;
 
-  // Handle initial load: check for pending syncs and load sheets
+  late final StreamSubscription<bool> _connectivitySubscription;
+
+  /// Handle initial load: checking for pending syncs and loading sheets
   Future<void> _onLoadInitial(
-      final OnHomeLoadInitial event,
-      final Emitter<HomeScreenState> emit,
-      ) async {
+    final OnHomeLoadInitial event,
+    final Emitter<HomeScreenState> emit,
+  ) async {
     emit(state.copyWith(isLoading: true));
 
-    try {
-      // Get pending syncs count
-      final Either<Failure, List<QrScanEntity>> pendingResult =
-      await localUseCase.getPendingSyncScans();
+    final bool isOnline = await connectivityService.hasInternetConnection();
 
-      int pendingCount = 0;
-      pendingResult.fold(
-            (_) => pendingCount = 0,
-            (scans) => pendingCount = scans.length,
-      );
+    final Either<Failure, List<PendingSyncEntity>> pendingResult =
+        await localUseCase.getPendingSyncScans();
 
-      // If online, sync immediately
-      if (state.isOnline && pendingCount > 0) {
-        emit(state.copyWith(
-          isLoading: false,
-          pendingSyncCount: pendingCount,
-        ));
-        // Trigger sync
-        add(const OnHomeSyncPendingScans());
-      } else {
-        emit(state.copyWith(
-          isLoading: false,
-          pendingSyncCount: pendingCount,
-        ));
-      }
-    } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        error: 'Failed to initialize: ${e.toString()}',
-      ));
-    }
+    await pendingResult.fold(
+      (final Failure failure) async {
+        emit(state.copyWith(isLoading: false, error: failure.message));
+      },
+      (final List<PendingSyncEntity> syncs) async {
+        final int pendingCount = syncs.length;
+
+        emit(
+          state.copyWith(
+            isLoading: false,
+            isOnline: isOnline,
+            pendingSyncCount: pendingCount,
+          ),
+        );
+
+        if (isOnline && pendingCount > 0) {
+          add(const OnHomeSyncPendingScans());
+        }
+      },
+    );
   }
 
-  // Sync pending scans with remote
   Future<void> _onSyncPendingScans(
-      final OnHomeSyncPendingScans event,
-      final Emitter<HomeScreenState> emit,
-      ) async {
-    if (!state.isOnline) {
-      emit(state.copyWith(
-        syncError: 'No internet connection. Scans will sync when online.',
-      ));
+    final OnHomeSyncPendingScans event,
+    final Emitter<HomeScreenState> emit,
+  ) async {
+    final bool isOnline = await connectivityService.hasInternetConnection();
+
+    if (!isOnline) {
+      emit(
+        state.copyWith(
+          syncError: 'No internet connection. Scans will sync when online.',
+          isOnline: false,
+        ),
+      );
       return;
     }
 
-    emit(state.copyWith(isSyncing: true, syncError: null));
+    emit(state.copyWith(isSyncing: true, isOnline: true));
 
-    try {
-      // Get all pending scans
-      final Either<Failure, List<QrScanEntity>> pendingResult =
-      await localUseCase.getPendingSyncScans();
+    final Either<Failure, List<PendingSyncEntity>> pendingResult =
+        await localUseCase.getPendingSyncScans();
 
-      await pendingResult.fold(
-            (failure) async {
-          emit(state.copyWith(
-            isSyncing: false,
-            syncError: failure.message,
-          ));
-        },
-            (pendingScans) async {
-          if (pendingScans.isEmpty) {
-            emit(state.copyWith(
+    await pendingResult.fold(
+      (final Failure failure) async {
+        emit(state.copyWith(isSyncing: false, syncError: failure.message));
+      },
+      (final List<PendingSyncEntity> pendingSyncs) async {
+        if (pendingSyncs.isEmpty) {
+          emit(
+            state.copyWith(
               isSyncing: false,
               pendingSyncCount: 0,
               showSyncSuccess: true,
-            ));
-            return;
-          }
+            ),
+          );
+          return;
+        }
 
-          int syncedCount = 0;
-          String? lastError;
+        int syncedCount = 0;
+        String? lastError;
 
-          // Sync each pending scan
-          for (int i = 0; i < pendingScans.length; i++) {
-            final scan = pendingScans[i];
-            // Assuming sheetId is stored in scan or we use a default
-            // You may need to modify this based on your data structure
-            final result = await remoteUseCase.saveScan(
-              scan,
-              'default_sheet_id', // Replace with actual sheet ID
-            );
+        for (int i = 0; i < pendingSyncs.length; i++) {
+          final PendingSyncEntity pendingSync = pendingSyncs[i];
+          final QrScanEntity scan = pendingSync.scan;
+          final String sheetId = pendingSync.sheetId;
 
-            result.fold(
-                  (failure) {
-                lastError = failure.message;
-              },
-                  (_) async {
-                syncedCount++;
-                // Remove synced item from local pending
-                await localUseCase.removeSyncedScan('default_sheet_id', 0);
-              },
-            );
-          }
+          final Either<Failure, Unit> result = await remoteUseCase.saveScan(
+            scan,
+            sheetId,
+          );
 
-          final remainingCount = pendingScans.length - syncedCount;
+          await result.fold(
+            (final Failure failure) {
+              lastError = failure.message;
+            },
+            (_) async {
+              syncedCount++;
+              await localUseCase.removeSyncedScan(i);
+            },
+          );
+        }
 
-          emit(state.copyWith(
+        final int remainingCount = pendingSyncs.length - syncedCount;
+
+        emit(
+          state.copyWith(
             isSyncing: false,
             pendingSyncCount: remainingCount,
             syncError: lastError,
             showSyncSuccess: remainingCount == 0,
-          ));
-        },
-      );
-    } catch (e) {
-      emit(state.copyWith(
-        isSyncing: false,
-        syncError: 'Sync failed: ${e.toString()}',
-      ));
-    }
+            isOnline: true,
+          ),
+        );
+      },
+    );
   }
 
-  // Refresh sheets from remote
   Future<void> _onRefreshSheets(
-      final OnHomeRefreshSheets event,
-      final Emitter<HomeScreenState> emit,
-      ) async {
-    emit(state.copyWith(isLoading: true, error: null));
+    final OnHomeRefreshSheets event,
+    final Emitter<HomeScreenState> emit,
+  ) async {
+    final bool isOnline = await connectivityService.hasInternetConnection();
 
-    try {
-      final result = await remoteUseCase.getOwnedSheets();
-
-      result.fold(
-            (failure) {
-          emit(state.copyWith(
-            isLoading: false,
-            error: failure.message,
-          ));
-        },
-            (sheets) async {
-          // Cache sheets locally
-          for (final sheet in sheets) {
-            await localUseCase.cacheSheet(sheet);
-          }
-
-          emit(state.copyWith(isLoading: false));
-        },
+    if (!isOnline) {
+      emit(
+        state.copyWith(
+          error: 'No internet connection. Cannot refresh sheets.',
+          isOnline: false,
+        ),
       );
-    } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        error: 'Failed to refresh: ${e.toString()}',
-      ));
+      return;
     }
+
+    emit(state.copyWith(isLoading: true, isOnline: true));
+
+    final Either<Failure, List<SheetEntity>> result = await remoteUseCase
+        .getOwnedSheets();
+
+    await result.fold(
+      (final Failure failure) {
+        emit(state.copyWith(isLoading: false, error: failure.message));
+      },
+      (final List<SheetEntity> sheets) async {
+        for (final SheetEntity sheet in sheets) {
+          await localUseCase.cacheSheet(sheet);
+        }
+
+        emit(state.copyWith(isLoading: false));
+      },
+    );
   }
 
-  // Handle network status changes
   Future<void> _onNetworkStatusChanged(
-      final OnHomeNetworkStatusChanged event,
-      final Emitter<HomeScreenState> emit,
-      ) async {
-    emit(state.copyWith(isOnline: event.isConnected));
+    final OnHomeNetworkStatusChanged event,
+    final Emitter<HomeScreenState> emit,
+  ) async {
+    final bool wasOnline = state.isOnline;
+    final bool isNowOnline = event.isConnected;
 
-    // If connection is restored, trigger sync
-    if (event.isConnected && state.pendingSyncCount > 0) {
+    emit(state.copyWith(isOnline: isNowOnline));
+
+    if (isNowOnline && !wasOnline && state.pendingSyncCount > 0) {
       add(const OnHomeSyncPendingScans());
     }
+  }
+
+  @override
+  Future<void> close() {
+    _connectivitySubscription.cancel();
+    return super.close();
   }
 }

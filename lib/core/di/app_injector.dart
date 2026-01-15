@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
 import 'package:qr_scanner_practice/core/navigation/auth_guard.dart';
+import 'package:qr_scanner_practice/core/services/connectivity_service.dart';
 import 'package:qr_scanner_practice/core/services/firebase/crashlytics_service.dart';
 import 'package:qr_scanner_practice/core/services/firebase/firebase_auth_service.dart';
 import 'package:qr_scanner_practice/core/services/firebase/firebase_firestore_service.dart';
@@ -38,6 +39,7 @@ class AppInjector {
       ..registerSingleton<HiveService>(HiveService())
       ..registerLazySingleton<HttpApiClient>(HttpApiClient.new)
       ..registerLazySingleton(FirebaseAuthService.new)
+      ..registerLazySingleton(ConnectivityService.new)
       ..registerLazySingleton(FirebaseFirestoreService.new)
       ..registerLazySingleton(CrashlyticsService.new)
       ..registerLazySingleton<ThemeController>(
@@ -110,6 +112,7 @@ class AppInjector {
         () => HomeScreenBloc(
           remoteUseCase: getIt<QrResultRemoteUseCase>(),
           localUseCase: getIt<QrScanLocalUseCase>(),
+          connectivityService: getIt<ConnectivityService>(),
         ),
       )
       ..registerFactory<QrResultBloc>(QrResultBloc.new)

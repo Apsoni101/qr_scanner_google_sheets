@@ -43,12 +43,10 @@ final class OnConfirmationCreateSheet extends QrResultConfirmationEvent {
   const OnConfirmationCreateSheet();
 }
 
-final class OnConfirmationSaveScan extends QrResultConfirmationEvent {
-  const OnConfirmationSaveScan(this.scanEntity, this.sheetTitle);
+class OnConfirmationSaveScan extends QrResultConfirmationEvent {
+  const OnConfirmationSaveScan(this.scanEntity, this.sheetId, this.sheetTitle);
 
   final QrScanEntity scanEntity;
+  final String sheetId;
   final String sheetTitle;
-
-  @override
-  List<Object?> get props => <Object?>[scanEntity, sheetTitle];
 }

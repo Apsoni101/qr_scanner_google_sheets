@@ -79,7 +79,7 @@ class _QrResultViewState extends State<_QrResultView> {
         onPressed: () => context.router.maybePop(),
       ),
       title: Text(
-        'QR Code Details',
+        context.locale.qrCodeDetailsTitle,
         style: AppTextStyles.airbnbCerealW500S18Lh24Ls0.copyWith(
           color: context.appColors.black,
         ),

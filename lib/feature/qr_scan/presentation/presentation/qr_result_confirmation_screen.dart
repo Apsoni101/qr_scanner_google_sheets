@@ -81,14 +81,12 @@ class _QrResultConfirmationViewState extends State<_QrResultConfirmationView> {
             } else if (state.isScanSaved) {
               _showSnackBar(
                 context,
-                'Scan saved successfully!',
+                context.locale.scanSavedSuccessfully,
                 context.appColors.c3BA935,
               );
-              Future.delayed(const Duration(milliseconds: 800), () {
-                if (mounted) {
+                if (context.mounted) {
                   context.router.maybePop();
                 }
-              });
             }
           },
       child: Scaffold(
@@ -137,7 +135,7 @@ class _QrResultConfirmationViewState extends State<_QrResultConfirmationView> {
         onPressed: () => context.router.maybePop(),
       ),
       title: Text(
-        'Confirm & Save',
+        context.locale.confirmAndSaveTitle,
         style: AppTextStyles.airbnbCerealW500S18Lh24Ls0.copyWith(
           color: context.appColors.black,
         ),
@@ -171,7 +169,7 @@ class _ScanDetailsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Scan Details',
+          context.locale.scanDetailsTitle,
           style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
             color: context.appColors.black,
           ),
@@ -261,7 +259,7 @@ class _SelectSheetSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Select Sheet',
+                  context.locale.selectSheetTitle,
                   style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
                     color: context.appColors.slate,
                   ),
@@ -276,8 +274,8 @@ class _SelectSheetSection extends StatelessWidget {
                 else if (data.error != null)
                   _ErrorContainer(message: data.error ?? '')
                 else if (data.sheets.isEmpty)
-                  const _EmptyStateContainer(
-                    message: 'No sheets available. Create a new one!',
+                  _EmptyStateContainer(
+                    message: context.locale.noSheetsAvailable,
                   )
                 else
                   _SheetsList(sheets: data.sheets),
@@ -347,7 +345,7 @@ class _SheetItem extends StatelessWidget {
           ),
           subtitle: sheet.modifiedTime != null
               ? Text(
-                  'Modified: ${sheet.modifiedTime.toFriendlyDate()}',
+                  context.locale.modified(sheet.modifiedTime.toFriendlyDate()),
                   style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
                     color: context.appColors.slate,
                   ),
@@ -391,7 +389,7 @@ class _CreateNewSheetSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'New Sheet Name',
+                  context.locale.newSheetNameTitle,
                   style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
                     color: context.appColors.slate,
                   ),
@@ -409,7 +407,7 @@ class _CreateNewSheetSection extends StatelessWidget {
                     color: context.appColors.black,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Enter sheet name (e.g., "Scans - Jan 2024")',
+                    hintText: context.locale.sheetNameHint,
                     hintStyle: AppTextStyles.airbnbCerealW400S14Lh20Ls0
                         .copyWith(color: context.appColors.slate),
                     filled: true,
@@ -461,7 +459,7 @@ class _CreateNewSheetSection extends StatelessWidget {
                             ),
                           )
                         : Text(
-                            'Create Sheet',
+                            context.locale.createSheetButton,
                             style: AppTextStyles.airbnbCerealW500S14Lh20Ls0
                                 .copyWith(color: context.appColors.white),
                           ),
@@ -500,7 +498,7 @@ class _ModeToggleButton extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: context.appColors.cEAECF0.withOpacity(0.5),
+              color: context.appColors.cEAECF0.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -512,8 +510,8 @@ class _ModeToggleButton extends StatelessWidget {
                 const SizedBox(width: 12),
                 Text(
                   isCreatingNewSheet
-                      ? 'Switch to Select Sheet'
-                      : 'Create New Sheet',
+                      ? context.locale.switchToSelectSheet
+                      : context.locale.createNewSheet,
                   style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
                     color: context.appColors.primaryBlue,
                   ),
@@ -540,7 +538,7 @@ class _ConfirmationActionButtons extends StatelessWidget {
   final String comment;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return BlocSelector<
       QrResultConfirmationBloc,
       QrResultConfirmationState,
@@ -585,23 +583,40 @@ class _ConfirmationActionButtons extends StatelessWidget {
                     ),
                     child: Text(
                       context.locale.cancelButton,
-                      style: AppTextStyles.airbnbCerealW500S14Lh20Ls0
-                          .copyWith(color: context.appColors.black),
+                      style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
+                        color: context.appColors.black,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 16),
                   BlocSelector<
                     QrResultConfirmationBloc,
                     QrResultConfirmationState,
-                    String?
+                    ({String? selectedSheetId, List<SheetEntity> sheets})
                   >(
-                    selector: (final QrResultConfirmationState state) =>
-                        state.selectedSheetId,
+                    selector: (final QrResultConfirmationState state) => (
+                      selectedSheetId: state.selectedSheetId,
+                      sheets: state.sheets,
+                    ),
                     builder:
                         (
                           final BuildContext context,
-                          final String? selectedSheetId,
+                          final ({
+                            String? selectedSheetId,
+                            List<SheetEntity> sheets,
+                          })
+                          sheetData,
                         ) {
+                          final String selectedSheetTitle =
+                              sheetData.sheets
+                                  .where(
+                                    (final SheetEntity sheet) =>
+                                        sheet.id == sheetData.selectedSheetId,
+                                  )
+                                  .firstOrNull
+                                  ?.title ??
+                              '';
+
                           return ElevatedButton(
                             onPressed: data.canSave
                                 ? () {
@@ -610,8 +625,6 @@ class _ConfirmationActionButtons extends StatelessWidget {
                                           qrData: qrData,
                                           comment: comment,
                                           timestamp: DateTime.now(),
-                                          deviceId: null,
-                                          userId: null,
                                         );
 
                                     context
@@ -619,29 +632,26 @@ class _ConfirmationActionButtons extends StatelessWidget {
                                         .add(
                                           OnConfirmationSaveScan(
                                             scanEntity,
-                                            selectedSheetId ?? '',
+                                            sheetData.selectedSheetId ?? '',
+                                            selectedSheetTitle,
                                           ),
                                         );
                                   }
                                 : null,
                             style: ElevatedButton.styleFrom(
-                              backgroundColor:
-                                  context.appColors.primaryBlue,
-                              disabledBackgroundColor: context
-                                  .appColors
-                                  .slate
-                                  .withOpacity(0.3),
+                              backgroundColor: context.appColors.primaryBlue,
+                              disabledBackgroundColor: context.appColors.slate
+                                  .withValues(alpha: 0.3),
                             ),
                             child: data.isSaving
-                                ?  SizedBox(
+                                ? SizedBox(
                                     height: 20,
                                     width: 20,
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
-                                      valueColor:
-                                          AlwaysStoppedAnimation<Color>(
-                                            context.appColors.white,
-                                          ),
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        context.appColors.white,
+                                      ),
                                     ),
                                   )
                                 : Text(
@@ -676,7 +686,7 @@ class _ErrorContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: context.appColors.red.withOpacity(0.1),
+        color: context.appColors.red.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(

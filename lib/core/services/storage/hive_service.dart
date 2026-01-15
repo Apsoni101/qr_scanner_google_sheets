@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:qr_scanner_practice/feature/auth/data/models/user_model.dart';
-
+import 'package:qr_scanner_practice/feature/qr_scan/data/model/pending_sync_model.dart';
+import 'package:qr_scanner_practice/feature/qr_scan/data/model/qr_scan_model.dart';
+import 'package:qr_scanner_practice/feature/qr_scan/data/model/sheet_model.dart';
 
 class HiveService {
   late Box _box;
@@ -10,6 +12,15 @@ class HiveService {
     // Check if already registered to avoid errors on hot restart
     if (!Hive.isAdapterRegistered(0)) {
       Hive.registerAdapter(UserModelAdapter());
+    }
+    if (!Hive.isAdapterRegistered(1)) {
+      Hive.registerAdapter(QrScanModelAdapter());
+    }
+    if (!Hive.isAdapterRegistered(2)) {
+      Hive.registerAdapter(SheetModelAdapter());
+    }
+    if (!Hive.isAdapterRegistered(3)) {
+      Hive.registerAdapter(PendingSyncModelAdapter());
     }
 
     print('[HiveService] Adapters registered');

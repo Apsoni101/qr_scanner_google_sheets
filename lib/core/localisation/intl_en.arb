@@ -32,5 +32,92 @@
   "noCommentAdded": "(No comment added)",
   "confirm": "Confirm",
   "cancel": "Cancel",
-  "saveButton": "Save"
+  "saveButton": "Save",
+  "allScansSuccessfullyMessage": "All scans synced successfully!",
+  "syncingMessage": "Syncing {count} scan",
+  "@syncingMessage": {
+    "description": "Message shown when syncing scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "syncingMessagePlural": "Syncing {count} scans",
+  "@syncingMessagePlural": {
+    "description": "Message shown when syncing multiple scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "confirmAndSaveTitle": "Confirm & Save",
+  "scanDetailsTitle": "Scan Details",
+  "selectSheetTitle": "Select Sheet",
+  "newSheetNameTitle": "New Sheet Name",
+  "sheetNameHint": "Enter sheet name (e.g., \"Scans - Jan 2024\")",
+  "createSheetButton": "Create Sheet",
+  "switchToSelectSheet": "Switch to Select Sheet",
+  "createNewSheet": "Create New Sheet",
+  "noSheetsAvailable": "No sheets available. Create a new one!",
+  "scanSavedSuccessfully": "Scan saved successfully!",
+  "modified": "Modified: {date}",
+  "@modified": {
+    "description": "Shows the modified date of a sheet",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "Jan 15, 2024"
+      }
+    }
+  },
+  "qrCodeDetailsTitle": "QR Code Details",
+  "offlineMode": "Offline Mode",
+  "waitingToSyncMessage": "{count} scan waiting to sync",
+  "@waitingToSyncMessage": {
+    "description": "Message shown when offline with pending scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "waitingToSyncMessagePlural": "{count} scans waiting to sync",
+  "@waitingToSyncMessagePlural": {
+    "description": "Message shown when offline with multiple pending scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "scanToSyncMessage": "{count} Scan to Sync",
+  "@scanToSyncMessage": {
+    "description": "Message shown when ready to sync",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "scanToSyncMessagePlural": "{count} Scans to Sync",
+  "@scanToSyncMessagePlural": {
+    "description": "Message shown when ready to sync multiple scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "connectionAvailableSync": "Connection available - click to sync",
+  "syncButtonLabel": "Sync",
+  "noInternetConnection": "No internet connection. Scans will sync when online.",
+  "cannotRefreshSheets": "No internet connection. Cannot refresh sheets."
 }

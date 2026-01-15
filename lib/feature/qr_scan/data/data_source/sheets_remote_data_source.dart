@@ -62,7 +62,7 @@ class SheetsRemoteDataSourceImpl implements SheetsRemoteDataSource {
         .getCurrentUserId();
     return userIdResult.fold(
       (final Failure _) => const Right<Failure, String?>(null),
-      (final String userId) => Right<Failure, String?>(userId),
+      Right<Failure, String?>.new,
     );
   }
 

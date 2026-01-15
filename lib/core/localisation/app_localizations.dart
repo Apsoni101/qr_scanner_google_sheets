@@ -285,6 +285,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get saveButton;
+
+  /// No description provided for @allScansSuccessfullyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'All scans synced successfully!'**
+  String get allScansSuccessfullyMessage;
+
+  /// Message shown when syncing scans
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing {count} scan'**
+  String syncingMessage(int count);
+
+  /// Message shown when syncing multiple scans
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing {count} scans'**
+  String syncingMessagePlural(int count);
+
+  /// No description provided for @confirmAndSaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Save'**
+  String get confirmAndSaveTitle;
+
+  /// No description provided for @scanDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan Details'**
+  String get scanDetailsTitle;
+
+  /// No description provided for @selectSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Sheet'**
+  String get selectSheetTitle;
+
+  /// No description provided for @newSheetNameTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New Sheet Name'**
+  String get newSheetNameTitle;
+
+  /// No description provided for @sheetNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter sheet name (e.g., \"Scans - Jan 2024\")'**
+  String get sheetNameHint;
+
+  /// No description provided for @createSheetButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Sheet'**
+  String get createSheetButton;
+
+  /// No description provided for @switchToSelectSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to Select Sheet'**
+  String get switchToSelectSheet;
+
+  /// No description provided for @createNewSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Sheet'**
+  String get createNewSheet;
+
+  /// No description provided for @noSheetsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No sheets available. Create a new one!'**
+  String get noSheetsAvailable;
+
+  /// No description provided for @scanSavedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan saved successfully!'**
+  String get scanSavedSuccessfully;
+
+  /// Shows the modified date of a sheet
+  ///
+  /// In en, this message translates to:
+  /// **'Modified: {date}'**
+  String modified(String date);
+
+  /// No description provided for @qrCodeDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'QR Code Details'**
+  String get qrCodeDetailsTitle;
+
+  /// No description provided for @offlineMode.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline Mode'**
+  String get offlineMode;
+
+  /// Message shown when offline with pending scans
+  ///
+  /// In en, this message translates to:
+  /// **'{count} scan waiting to sync'**
+  String waitingToSyncMessage(int count);
+
+  /// Message shown when offline with multiple pending scans
+  ///
+  /// In en, this message translates to:
+  /// **'{count} scans waiting to sync'**
+  String waitingToSyncMessagePlural(int count);
+
+  /// Message shown when ready to sync
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Scan to Sync'**
+  String scanToSyncMessage(int count);
+
+  /// Message shown when ready to sync multiple scans
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Scans to Sync'**
+  String scanToSyncMessagePlural(int count);
+
+  /// No description provided for @connectionAvailableSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection available - click to sync'**
+  String get connectionAvailableSync;
+
+  /// No description provided for @syncButtonLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync'**
+  String get syncButtonLabel;
+
+  /// No description provided for @noInternetConnection.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Scans will sync when online.'**
+  String get noInternetConnection;
+
+  /// No description provided for @cannotRefreshSheets.
+  ///
+  /// In en, this message translates to:
+  /// **'No internet connection. Cannot refresh sheets.'**
+  String get cannotRefreshSheets;
 }
 
 class _AppLocalizationsDelegate
