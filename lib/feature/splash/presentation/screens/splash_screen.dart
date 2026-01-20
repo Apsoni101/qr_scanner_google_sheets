@@ -20,16 +20,15 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _handleNavigation() async {
-
     if (!mounted) return;
 
     final Uri? uri = await HomeWidget.initiallyLaunchedFromHomeWidget();
 
     if (uri?.scheme == 'qrscan') {
       await context.router.replaceAll(<PageRouteInfo<Object?>>[
-        const DashboardRouter(children: <PageRouteInfo<Object?>>[
-          QrScanningRoute(),
-        ]),
+        const DashboardRouter(
+          children: <PageRouteInfo<Object?>>[QrScanningRoute()],
+        ),
       ]);
     } else {
       await context.router.replaceAll(<PageRouteInfo<Object?>>[

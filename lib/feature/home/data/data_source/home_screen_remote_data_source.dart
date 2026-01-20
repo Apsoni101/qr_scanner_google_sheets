@@ -210,7 +210,9 @@ class HomeScreenRemoteDataSourceImpl implements HomeScreenRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<ScanResultModel>>> read(final String sheetId) async {
+  Future<Either<Failure, List<ScanResultModel>>> read(
+    final String sheetId,
+  ) async {
     final Either<Failure, Options> authOptions = await _getAuthorizedOptions();
     return authOptions.fold(Left.new, (final Options options) async {
       return apiClient.request<List<ScanResultModel>>(
@@ -221,7 +223,10 @@ class HomeScreenRemoteDataSourceImpl implements HomeScreenRemoteDataSource {
         responseParser: (final Map<String, dynamic> json) {
           final List values = json['values'] as List<dynamic>? ?? <dynamic>[];
           return values
-              .map((final e) => ScanResultModel.fromSheetRow(List<dynamic>.from(e)))
+              .map(
+                (final e) =>
+                    ScanResultModel.fromSheetRow(List<dynamic>.from(e)),
+              )
               .toList();
         },
       );

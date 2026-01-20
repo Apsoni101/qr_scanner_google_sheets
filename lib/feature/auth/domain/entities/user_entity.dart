@@ -29,7 +29,6 @@ class UserEntity extends Equatable {
 
   final bool isNewUser;
 
-
   @override
   List<Object?> get props => <Object?>[
     uid,
@@ -48,7 +47,6 @@ class UserEntity extends Equatable {
     String? email,
     String? birthdate,
     bool? isNewUser,
-
   }) {
     return UserEntity(
       uid: uid ?? this.uid,
@@ -57,7 +55,6 @@ class UserEntity extends Equatable {
       email: email ?? this.email,
       birthdate: birthdate ?? this.birthdate,
       isNewUser: isNewUser ?? this.isNewUser,
-
     );
   }
 }

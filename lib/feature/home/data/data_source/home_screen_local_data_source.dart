@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
+import 'package:qr_scanner_practice/core/services/storage/hive_key_constants.dart';
 import 'package:qr_scanner_practice/core/services/storage/hive_service.dart';
 import 'package:qr_scanner_practice/feature/result_scan/data/model/pending_sync_model.dart';
 import 'package:qr_scanner_practice/feature/result_scan/data/model/scan_result_model.dart';
@@ -32,15 +33,11 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
 
   final HiveService hiveService;
 
-  static const String _sheetsBoxName = 'qr_sheets';
-  static const String _scansBoxName = 'qr_scans';
-  static const String _pendingSyncsKey = 'pending_syncs';
-
   @override
   Future<Either<Failure, List<SheetModel>>> getLocalSheets() async {
     try {
       final List<SheetModel>? sheets = hiveService.getObjectList<SheetModel>(
-        _sheetsBoxName,
+        HiveKeyConstants.sheets,
       );
       return Right<Failure, List<SheetModel>>(sheets ?? <SheetModel>[]);
     } catch (e) {
@@ -54,7 +51,7 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
   Future<Either<Failure, Unit>> saveSheetLocally(final SheetModel sheet) async {
     try {
       final List<SheetModel>? existingSheets = hiveService
-          .getObjectList<SheetModel>(_sheetsBoxName);
+          .getObjectList<SheetModel>(HiveKeyConstants.sheets);
       final List<SheetModel> sheets = existingSheets ?? <SheetModel>[];
 
       final int existingIndex = sheets.indexWhere(
@@ -67,7 +64,7 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
         sheets.add(sheet);
       }
 
-      await hiveService.setObjectList(_sheetsBoxName, sheets);
+      await hiveService.setObjectList(HiveKeyConstants.sheets, sheets);
       return const Right<Failure, Unit>(unit);
     } catch (e) {
       return Left<Failure, Unit>(
@@ -83,7 +80,7 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
     final String sheetTitle,
   ) async {
     try {
-      final String scanKey = '${_scansBoxName}_$sheetId';
+      final String scanKey = '${HiveKeyConstants.scansKeyPrefix}_$sheetId';
 
       final List<ScanResultModel>? existingScans = hiveService
           .getObjectList<ScanResultModel>(scanKey);
@@ -107,11 +104,12 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
     final String sheetId,
   ) async {
     try {
-      final String scanKey = '${_scansBoxName}_$sheetId';
-      final List<ScanResultModel>? scans = hiveService.getObjectList<ScanResultModel>(
-        scanKey,
+      final String scanKey = '${HiveKeyConstants.scansKeyPrefix}_$sheetId';
+      final List<ScanResultModel>? scans = hiveService
+          .getObjectList<ScanResultModel>(scanKey);
+      return Right<Failure, List<ScanResultModel>>(
+        scans ?? <ScanResultModel>[],
       );
-      return Right<Failure, List<ScanResultModel>>(scans ?? <ScanResultModel>[]);
     } catch (e) {
       return Left<Failure, List<ScanResultModel>>(
         Failure(message: 'Failed to fetch local scans: $e'),
@@ -123,7 +121,7 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
   Future<Either<Failure, List<PendingSyncModel>>> getPendingSyncs() async {
     try {
       final List<PendingSyncModel>? pendingSyncs = hiveService
-          .getObjectList<PendingSyncModel>(_pendingSyncsKey);
+          .getObjectList<PendingSyncModel>(HiveKeyConstants.pendingSyncs);
       return Right<Failure, List<PendingSyncModel>>(
         pendingSyncs ?? <PendingSyncModel>[],
       );
@@ -138,11 +136,14 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
   Future<Either<Failure, Unit>> removePendingSync(final int index) async {
     try {
       final List<PendingSyncModel>? pendingSyncs = hiveService
-          .getObjectList<PendingSyncModel>(_pendingSyncsKey);
+          .getObjectList<PendingSyncModel>(HiveKeyConstants.pendingSyncs);
 
       if (pendingSyncs != null && index < pendingSyncs.length) {
         pendingSyncs.removeAt(index);
-        await hiveService.setObjectList(_pendingSyncsKey, pendingSyncs);
+        await hiveService.setObjectList(
+          HiveKeyConstants.pendingSyncs,
+          pendingSyncs,
+        );
       }
 
       return const Right<Failure, Unit>(unit);
@@ -156,9 +157,9 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
   @override
   Future<Either<Failure, Unit>> clearLocalData() async {
     try {
-      await hiveService.remove(_sheetsBoxName);
-      await hiveService.remove(_scansBoxName);
-      await hiveService.remove(_pendingSyncsKey);
+      await hiveService.remove(HiveKeyConstants.sheets);
+      await hiveService.remove(HiveKeyConstants.scansKeyPrefix);
+      await hiveService.remove(HiveKeyConstants.pendingSyncs);
       return const Right<Failure, Unit>(unit);
     } catch (e) {
       return Left<Failure, Unit>(
@@ -175,7 +176,9 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
     try {
       // Get existing pending syncs
       final List<PendingSyncModel> existingPendingSyncs =
-          hiveService.getObjectList<PendingSyncModel>(_pendingSyncsKey) ??
+          hiveService.getObjectList<PendingSyncModel>(
+            HiveKeyConstants.pendingSyncs,
+          ) ??
           <PendingSyncModel>[];
 
       // Create new pending sync model
@@ -189,7 +192,10 @@ class HomeScreenLocalDataSourceImpl implements HomeScreenLocalDataSource {
       existingPendingSyncs.add(pendingSync);
 
       // Save to Hive
-      await hiveService.setObjectList(_pendingSyncsKey, existingPendingSyncs);
+      await hiveService.setObjectList(
+        HiveKeyConstants.pendingSyncs,
+        existingPendingSyncs,
+      );
     } catch (e) {
       rethrow;
     }

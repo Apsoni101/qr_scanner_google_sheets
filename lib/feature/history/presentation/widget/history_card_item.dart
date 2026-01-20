@@ -5,7 +5,6 @@ import 'package:qr_scanner_practice/core/extensions/color_extension.dart';
 import 'package:qr_scanner_practice/core/extensions/date_time_extension.dart';
 import 'package:qr_scanner_practice/core/extensions/localization_extension.dart';
 
-
 /// Reusable scan card component
 class HistoryCardItem extends StatelessWidget {
   const HistoryCardItem({

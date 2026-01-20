@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
 import 'package:qr_scanner_practice/core/extensions/color_extension.dart';
 
-
 /// Reusable error state component
 class HistoryErrorState extends StatelessWidget {
   const HistoryErrorState({

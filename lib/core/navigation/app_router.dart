@@ -6,7 +6,6 @@ import 'package:qr_scanner_practice/core/navigation/route_paths.dart';
 import 'package:qr_scanner_practice/core/navigation/router/auth_router.dart';
 import 'package:qr_scanner_practice/core/navigation/router/dashboard_router.dart';
 
-
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')
 class AppRouter extends RootStackRouter {
   final AuthGuard authGuard = AppInjector.getIt<AuthGuard>();

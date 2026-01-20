@@ -8,8 +8,7 @@ part 'qr_scanning_event.dart';
 
 part 'qr_scanning_state.dart';
 
-class QrScanningBloc
-    extends Bloc<QrScanningEvent, QrScanningState> {
+class QrScanningBloc extends Bloc<QrScanningEvent, QrScanningState> {
   QrScanningBloc({required final ImagePickerService imagePickerService})
     : _imagePickerService = imagePickerService,
       super(const QrScanningState()) {

@@ -46,8 +46,6 @@ class ImagePickerService {
     }
   }
 
-
-
   /// Handle exceptions and return appropriate failure messages
   Failure _handleException(final Object exception) {
     if (exception is PlatformException) {

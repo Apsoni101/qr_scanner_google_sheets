@@ -31,9 +31,7 @@ class ApiLogInterceptor extends Interceptor {
     final ResponseInterceptorHandler handler,
   ) {
     if (kDebugMode) {
-      log(
-        '📥 RESPONSE: ${response.statusCode} ${response.requestOptions.uri}',
-      );
+      log('📥 RESPONSE: ${response.statusCode} ${response.requestOptions.uri}');
       // if (response.headers.map.isNotEmpty) {
       //   log('📥 Headers: ${_formatJson(response.headers.map)}');
       // }

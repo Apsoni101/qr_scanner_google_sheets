@@ -45,7 +45,7 @@ class SheetModelAdapter extends TypeAdapter<SheetModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is SheetModelAdapter &&
-              runtimeType == other.runtimeType &&
-              typeId == other.typeId;
+      other is SheetModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

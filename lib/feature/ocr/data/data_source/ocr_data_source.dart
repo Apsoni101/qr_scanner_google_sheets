@@ -9,8 +9,6 @@ abstract class OcrDataSource {
   Future<Either<Failure, String>> recognizeTextFromGallery();
 
   Future<Either<Failure, String>> recognizeTextFromCamera();
-
-
 }
 
 class OcrDataSourceImpl implements OcrDataSource {
@@ -43,6 +41,4 @@ class OcrDataSourceImpl implements OcrDataSource {
       return ocrService.recognizeText(imageFile);
     });
   }
-
-
 }

@@ -16,6 +16,4 @@ class OcrUseCase {
   Future<Either<Failure, String>> callFromCamera() async {
     return ocrRepository.recognizeTextFromCamera();
   }
-
-
 }

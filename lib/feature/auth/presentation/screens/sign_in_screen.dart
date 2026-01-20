@@ -44,16 +44,13 @@ class _SignInScreenState extends State<SignInScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Icon(
-                Icons.login,
-                size: 80,
-                color: context.appColors.primaryBlue,
-              ),
+              Icon(Icons.login, size: 80, color: context.appColors.primaryBlue),
               const SizedBox(height: 40),
               Text(
                 context.locale.welcomeBack,
-                style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1
-                    .copyWith(color: context.appColors.black),
+                style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1.copyWith(
+                  color: context.appColors.black,
+                ),
               ),
               const SizedBox(height: 16),
               Text(
@@ -74,26 +71,26 @@ class _SignInScreenState extends State<SignInScreen> {
                       onPressed: isLoading
                           ? null
                           : () {
-                        context.read<LoginBloc>().add(
-                          const OnGoogleLoginEvent(),
-                        );
-                      },
+                              context.read<LoginBloc>().add(
+                                const OnGoogleLoginEvent(),
+                              );
+                            },
                       icon: isLoading
                           ? SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            context.appColors.white,
-                          ),
-                        ),
-                      )
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  context.appColors.white,
+                                ),
+                              ),
+                            )
                           : SvgPicture.asset(
-                        AppAssets.googleIc,
-                        height: 24,
-                        width: 24,
-                      ),
+                              AppAssets.googleIc,
+                              height: 24,
+                              width: 24,
+                            ),
                       label: Text(
                         isLoading
                             ? context.locale.signingIn

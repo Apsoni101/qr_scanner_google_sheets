@@ -434,11 +434,15 @@ class _CreateNewSheetSection extends StatelessWidget {
                     fillColor: context.appColors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: context.appColors.lightGray),
+                      borderSide: BorderSide(
+                        color: context.appColors.lightGray,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: context.appColors.lightGray),
+                      borderSide: BorderSide(
+                        color: context.appColors.lightGray,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),

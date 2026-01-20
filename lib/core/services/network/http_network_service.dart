@@ -130,9 +130,7 @@ class HttpNetworkService {
           (e.response?.statusCode ?? 0) <= 599) {
         return Left<Failure, T>(
           ServerFailure(
-            statusCode:
-                e.response?.statusCode.toString() ??
-               "",
+            statusCode: e.response?.statusCode.toString() ?? "",
             message: extractErrorMessage(e.response),
           ),
         );

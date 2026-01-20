@@ -1,9 +1,11 @@
 class AppConstants {
   // Sheets API URLs
-  static const String sheetsBaseUrl = 'https://sheets.googleapis.com/v4/spreadsheets';
+  static const String sheetsBaseUrl =
+      'https://sheets.googleapis.com/v4/spreadsheets';
 
   // Drive API URLs
-  static const String driveBaseUrl = 'https://www.googleapis.com/drive/v3/files';
+  static const String driveBaseUrl =
+      'https://www.googleapis.com/drive/v3/files';
 
   // App identification label
   static const String appCreatedLabel = 'qr-scanner-app';
@@ -18,7 +20,8 @@ class AppConstants {
 
   // Query parameters
   static const String sheetMimeType = 'application/vnd.google-apps.spreadsheet';
-  static const String sheetFields = 'files(id,name,createdTime,modifiedTime,properties,description)';
+  static const String sheetFields =
+      'files(id,name,createdTime,modifiedTime,properties,description)';
   static const int pageSize = 100;
   static const String orderBy = 'modifiedTime%20desc';
 

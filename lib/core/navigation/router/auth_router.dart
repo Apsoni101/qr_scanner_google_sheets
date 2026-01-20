@@ -10,8 +10,5 @@ class AuthRouterPage extends AutoRouter {
 final AutoRoute authRoute = AutoRoute(
   page: AuthRouter.page,
   path: RoutePaths.auth,
-  children: <AutoRoute>[
-    AutoRoute(page: SignInRoute.page,initial: true),
-
-  ],
+  children: <AutoRoute>[AutoRoute(page: SignInRoute.page, initial: true)],
 );

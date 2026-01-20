@@ -64,9 +64,8 @@ class AppInjector {
       )
       ///DATASOURCE
       ..registerLazySingleton<AuthRemoteDataSource>(
-        () => AuthRemoteDataSourceImpl(
-          authService: getIt<FirebaseAuthService>(),
-        ),
+        () =>
+            AuthRemoteDataSourceImpl(authService: getIt<FirebaseAuthService>()),
       )
       ..registerLazySingleton<ScanResultLocalDataSource>(
         () => ScanResultLocalDataSourceImpl(hiveService: getIt<HiveService>()),
@@ -131,16 +130,16 @@ class AppInjector {
         ),
       )
       ..registerSingleton<OcrRepository>(
-        OcrRepositoryImpl(
-          ocrDataSource: getIt<OcrDataSource>(),
-        ),
+        OcrRepositoryImpl(ocrDataSource: getIt<OcrDataSource>()),
       )
       ///USE CASES
       ..registerLazySingleton<AuthRemoteUseCase>(
         () => AuthRemoteUseCase(authRemoteRepo: getIt<AuthRemoteRepo>()),
       )
       ..registerSingleton<ResultScanRemoteUseCase>(
-        ResultScanRemoteUseCase(repository: getIt<ResultScanRemoteRepository>()),
+        ResultScanRemoteUseCase(
+          repository: getIt<ResultScanRemoteRepository>(),
+        ),
       )
       ..registerSingleton<HomeScreenRemoteUseCase>(
         HomeScreenRemoteUseCase(
@@ -148,7 +147,9 @@ class AppInjector {
         ),
       )
       ..registerLazySingleton<ResultScanLocalUseCase>(
-        () => ResultScanLocalUseCase(repository: getIt<ResultScanLocalRepository>()),
+        () => ResultScanLocalUseCase(
+          repository: getIt<ResultScanLocalRepository>(),
+        ),
       )
       ..registerLazySingleton<HomeScreenLocalUseCase>(
         () => HomeScreenLocalUseCase(
@@ -156,16 +157,16 @@ class AppInjector {
         ),
       )
       ..registerSingleton<GetScansHistoryRemoteUseCase>(
-        GetScansHistoryRemoteUseCase(repository: getIt<ScansHistoryRemoteRepository>()),
+        GetScansHistoryRemoteUseCase(
+          repository: getIt<ScansHistoryRemoteRepository>(),
+        ),
       )
       ..registerSingleton<OcrUseCase>(
         OcrUseCase(ocrRepository: getIt<OcrRepository>()),
       )
       ///BLOCS
       ..registerFactory(
-        () => LoginBloc(
-          authRemoteUseCase: getIt<AuthRemoteUseCase>(),
-        ),
+        () => LoginBloc(authRemoteUseCase: getIt<AuthRemoteUseCase>()),
       )
       ..registerFactory(
         () => HomeScreenBloc(
@@ -183,9 +184,7 @@ class AppInjector {
       ..registerFactory<QrScanningBloc>(
         () => QrScanningBloc(imagePickerService: getIt<ImagePickerService>()),
       )
-      ..registerFactory<OcrBloc>(
-        () => OcrBloc(ocrUseCase: getIt<OcrUseCase>()),
-      )
+      ..registerFactory<OcrBloc>(() => OcrBloc(ocrUseCase: getIt<OcrUseCase>()))
       ..registerFactory<ResultConfirmationBloc>(
         () => ResultConfirmationBloc(
           remoteUseCase: getIt<ResultScanRemoteUseCase>(),

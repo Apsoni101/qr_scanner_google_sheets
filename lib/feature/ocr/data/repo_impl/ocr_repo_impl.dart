@@ -19,5 +19,4 @@ class OcrRepositoryImpl implements OcrRepository {
   Future<Either<Failure, String>> recognizeTextFromCamera() async {
     return ocrDataSource.recognizeTextFromCamera();
   }
-
 }

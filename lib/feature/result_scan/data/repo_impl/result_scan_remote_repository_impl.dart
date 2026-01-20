@@ -35,7 +35,11 @@ class ResultScanRemoteRepositoryImpl implements ResultScanRemoteRepository {
     final String sheetId,
     final String range,
     final ResultScanEntity entity,
-  ) => remoteDataSource.update(sheetId, range, ScanResultModel.fromEntity(entity));
+  ) => remoteDataSource.update(
+    sheetId,
+    range,
+    ScanResultModel.fromEntity(entity),
+  );
 
   @override
   Future<Either<Failure, Unit>> deleteScan(

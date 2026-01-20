@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/core/extensions/localization_extension.dart';
-
 
 extension FriendlyDateTimeExtension on String? {
   String toFriendlyDate() {
@@ -59,38 +57,6 @@ extension DateTimeFormatting on DateTime {
     }
   }
 
-  /// Formats DateTime in DD/MM/YYYY HH:mm format
-  String toFormattedString() {
-    return '$day/$month/$year $hour:${minute.toString().padLeft(2, '0')}';
-  }
 
-  /// Formats DateTime in DD/MM/YYYY format only
-  String toDateString() {
-    return '$day/$month/$year';
-  }
 
-  /// Formats DateTime in HH:mm format
-  String toTimeString() {
-    return '$hour:${minute.toString().padLeft(2, '0')}';
-  }
-
-  /// Returns true if the date is today
-  bool get isToday {
-    final DateTime now = DateTime.now();
-    return year == now.year && month == now.month && day == now.day;
-  }
-
-  /// Returns true if the date is yesterday
-  bool get isYesterday {
-    final DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
-    return year == yesterday.year &&
-        month == yesterday.month &&
-        day == yesterday.day;
-  }
-
-  /// Returns the number of days since this date
-  int get daysSince {
-    final DateTime now = DateTime.now();
-    return now.difference(this).inDays;
-  }
 }

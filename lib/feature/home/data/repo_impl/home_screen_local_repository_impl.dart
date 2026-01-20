@@ -57,5 +57,4 @@ class HomeScreenLocalRepositoryImpl implements HomeScreenLocalRepository {
   @override
   Future<Either<Failure, Unit>> removeSyncedScan(final int index) =>
       localDataSource.removePendingSync(index);
-
 }

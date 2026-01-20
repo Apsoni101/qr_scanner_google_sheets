@@ -23,11 +23,11 @@ class ScansHistoryRemoteDataSourceImpl implements ScansHistoryRemoteDataSource {
   final FirebaseAuthService authService;
 
   Future<Either<Failure, Options>> _getAuthorizedOptions() async {
-    final Either<Failure, String> tokenResult =
-    await authService.getGoogleAccessToken();
+    final Either<Failure, String> tokenResult = await authService
+        .getGoogleAccessToken();
     return tokenResult.fold(
       Left.new,
-          (final String token) => Right(
+      (final String token) => Right(
         Options(
           headers: <String, dynamic>{
             'Authorization': 'Bearer $token',
@@ -39,57 +39,58 @@ class ScansHistoryRemoteDataSourceImpl implements ScansHistoryRemoteDataSource {
   }
 
   Future<Either<Failure, List<SheetModel>>> _getOwnedSheets(
-      final Options options,
-      ) async {
+    final Options options,
+  ) async {
     const String query =
         'mimeType="${AppConstants.sheetMimeType}" and "me" in owners and trashed=false';
     final String encodedQuery = Uri.encodeComponent(query);
 
     return apiClient.request<List<SheetModel>>(
       url:
-      '${AppConstants.driveBaseUrl}?q=$encodedQuery&fields=${AppConstants.sheetFields}&pageSize=${AppConstants.pageSize}&orderBy=${AppConstants.orderBy}',
+          '${AppConstants.driveBaseUrl}?q=$encodedQuery&fields=${AppConstants.sheetFields}&pageSize=${AppConstants.pageSize}&orderBy=${AppConstants.orderBy}',
       method: HttpMethod.get,
       options: options,
       responseParser: (final Map<String, dynamic> json) {
         final List files = json['files'] as List<dynamic>? ?? <dynamic>[];
         return files
             .where((final f) {
-          final String description = f['description']?.toString() ?? '';
-          final Map<String, dynamic> properties =
-              f['properties'] as Map<String, dynamic>? ??
+              final String description = f['description']?.toString() ?? '';
+              final Map<String, dynamic> properties =
+                  f['properties'] as Map<String, dynamic>? ??
                   <String, dynamic>{};
-          final String appMark =
-              properties['appCreated']?.toString() ?? '';
+              final String appMark = properties['appCreated']?.toString() ?? '';
 
-          return description.contains(AppConstants.appCreatedLabel) ||
-              appMark == AppConstants.appCreatedLabel;
-        })
+              return description.contains(AppConstants.appCreatedLabel) ||
+                  appMark == AppConstants.appCreatedLabel;
+            })
             .map(
               (final f) => SheetModel(
-            id: f['id']?.toString() ?? '',
-            title: f['name']?.toString() ?? 'Untitled',
-            createdTime: f['createdTime']?.toString(),
-            modifiedTime: f['modifiedTime']?.toString(),
-          ),
-        )
+                id: f['id']?.toString() ?? '',
+                title: f['name']?.toString() ?? 'Untitled',
+                createdTime: f['createdTime']?.toString(),
+                modifiedTime: f['modifiedTime']?.toString(),
+              ),
+            )
             .toList();
       },
     );
   }
 
   Future<Either<Failure, List<ScanResultModel>>> _readScansFromSheet(
-      String sheetId,
-      Options options,
-      ) async {
+    String sheetId,
+    Options options,
+  ) async {
     return apiClient.request<List<ScanResultModel>>(
       url:
-      '${AppConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${AppConstants.readRange}',
+          '${AppConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${AppConstants.readRange}',
       method: HttpMethod.get,
       options: options,
       responseParser: (final Map<String, dynamic> json) {
         final List values = json['values'] as List<dynamic>? ?? <dynamic>[];
         return values
-            .map((final e) => ScanResultModel.fromSheetRow(List<dynamic>.from(e)))
+            .map(
+              (final e) => ScanResultModel.fromSheetRow(List<dynamic>.from(e)),
+            )
             .toList();
       },
     );
@@ -101,39 +102,39 @@ class ScansHistoryRemoteDataSourceImpl implements ScansHistoryRemoteDataSource {
     final Either<Failure, Options> authOptions = await _getAuthorizedOptions();
 
     return await authOptions.fold(
-          (final Failure failure) async {
+      (final Failure failure) async {
         return Left<Failure, List<PendingSyncEntity>>(failure);
       },
-          (final Options options) async {
+      (final Options options) async {
         /// Get all sheets
         final Either<Failure, List<SheetModel>> sheetsResult =
-        await _getOwnedSheets(options);
+            await _getOwnedSheets(options);
 
         return await sheetsResult.fold(
-              (final Failure failure) async {
+          (final Failure failure) async {
             return Left<Failure, List<PendingSyncEntity>>(failure);
           },
-              (final List<SheetModel> sheets) async {
+          (final List<SheetModel> sheets) async {
             final List<PendingSyncEntity> allScans = <PendingSyncEntity>[];
 
             /// For each sheet, fetch all scans
             for (final SheetModel sheet in sheets) {
               final Either<Failure, List<ScanResultModel>> scansResult =
-              await _readScansFromSheet(sheet.id, options);
+                  await _readScansFromSheet(sheet.id, options);
 
               scansResult.fold(
-                    (final Failure _) {
+                (final Failure _) {
                   /// Continuing even if one sheet fails
                 },
-                    (final List<ScanResultModel> scans) {
+                (final List<ScanResultModel> scans) {
                   final List<PendingSyncEntity> sheetScans = scans
                       .map(
                         (final ScanResultModel scan) => PendingSyncEntity(
-                      scan: scan.toEntity(),
-                      sheetId: sheet.id,
-                      sheetTitle: sheet.title,
-                    ),
-                  )
+                          scan: scan.toEntity(),
+                          sheetId: sheet.id,
+                          sheetTitle: sheet.title,
+                        ),
+                      )
                       .toList();
                   allScans.addAll(sheetScans);
                 },
@@ -141,7 +142,7 @@ class ScansHistoryRemoteDataSourceImpl implements ScansHistoryRemoteDataSource {
             }
 
             allScans.sort(
-                  (final PendingSyncEntity a, final PendingSyncEntity b) =>
+              (final PendingSyncEntity a, final PendingSyncEntity b) =>
                   b.scan.timestamp.compareTo(a.scan.timestamp),
             );
 

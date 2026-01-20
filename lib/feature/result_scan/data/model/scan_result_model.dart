@@ -76,8 +76,6 @@ class ScanResultModel extends ResultScanEntity {
     userId ?? '',
   ];
 
-
-
   ResultScanEntity toEntity() {
     return ResultScanEntity(
       data: data,

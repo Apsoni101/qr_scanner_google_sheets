@@ -8,21 +8,21 @@ class FirebaseAuthService {
   FirebaseAuthService({
     final FirebaseAuth? auth,
     final GoogleSignIn? googleSignIn,
-  })  : auth = auth ?? FirebaseAuth.instance,
-        googleSignIn = googleSignIn ??
-            GoogleSignIn(
-              scopes: <String>[
-                'https://www.googleapis.com/auth/spreadsheets',
-                'https://www.googleapis.com/auth/drive',
-              ],
-            );
+  }) : auth = auth ?? FirebaseAuth.instance,
+       googleSignIn =
+           googleSignIn ??
+           GoogleSignIn(
+             scopes: <String>[
+               'https://www.googleapis.com/auth/spreadsheets',
+               'https://www.googleapis.com/auth/drive',
+             ],
+           );
 
   /// Firebase auth instance
   final FirebaseAuth auth;
 
   /// Google Sign In instance
   final GoogleSignIn googleSignIn;
-
 
   /// Used for signing out user
   Future<Either<Failure, Unit>> signOut() async {
@@ -59,7 +59,7 @@ class FirebaseAuthService {
       }
 
       final GoogleSignInAuthentication? googleAuth =
-      await googleUser.authentication;
+          await googleUser.authentication;
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
@@ -129,9 +129,7 @@ class FirebaseAuthService {
         ),
       );
     } on Exception catch (e) {
-      return Left<Failure, String>(
-        Failure(message: 'Unexpected error: $e'),
-      );
+      return Left<Failure, String>(Failure(message: 'Unexpected error: $e'));
     }
   }
 
@@ -153,7 +151,7 @@ class FirebaseAuthService {
       }
 
       final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+          await googleUser.authentication;
       final String? accessToken = googleAuth.accessToken;
 
       if (accessToken == null || accessToken.isEmpty) {
@@ -176,9 +174,7 @@ class FirebaseAuthService {
         ),
       );
     } on Exception catch (e) {
-      return Left<Failure, String>(
-        Failure(message: 'Unexpected error: $e'),
-      );
+      return Left<Failure, String>(Failure(message: 'Unexpected error: $e'));
     }
   }
 }

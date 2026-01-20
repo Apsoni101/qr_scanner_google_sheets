@@ -29,21 +29,21 @@ class ResultConfirmationBloc
   final ResultScanLocalUseCase localUseCase;
 
   Future<void> _onLoadSheets(
-      final OnConfirmationLoadSheets event,
-      final Emitter<ResultConfirmationState> emit,
-      ) async {
+    final OnConfirmationLoadSheets event,
+    final Emitter<ResultConfirmationState> emit,
+  ) async {
     emit(state.copyWith(isLoadingSheets: true));
 
     final Either<Failure, List<SheetEntity>> remoteResult = await remoteUseCase
         .getOwnedSheets();
 
     await remoteResult.fold(
-          (final Failure failure) async {
+      (final Failure failure) async {
         final Either<Failure, List<SheetEntity>> localResult =
-        await localUseCase.getLocalSheets();
+            await localUseCase.getLocalSheets();
 
         localResult.fold(
-              (final Failure localFailure) {
+          (final Failure localFailure) {
             emit(
               state.copyWith(
                 isLoadingSheets: false,
@@ -51,7 +51,7 @@ class ResultConfirmationBloc
               ),
             );
           },
-              (final List<SheetEntity> sheets) {
+          (final List<SheetEntity> sheets) {
             emit(
               state.copyWith(
                 isLoadingSheets: false,
@@ -66,7 +66,7 @@ class ResultConfirmationBloc
           },
         );
       },
-          (final List<SheetEntity> sheets) async {
+      (final List<SheetEntity> sheets) async {
         for (final SheetEntity sheet in sheets) {
           await localUseCase.cacheSheet(sheet);
         }
@@ -85,11 +85,11 @@ class ResultConfirmationBloc
   }
 
   void _onSheetSelected(
-      final OnConfirmationSheetSelected event,
-      final Emitter<ResultConfirmationState> emit,
-      ) {
+    final OnConfirmationSheetSelected event,
+    final Emitter<ResultConfirmationState> emit,
+  ) {
     final int selectedSheetIndex = state.sheets.indexWhere(
-          (final SheetEntity s) => s.id == event.sheetId,
+      (final SheetEntity s) => s.id == event.sheetId,
     );
     final SheetEntity? selectedSheet = selectedSheetIndex != -1
         ? state.sheets[selectedSheetIndex]
@@ -104,25 +104,25 @@ class ResultConfirmationBloc
   }
 
   void _onSheetNameChanged(
-      final OnConfirmationSheetNameChanged event,
-      final Emitter<ResultConfirmationState> emit,
-      ) {
+    final OnConfirmationSheetNameChanged event,
+    final Emitter<ResultConfirmationState> emit,
+  ) {
     emit(state.copyWith(newSheetName: event.sheetName));
   }
 
   void _onModeToggled(
-      final OnConfirmationModeToggled event,
-      final Emitter<ResultConfirmationState> emit,
-      ) {
+    final OnConfirmationModeToggled event,
+    final Emitter<ResultConfirmationState> emit,
+  ) {
     emit(
       state.copyWith(isCreatingNewSheet: event.isCreating, newSheetName: ''),
     );
   }
 
   Future<void> _onCreateSheet(
-      final OnConfirmationCreateSheet event,
-      final Emitter<ResultConfirmationState> emit,
-      ) async {
+    final OnConfirmationCreateSheet event,
+    final Emitter<ResultConfirmationState> emit,
+  ) async {
     final String trimmedName = state.newSheetName.trim();
 
     final bool isEmpty = trimmedName.isEmpty;
@@ -138,7 +138,7 @@ class ResultConfirmationBloc
         .createSheet(trimmedName);
 
     await createResult.fold(
-          (final Failure failure) async {
+      (final Failure failure) async {
         emit(
           state.copyWith(
             isCreatingSheet: false,
@@ -161,7 +161,7 @@ class ResultConfirmationBloc
             .getLocalSheets();
 
         loadResult.fold(
-              (final Failure localFailure) {
+          (final Failure localFailure) {
             emit(
               state.copyWith(
                 sheetsLoadError: localFailure.message,
@@ -170,7 +170,7 @@ class ResultConfirmationBloc
               ),
             );
           },
-              (final List<SheetEntity> sheets) {
+          (final List<SheetEntity> sheets) {
             emit(
               state.copyWith(
                 sheets: sheets,
@@ -184,14 +184,14 @@ class ResultConfirmationBloc
           },
         );
       },
-          (final String sheetId) async {
+      (final String sheetId) async {
         emit(state.copyWith(isCreatingSheet: false));
 
         final Either<Failure, List<SheetEntity>> loadResult =
-        await remoteUseCase.getOwnedSheets();
+            await remoteUseCase.getOwnedSheets();
 
         await loadResult.fold(
-              (final Failure failure) {
+          (final Failure failure) {
             emit(
               state.copyWith(
                 sheetsLoadError: failure.message,
@@ -200,13 +200,13 @@ class ResultConfirmationBloc
               ),
             );
           },
-              (final List<SheetEntity> sheets) async {
+          (final List<SheetEntity> sheets) async {
             for (final SheetEntity sheet in sheets) {
               await localUseCase.cacheSheet(sheet);
             }
 
             final int newSheetIndex = sheets.indexWhere(
-                  (final SheetEntity s) => s.id == sheetId,
+              (final SheetEntity s) => s.id == sheetId,
             );
             final SheetEntity? newSheet = newSheetIndex != -1
                 ? sheets[newSheetIndex]
@@ -229,9 +229,9 @@ class ResultConfirmationBloc
   }
 
   Future<void> _onSaveScan(
-      final OnConfirmationSaveScan event,
-      final Emitter<ResultConfirmationState> emit,
-      ) async {
+    final OnConfirmationSaveScan event,
+    final Emitter<ResultConfirmationState> emit,
+  ) async {
     emit(state.copyWith(isSavingScan: true));
 
     final String sheetId = event.sheetId;
@@ -243,12 +243,12 @@ class ResultConfirmationBloc
     );
 
     await remoteResult.fold(
-          (final Failure failure) async {
+      (final Failure failure) async {
         final Either<Failure, Unit> localResult = await localUseCase
             .cacheResultScan(event.scanEntity, sheetId, sheetTitle);
 
         localResult.fold(
-              (final Failure localFailure) {
+          (final Failure localFailure) {
             emit(
               state.copyWith(
                 isSavingScan: false,
@@ -256,19 +256,19 @@ class ResultConfirmationBloc
               ),
             );
           },
-              (_) {
+          (_) {
             emit(
               state.copyWith(
                 isSavingScan: false,
                 isScanSaved: true,
                 scanSaveError:
-                'Saved locally. Will sync when connection is restored.',
+                    'Saved locally. Will sync when connection is restored.',
               ),
             );
           },
         );
       },
-          (_) async {
+      (_) async {
         emit(state.copyWith(isSavingScan: false, isScanSaved: true));
       },
     );

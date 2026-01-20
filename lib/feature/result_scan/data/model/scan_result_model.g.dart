@@ -48,7 +48,7 @@ class ScanResultModelAdapter extends TypeAdapter<ScanResultModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is ScanResultModelAdapter &&
-              runtimeType == other.runtimeType &&
-              typeId == other.typeId;
+      other is ScanResultModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

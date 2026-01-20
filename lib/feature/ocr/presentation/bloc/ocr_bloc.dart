@@ -12,9 +12,7 @@ part 'ocr_event.dart';
 part 'ocr_state.dart';
 
 class OcrBloc extends Bloc<OcrEvent, OcrState> {
-
-  OcrBloc({required this.ocrUseCase})
-    : super(const OcrInitialState()) {
+  OcrBloc({required this.ocrUseCase}) : super(const OcrInitialState()) {
     on<PickImageFromCameraEvent>(_onPickImageFromCamera);
     on<PickImageFromGalleryEvent>(_onPickImageFromGallery);
     on<ClearOcrResultEvent>(_onClearOcrResult);
@@ -29,15 +27,16 @@ class OcrBloc extends Bloc<OcrEvent, OcrState> {
 
     final Either<Failure, String> result = await ocrUseCase.callFromCamera();
 
-    result.fold((final Failure failure) => emit(OcrErrorState(message: failure.message)), (
-      final String recognizedText,
-    ) {
-      if (recognizedText.isEmpty) {
-        emit(const OcrErrorState(message: 'No text found in the image.'));
-      } else {
-        emit(OcrSuccessState(result: recognizedText));
-      }
-    });
+    result.fold(
+      (final Failure failure) => emit(OcrErrorState(message: failure.message)),
+      (final String recognizedText) {
+        if (recognizedText.isEmpty) {
+          emit(const OcrErrorState(message: 'No text found in the image.'));
+        } else {
+          emit(OcrSuccessState(result: recognizedText));
+        }
+      },
+    );
   }
 
   Future<void> _onPickImageFromGallery(
@@ -48,15 +47,16 @@ class OcrBloc extends Bloc<OcrEvent, OcrState> {
 
     final Either<Failure, String> result = await ocrUseCase.callFromGallery();
 
-    result.fold((final Failure failure) => emit(OcrErrorState(message: failure.message)), (
-      final String recognizedText,
-    ) {
-      if (recognizedText.isEmpty) {
-        emit(const OcrErrorState(message: 'No text found in the image.'));
-      } else {
-        emit(OcrSuccessState(result: recognizedText));
-      }
-    });
+    result.fold(
+      (final Failure failure) => emit(OcrErrorState(message: failure.message)),
+      (final String recognizedText) {
+        if (recognizedText.isEmpty) {
+          emit(const OcrErrorState(message: 'No text found in the image.'));
+        } else {
+          emit(OcrSuccessState(result: recognizedText));
+        }
+      },
+    );
   }
 
   Future<void> _onClearOcrResult(

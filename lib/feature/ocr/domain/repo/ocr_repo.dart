@@ -6,5 +6,4 @@ abstract class OcrRepository {
   Future<Either<Failure, String>> recognizeTextFromGallery();
 
   Future<Either<Failure, String>> recognizeTextFromCamera();
-
 }

@@ -42,7 +42,7 @@ class PendingSyncModelAdapter extends TypeAdapter<PendingSyncModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is PendingSyncModelAdapter &&
-              runtimeType == other.runtimeType &&
-              typeId == other.typeId;
+      other is PendingSyncModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }
