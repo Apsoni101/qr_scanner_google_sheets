@@ -1,4 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:qr_scanner_practice/core/extensions/color_extension.dart';
+
+/// Scanner overlay with semi-transparent background and corner indicators.
+/// Highlights the scanning area in the center of the screen.
+class ScannerOverlay extends StatelessWidget {
+  const ScannerOverlay({required this.screenSize, super.key});
+
+  final Size screenSize;
+
+  @override
+  Widget build(final BuildContext context) {
+    final double frameSize = screenSize.width * 0.65;
+
+    return CustomPaint(
+      size: screenSize,
+      painter: ScannerOverlayPainter(
+        frameSize: frameSize,
+        overlayColor: context.appColors.black.withValues(alpha: 0.65),
+        cornerColor: context.appColors.white,
+        screenSize: screenSize,
+      ),
+    );
+  }
+}
 
 class ScannerOverlayPainter extends CustomPainter {
   ScannerOverlayPainter({

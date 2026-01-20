@@ -20,17 +20,4 @@ class OcrRepositoryImpl implements OcrRepository {
     return ocrDataSource.recognizeTextFromCamera();
   }
 
-  @override
-  Future<Either<Failure, String>> recognizeTextFromFile(
-    final File imageFile,
-  ) async {
-    return ocrDataSource.recognizeTextFromFile(imageFile);
-  }
-
-  @override
-  Future<Either<Failure, String>> recognizeTextFromInputImage(
-    final dynamic inputImage,
-  ) async {
-    return ocrDataSource.recognizeTextFromInputImage(inputImage);
-  }
 }

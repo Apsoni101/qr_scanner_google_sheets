@@ -21,9 +21,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signIn => 'Sign In';
 
   @override
-  String get apple => 'Apple';
-
-  @override
   String get google => 'Google';
 
   @override

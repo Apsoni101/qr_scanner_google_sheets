@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +42,7 @@ class OcrView extends StatelessWidget {
         elevation: 0,
       ),
       body: BlocListener<OcrBloc, OcrState>(
-        listener: (final BuildContext context, final Object? state) {
+        listener: (final BuildContext context, final OcrState state) {
           if (state is OcrErrorState) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -62,36 +64,27 @@ class OcrView extends StatelessWidget {
             context.read<OcrBloc>().add(const ClearOcrResultEvent());
           }
         },
-        child: BlocSelector<OcrBloc, OcrState, OcrStateType>(
-          selector: (final Object? state) {
-            if (state is OcrLoadingState) {
-              return OcrStateType.loading;
-            }
-            if (state is OcrSuccessState) {
-              return OcrStateType.success;
-            }
-            if (state is OcrErrorState) {
-              return OcrStateType.error;
-            }
-            return OcrStateType.initial;
-          },
-          builder: (final BuildContext context, final OcrStateType stateType) {
-            switch (stateType) {
-              case OcrStateType.loading:
-                return const _LoadingView();
-              case OcrStateType.success:
-              case OcrStateType.error:
-              case OcrStateType.initial:
-                return const _InitialView();
-            }
+        child: BlocBuilder<OcrBloc, OcrState>(
+          builder: (final BuildContext context, final OcrState state) {
+            return switch (state) {
+              OcrLoadingState() => const _LoadingView(),
+              OcrImagePickedState() => _PreviewView(imageFile: state.imageFile),
+              OcrSuccessState() =>
+                state.imageFile != null
+                    ? _PreviewView(
+                        imageFile: state.imageFile!,
+                        result: state.result,
+                      )
+                    : const _InitialView(),
+              OcrErrorState() => const _InitialView(),
+              _ => const _InitialView(),
+            };
           },
         ),
       ),
     );
   }
 }
-
-enum OcrStateType { initial, loading, success, error }
 
 /// ============================================
 /// INITIAL VIEW
@@ -119,6 +112,54 @@ class _InitialView extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 48),
+        const _ActionButtons(),
+      ],
+    );
+  }
+}
+
+/// ============================================
+/// PREVIEW VIEW
+/// ============================================
+class _PreviewView extends StatelessWidget {
+  const _PreviewView({required this.imageFile, this.result});
+
+  final File imageFile;
+  final String? result;
+
+  @override
+  Widget build(final BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(24),
+      children: <Widget>[
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.file(imageFile, fit: BoxFit.cover, height: 300),
+        ),
+        if (result != null) ...<Widget>[
+          const SizedBox(height: 24),
+          Text(
+            context.locale.extractedText,
+            style: AppTextStyles.airbnbCerealW500S18Lh24.copyWith(
+              color: context.appColors.black,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              border: Border.all(color: context.appColors.darkGrey),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Text(
+              result!,
+              style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
+                color: context.appColors.darkGrey,
+              ),
+            ),
+          ),
+        ],
+        const SizedBox(height: 24),
         const _ActionButtons(),
       ],
     );

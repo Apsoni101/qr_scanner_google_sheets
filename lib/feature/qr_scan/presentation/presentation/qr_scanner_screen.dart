@@ -49,17 +49,14 @@ class _QrScanningViewState extends State<_QrScanningView> {
   void _handleQrDetected(final String code) {
     context.read<QrScanningBloc>().add(QrDetectedEvent(code));
     _controller.stop();
-    context.router.push(
-      ResultRoute(
-        data: code,
-        resultType: ResultType.qr,
-      ),
-    ).then((_) {
-      if (mounted) {
-        _controller.start();
-        context.read<QrScanningBloc>().add(const ResetNavigationEvent());
-      }
-    });
+    context.router
+        .push(ResultRoute(data: code, resultType: ResultType.qr))
+        .then((_) {
+          if (mounted) {
+            _controller.start();
+            context.read<QrScanningBloc>().add(const ResetNavigationEvent());
+          }
+        });
   }
 
   Future<void> _analyzeImageForQr(final String imagePath) async {
@@ -137,7 +134,7 @@ class _QrScanningViewState extends State<_QrScanningView> {
                     );
                   },
             ),
-            _ScannerOverlay(screenSize: screenSize),
+            ScannerOverlay(screenSize: screenSize),
             Positioned(
               bottom: screenSize.height * 0.175,
               left: 0,
@@ -304,29 +301,6 @@ class _FlashToggleButton extends StatelessWidget {
           },
         );
       },
-    );
-  }
-}
-
-/// Scanner overlay with semi-transparent background and corner indicators.
-/// Highlights the scanning area in the center of the screen.
-class _ScannerOverlay extends StatelessWidget {
-  const _ScannerOverlay({required this.screenSize});
-
-  final Size screenSize;
-
-  @override
-  Widget build(final BuildContext context) {
-    final double frameSize = screenSize.width * 0.65;
-
-    return CustomPaint(
-      size: screenSize,
-      painter: ScannerOverlayPainter(
-        frameSize: frameSize,
-        overlayColor: context.appColors.black.withValues(alpha: 0.65),
-        cornerColor: context.appColors.white,
-        screenSize: screenSize,
-      ),
     );
   }
 }

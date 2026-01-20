@@ -56,7 +56,7 @@ class _HomeScreenViewState extends State<_HomeScreenView>
     return BlocListener<HomeScreenBloc, HomeScreenState>(
       listener: _handleStateChanges,
       child: Scaffold(
-        backgroundColor: context.appColors.cF6F9FF,
+        backgroundColor: context.appColors.ghostWhite,
         appBar: _buildAppBar(context),
         body: RefreshIndicator(
           onRefresh: () async {
@@ -89,7 +89,7 @@ class _HomeScreenViewState extends State<_HomeScreenView>
       _showSnackBar(
         context,
         context.locale.allScansSuccessfullyMessage,
-        context.appColors.c3BA935,
+        context.appColors.kellyGreen,
       );
       context.read<HomeScreenBloc>().add(const OnHomeResetSyncSuccess());
     }
@@ -269,8 +269,8 @@ class _ReadyToSyncBanner extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return _BannerContainer(
-      backgroundColor: context.appColors.c3BA935.withAlpha(26),
-      borderColor: context.appColors.c3BA935.withAlpha(77),
+      backgroundColor: context.appColors.kellyGreen.withAlpha(26),
+      borderColor: context.appColors.kellyGreen.withAlpha(77),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
@@ -281,7 +281,7 @@ class _ReadyToSyncBanner extends StatelessWidget {
                 Text(
                   _getScanToSyncMessage(context, pendingCount),
                   style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-                    color: context.appColors.c3BA935,
+                    color: context.appColors.kellyGreen,
                   ),
                 ),
                 Text(
@@ -400,7 +400,7 @@ class _QrIconSection extends StatelessWidget {
       width: 120,
       height: 120,
       decoration: BoxDecoration(
-        color: context.appColors.cEBECFF,
+        color: context.appColors.cloudBlue,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Icon(
@@ -543,7 +543,7 @@ class _SyncButton extends StatelessWidget {
       onPressed: () =>
           context.read<HomeScreenBloc>().add(const OnHomeSyncPendingScans()),
       style: ElevatedButton.styleFrom(
-        backgroundColor: context.appColors.c3BA935,
+        backgroundColor: context.appColors.kellyGreen,
         elevation: 0,
       ),
       child: Text(

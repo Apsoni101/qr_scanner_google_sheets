@@ -46,24 +46,7 @@ class ImagePickerService {
     }
   }
 
-  /// Pick multiple images from the gallery
-  Future<Either<Failure, List<String>>> pickMultipleImages() async {
-    try {
-      final List<XFile> images = await _picker.pickMultiImage(
-        maxWidth: 1920,
-        maxHeight: 1920,
-        imageQuality: 85,
-      );
 
-      if (images.isEmpty) {
-        return left(const Failure(message: 'No images selected'));
-      }
-
-      return right(images.map((final XFile e) => e.path).toList());
-    } catch (e) {
-      return left(_handleException(e));
-    }
-  }
 
   /// Handle exceptions and return appropriate failure messages
   Failure _handleException(final Object exception) {

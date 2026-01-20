@@ -22,6 +22,4 @@ abstract class HomeScreenLocalRepository {
   Future<Either<Failure, Unit>> removeSyncedScan(final int index);
 
   Future<Either<Failure, List<PendingSyncEntity>>> getPendingSyncScans();
-
-  Future<Either<Failure, Unit>> clearAllCache();
 }

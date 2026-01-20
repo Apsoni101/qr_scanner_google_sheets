@@ -12,30 +12,20 @@ class AuthGuard extends AutoRouteGuard {
 
   @override
   Future<void> onNavigation(
-      final NavigationResolver resolver,
-      final StackRouter router,
-      ) async {
-    debugPrint('🔐 AuthGuard: Navigation check started');
-    debugPrint('📍 Target route: ${resolver.route.name}');
-
-    final Either<Failure, bool> isSignedInResult =
-    await firebaseAuthService.isSignedIn();
+    final NavigationResolver resolver,
+    final StackRouter router,
+  ) async {
+    final Either<Failure, bool> isSignedInResult = await firebaseAuthService
+        .isSignedIn();
 
     await isSignedInResult.fold(
-          (final Failure failure) async {
-        debugPrint('❌ AuthGuard: Error checking sign-in status');
-        debugPrint('🚨 Error message: ${failure.message}');
-        debugPrint('🔄 Redirecting to SignInRoute');
+      (final Failure failure) async {
         router.replace(SignInRoute());
       },
-          (final bool isSignedIn) async {
+      (final bool isSignedIn) async {
         if (isSignedIn) {
-          debugPrint('✅ AuthGuard: User is signed in');
-          debugPrint('➡️ Allowing navigation to ${resolver.route.name}');
           resolver.next();
         } else {
-          debugPrint('⚠️ AuthGuard: User is NOT signed in');
-          debugPrint('🔄 Redirecting to SignInRoute');
           router.replace(SignInRoute());
         }
       },

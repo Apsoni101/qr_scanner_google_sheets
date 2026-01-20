@@ -10,11 +10,7 @@ abstract class OcrDataSource {
 
   Future<Either<Failure, String>> recognizeTextFromCamera();
 
-  Future<Either<Failure, String>> recognizeTextFromFile(final File imageFile);
 
-  Future<Either<Failure, String>> recognizeTextFromInputImage(
-    final dynamic inputImage,
-  );
 }
 
 class OcrDataSourceImpl implements OcrDataSource {
@@ -28,7 +24,6 @@ class OcrDataSourceImpl implements OcrDataSource {
 
   @override
   Future<Either<Failure, String>> recognizeTextFromGallery() async {
-    /// ImagePicker handles permissions internally
     final Either<Failure, String> imagePath = await imagePickerService
         .pickImageFromGallery();
 
@@ -40,7 +35,6 @@ class OcrDataSourceImpl implements OcrDataSource {
 
   @override
   Future<Either<Failure, String>> recognizeTextFromCamera() async {
-    /// ImagePicker handles permissions internally
     final Either<Failure, String> imagePath = await imagePickerService
         .pickImageFromCamera();
 
@@ -50,17 +44,5 @@ class OcrDataSourceImpl implements OcrDataSource {
     });
   }
 
-  @override
-  Future<Either<Failure, String>> recognizeTextFromFile(
-    final File imageFile,
-  ) async {
-    return ocrService.recognizeText(imageFile);
-  }
 
-  @override
-  Future<Either<Failure, String>> recognizeTextFromInputImage(
-    final dynamic inputImage,
-  ) async {
-    return ocrService.recognizeTextFromInputImage(inputImage);
-  }
 }

@@ -1,18 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qr_scanner_practice/feature/auth/domain/entities/user_entity.dart';
 
-part 'user_model.g.dart';
-
-@HiveType(typeId: 0)
 class UserModel extends UserEntity {
   const UserModel({
-    @HiveField(0) super.uid,
-    @HiveField(1) super.email,
-    @HiveField(2) super.name,
-    @HiveField(3) super.surname = '',
-    @HiveField(4) super.birthdate = '',
-    @HiveField(5) super.isNewUser = false,
+    super.uid,
+    super.email,
+    super.name,
+    super.surname = '',
+    super.birthdate = '',
+    super.isNewUser = false,
   });
 
   factory UserModel.fromFirestore({required final Map<String, dynamic> data}) =>
@@ -48,18 +44,7 @@ class UserModel extends UserEntity {
     );
   }
 
-  // 2. Update toJson() to include all fields
   Map<String, dynamic> toJson() => {
-    'uid': uid ?? '',
-    'email': email ?? '',
-    'name': name ?? '',
-    'surname': surname ?? '',
-    'birthdate': birthdate ?? '',
-    'isNewUser': isNewUser,
-  };
-
-  // 3. Update toHiveMap() to match
-  Map<String, dynamic> toHiveMap() => {
     'uid': uid ?? '',
     'email': email ?? '',
     'name': name ?? '',

@@ -17,7 +17,6 @@ class OcrBloc extends Bloc<OcrEvent, OcrState> {
     : super(const OcrInitialState()) {
     on<PickImageFromCameraEvent>(_onPickImageFromCamera);
     on<PickImageFromGalleryEvent>(_onPickImageFromGallery);
-    on<ProcessInputImageEvent>(_onProcessInputImage);
     on<ClearOcrResultEvent>(_onClearOcrResult);
   }
   final OcrUseCase ocrUseCase;
@@ -56,23 +55,6 @@ class OcrBloc extends Bloc<OcrEvent, OcrState> {
         emit(const OcrErrorState(message: 'No text found in the image.'));
       } else {
         emit(OcrSuccessState(result: recognizedText));
-      }
-    });
-  }
-
-  Future<void> _onProcessInputImage(
-    final ProcessInputImageEvent event,
-    final Emitter<OcrState> emit,
-  ) async {
-    final Either<Failure, String> result = await ocrUseCase.callFromInputImage(
-      event.inputImage,
-    );
-
-    result.fold((final Failure failure) => emit(OcrErrorState(message: failure.message)), (
-      final String ocrResult,
-    ) {
-      if (ocrResult.isNotEmpty) {
-        emit(OcrLiveSuccessState(text: ocrResult));
       }
     });
   }

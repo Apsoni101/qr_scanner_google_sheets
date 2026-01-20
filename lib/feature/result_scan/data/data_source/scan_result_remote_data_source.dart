@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:qr_scanner_practice/core/constants/app_constants.dart';
+import 'package:qr_scanner_practice/core/services/device_info_service.dart';
 import 'package:qr_scanner_practice/core/services/firebase/firebase_auth_service.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
 import 'package:qr_scanner_practice/core/services/network/http_api_client.dart';
@@ -8,7 +9,7 @@ import 'package:qr_scanner_practice/core/services/network/http_method.dart';
 import 'package:qr_scanner_practice/feature/result_scan/data/model/scan_result_model.dart';
 import 'package:qr_scanner_practice/feature/result_scan/data/model/sheet_model.dart';
 
-abstract class HomeScreenRemoteDataSource {
+abstract class ResultScanRemoteDataSource {
   Future<Either<Failure, List<SheetModel>>> getOwnedSheets();
 
   Future<Either<Failure, String>> createSheet(final String sheetName);
@@ -32,14 +33,16 @@ abstract class HomeScreenRemoteDataSource {
   );
 }
 
-class HomeScreenRemoteDataSourceImpl implements HomeScreenRemoteDataSource {
-  HomeScreenRemoteDataSourceImpl({
+class ResultScanRemoteDataSourceImpl implements ResultScanRemoteDataSource {
+  ResultScanRemoteDataSourceImpl({
     required this.apiClient,
     required this.authService,
+    required this.deviceInfoService,
   });
 
   final HttpApiClient apiClient;
   final FirebaseAuthService authService;
+  final DeviceInfoService deviceInfoService;
 
   Future<Either<Failure, Options>> _getAuthorizedOptions() async {
     final Either<Failure, String> tokenResult = await authService
@@ -61,6 +64,15 @@ class HomeScreenRemoteDataSourceImpl implements HomeScreenRemoteDataSource {
     final Either<Failure, String> userIdResult = await authService
         .getCurrentUserId();
     return userIdResult.fold(
+      (final Failure _) => const Right<Failure, String?>(null),
+      Right<Failure, String?>.new,
+    );
+  }
+
+  Future<Either<Failure, String?>> _getDeviceId() async {
+    final Either<Failure, String> deviceIdResult = await deviceInfoService
+        .getDeviceId();
+    return deviceIdResult.fold(
       (final Failure _) => const Right<Failure, String?>(null),
       Right<Failure, String?>.new,
     );
@@ -194,17 +206,23 @@ class HomeScreenRemoteDataSourceImpl implements HomeScreenRemoteDataSource {
     return authOptions.fold(Left.new, (final Options options) async {
       final Either<Failure, String?> userIdResult = await _getUserId();
       return userIdResult.fold(Left.new, (final String? userId) async {
-        final ScanResultModel modelWithUserId = model.copyWith(userId: userId);
-        return apiClient.request<Unit>(
-          url:
-              '${AppConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${AppConstants.appendRange}?valueInputOption=RAW',
-          method: HttpMethod.post,
-          options: options,
-          data: <String, dynamic>{
-            'values': <List<dynamic>>[modelWithUserId.toSheetRow()],
-          },
-          responseParser: (_) => unit,
-        );
+        final Either<Failure, String?> deviceIdResult = await _getDeviceId();
+        return deviceIdResult.fold(Left.new, (final String? deviceId) async {
+          final ScanResultModel modelWithIds = model.copyWith(
+            userId: userId,
+            deviceId: deviceId,
+          );
+          return apiClient.request<Unit>(
+            url:
+                '${AppConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${AppConstants.appendRange}?valueInputOption=RAW',
+            method: HttpMethod.post,
+            options: options,
+            data: <String, dynamic>{
+              'values': <List<dynamic>>[modelWithIds.toSheetRow()],
+            },
+            responseParser: (_) => unit,
+          );
+        });
       });
     });
   }
@@ -238,17 +256,23 @@ class HomeScreenRemoteDataSourceImpl implements HomeScreenRemoteDataSource {
     return authOptions.fold(Left.new, (final Options options) async {
       final Either<Failure, String?> userIdResult = await _getUserId();
       return userIdResult.fold(Left.new, (final String? userId) async {
-        final ScanResultModel modelWithUserId = model.copyWith(userId: userId);
-        return apiClient.request<Unit>(
-          url:
-              '${AppConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!$range?valueInputOption=RAW',
-          method: HttpMethod.put,
-          options: options,
-          data: <String, dynamic>{
-            'values': <List<dynamic>>[modelWithUserId.toSheetRow()],
-          },
-          responseParser: (_) => unit,
-        );
+        final Either<Failure, String?> deviceIdResult = await _getDeviceId();
+        return deviceIdResult.fold(Left.new, (final String? deviceId) async {
+          final ScanResultModel modelWithIds = model.copyWith(
+            userId: userId,
+            deviceId: deviceId,
+          );
+          return apiClient.request<Unit>(
+            url:
+                '${AppConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!$range?valueInputOption=RAW',
+            method: HttpMethod.put,
+            options: options,
+            data: <String, dynamic>{
+              'values': <List<dynamic>>[modelWithIds.toSheetRow()],
+            },
+            responseParser: (_) => unit,
+          );
+        });
       });
     });
   }

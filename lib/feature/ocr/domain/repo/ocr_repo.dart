@@ -7,9 +7,4 @@ abstract class OcrRepository {
 
   Future<Either<Failure, String>> recognizeTextFromCamera();
 
-  Future<Either<Failure, String>> recognizeTextFromFile(File imageFile);
-
-  Future<Either<Failure, String>> recognizeTextFromInputImage(
-    final dynamic inputImage,
-  );
 }

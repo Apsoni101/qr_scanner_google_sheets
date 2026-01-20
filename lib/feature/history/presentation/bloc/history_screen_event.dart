@@ -20,7 +20,3 @@ class OnHistorySearchScans extends HistoryScreenEvent {
   @override
   List<Object?> get props => <Object?>[query];
 }
-
-class OnHistoryRefreshScans extends HistoryScreenEvent {
-  const OnHistoryRefreshScans();
-}

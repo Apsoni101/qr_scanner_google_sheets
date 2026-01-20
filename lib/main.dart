@@ -6,6 +6,7 @@ import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/localisation/app_localizations.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.dart';
+import 'package:qr_scanner_practice/core/services/storage/hive_key_constants.dart';
 import 'package:qr_scanner_practice/core/services/storage/hive_service.dart';
 import 'package:qr_scanner_practice/firebase_options.dart';
 
@@ -13,13 +14,19 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await _initializeFirebase();
-
   await _initializeHive();
-
   await AppInjector.setUp();
-  await AppInjector.getIt<HiveService>().init(boxName: 'userBox');
 
-  final ThemeController themeController = AppInjector.getIt<ThemeController>();
+  final HiveService hiveService = AppInjector.getIt<HiveService>();
+  await hiveService.init(boxName: 'userBox');
+
+  final String? modeName = hiveService.getString(HiveKeyConstants.themeMode);
+  final ThemeMode savedTheme = modeName != null
+      ? ThemeMode.values.byName(modeName)
+      : ThemeMode.system;
+
+  final ThemeController themeController = ThemeController();
+  await themeController.setTheme(savedTheme);
 
   runApp(MyApp(themeController: themeController));
 }
@@ -60,7 +67,6 @@ Future<void> _initializeFirebase() async {
     debugPrint('✅ Firebase initialized');
   } catch (e) {
     debugPrint('⚠️ Firebase init failed: $e');
-    // App can still run without Firebase
   }
 }
 

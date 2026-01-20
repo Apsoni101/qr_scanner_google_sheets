@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/data_source/result_scan_local_data_source.dart';
+import 'package:qr_scanner_practice/feature/result_scan/data/data_source/scan_result_local_data_source.dart';
 import 'package:qr_scanner_practice/feature/result_scan/data/model/pending_sync_model.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/result_scan_model.dart';
+import 'package:qr_scanner_practice/feature/result_scan/data/model/scan_result_model.dart';
 import 'package:qr_scanner_practice/feature/result_scan/data/model/sheet_model.dart';
 import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
 import 'package:qr_scanner_practice/feature/result_scan/domain/entity/result_scan_entity.dart';
@@ -12,7 +12,7 @@ import 'package:qr_scanner_practice/feature/result_scan/domain/repo/result_scan_
 class ResultScanLocalRepositoryImpl implements ResultScanLocalRepository {
   const ResultScanLocalRepositoryImpl({required this.localDataSource});
 
-  final ResultScanLocalDataSource localDataSource;
+  final ScanResultLocalDataSource localDataSource;
 
   @override
   Future<Either<Failure, List<SheetEntity>>> getLocalSheets() =>
@@ -28,7 +28,7 @@ class ResultScanLocalRepositoryImpl implements ResultScanLocalRepository {
     final String sheetId,
     final String sheetTitle,
   ) => localDataSource.saveResultScanLocally(
-    ResultScanModel.fromEntity(scan),
+    ScanResultModel.fromEntity(scan),
     sheetId,
     sheetTitle,
   );

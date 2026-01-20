@@ -38,67 +38,62 @@ class _SignInScreenState extends State<SignInScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: context.appColors.cF6F9FF,
-        body: BlocBuilder<LoginBloc, LoginState>(
-          builder: (final BuildContext context, final LoginState state) {
-            final bool isLoading = state is LoginLoading;
-
-            return Padding(
-              padding: const EdgeInsets.all(30),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.login,
-                    size: 80,
-                    color: context.appColors.primaryBlue,
-                  ),
-                  const SizedBox(height: 40),
-
-                  Text(
-                    context.locale.welcomeBack,
-                    style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1
-                        .copyWith(color: context.appColors.black),
-                  ),
-                  const SizedBox(height: 16),
-
-                  Text(
-                    context.locale.signInWithGoogle,
-                    style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
-                      color: context.appColors.slate,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 48),
-
-                  // Google Sign In Button
-                  SizedBox(
+        backgroundColor: context.appColors.ghostWhite,
+        body: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.login,
+                size: 80,
+                color: context.appColors.primaryBlue,
+              ),
+              const SizedBox(height: 40),
+              Text(
+                context.locale.welcomeBack,
+                style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1
+                    .copyWith(color: context.appColors.black),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                context.locale.signInWithGoogle,
+                style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
+                  color: context.appColors.slate,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 48),
+              BlocSelector<LoginBloc, LoginState, bool>(
+                selector: (final LoginState state) => state is LoginLoading,
+                builder: (final BuildContext context, final bool isLoading) {
+                  return SizedBox(
                     width: double.infinity,
                     height: 56,
                     child: ElevatedButton.icon(
                       onPressed: isLoading
                           ? null
                           : () {
-                              context.read<LoginBloc>().add(
-                                const OnGoogleLoginEvent(),
-                              );
-                            },
+                        context.read<LoginBloc>().add(
+                          const OnGoogleLoginEvent(),
+                        );
+                      },
                       icon: isLoading
                           ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  context.appColors.white,
-                                ),
-                              ),
-                            )
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            context.appColors.white,
+                          ),
+                        ),
+                      )
                           : SvgPicture.asset(
-                              AppAssets.googleIc,
-                              height: 24,
-                              width: 24,
-                            ),
+                        AppAssets.googleIc,
+                        height: 24,
+                        width: 24,
+                      ),
                       label: Text(
                         isLoading
                             ? context.locale.signingIn
@@ -112,15 +107,15 @@ class _SignInScreenState extends State<SignInScreen> {
                         elevation: 2,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(color: context.appColors.cEAECF0),
+                          side: BorderSide(color: context.appColors.lightGray),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  );
+                },
               ),
-            );
-          },
+            ],
+          ),
         ),
       ),
     ),

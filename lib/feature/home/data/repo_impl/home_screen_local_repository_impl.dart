@@ -3,7 +3,7 @@ import 'package:qr_scanner_practice/core/services/network/failure.dart';
 import 'package:qr_scanner_practice/feature/home/data/data_source/home_screen_local_data_source.dart';
 import 'package:qr_scanner_practice/feature/home/domain/repo/home_screen_local_repository.dart';
 import 'package:qr_scanner_practice/feature/result_scan/data/model/pending_sync_model.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/result_scan_model.dart';
+import 'package:qr_scanner_practice/feature/result_scan/data/model/scan_result_model.dart';
 import 'package:qr_scanner_practice/feature/result_scan/data/model/sheet_model.dart';
 import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
 import 'package:qr_scanner_practice/feature/result_scan/domain/entity/result_scan_entity.dart';
@@ -28,7 +28,7 @@ class HomeScreenLocalRepositoryImpl implements HomeScreenLocalRepository {
     final String sheetId,
     final String sheetTitle,
   ) => localDataSource.saveResultScanLocally(
-    ResultScanModel.fromEntity(scan),
+    ScanResultModel.fromEntity(scan),
     sheetId,
     sheetTitle,
   );
@@ -58,7 +58,4 @@ class HomeScreenLocalRepositoryImpl implements HomeScreenLocalRepository {
   Future<Either<Failure, Unit>> removeSyncedScan(final int index) =>
       localDataSource.removePendingSync(index);
 
-  @override
-  Future<Either<Failure, Unit>> clearAllCache() =>
-      localDataSource.clearLocalData();
 }

@@ -118,12 +118,6 @@ abstract class AppLocalizations {
   /// **'Sign In'**
   String get signIn;
 
-  /// No description provided for @apple.
-  ///
-  /// In en, this message translates to:
-  /// **'Apple'**
-  String get apple;
-
   /// No description provided for @google.
   ///
   /// In en, this message translates to:

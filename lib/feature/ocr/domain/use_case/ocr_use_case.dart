@@ -17,11 +17,5 @@ class OcrUseCase {
     return ocrRepository.recognizeTextFromCamera();
   }
 
-  Future<Either<Failure, String>> callFromFile(final File imageFile) async {
-    return ocrRepository.recognizeTextFromFile(imageFile);
-  }
 
-  Future<Either<Failure, String>> callFromInputImage(final dynamic inputImage) async {
-    return ocrRepository.recognizeTextFromInputImage(inputImage);
-  }
 }

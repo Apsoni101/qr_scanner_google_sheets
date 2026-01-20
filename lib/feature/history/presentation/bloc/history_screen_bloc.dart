@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
-import 'package:qr_scanner_practice/feature/history/domain/usecase/get_history_scans_use_case.dart';
+import 'package:qr_scanner_practice/feature/history/domain/usecase/get_scans_history_remote_use_case.dart';
 import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
 
 part 'history_screen_event.dart';
@@ -11,14 +11,13 @@ part 'history_screen_event.dart';
 part 'history_screen_state.dart';
 
 class HistoryScreenBloc extends Bloc<HistoryScreenEvent, HistoryScreenState> {
-  HistoryScreenBloc({required this.getHistoryScansUseCase})
+  HistoryScreenBloc({required this.getScansHistoryUseCase})
     : super(const HistoryScreenInitial()) {
     on<OnHistoryLoadScans>(_onLoadScans);
     on<OnHistorySearchScans>(_onSearchScans);
-    on<OnHistoryRefreshScans>(_onRefreshScans);
   }
 
-  final GetHistoryScansUseCase getHistoryScansUseCase;
+  final GetScansHistoryRemoteUseCase getScansHistoryUseCase;
 
   Future<void> _onLoadScans(
     final OnHistoryLoadScans event,
@@ -27,7 +26,7 @@ class HistoryScreenBloc extends Bloc<HistoryScreenEvent, HistoryScreenState> {
     emit(state.copyWith(isLoading: true));
 
     final Either<Failure, List<PendingSyncEntity>> result =
-        await getHistoryScansUseCase();
+        await getScansHistoryUseCase.getAllScansFromAllSheets();
 
     await result.fold(
       (final Failure failure) {
@@ -69,31 +68,5 @@ class HistoryScreenBloc extends Bloc<HistoryScreenEvent, HistoryScreenState> {
     }).toList();
 
     emit(state.copyWith(filteredScans: filtered, searchQuery: query));
-  }
-
-  Future<void> _onRefreshScans(
-    final OnHistoryRefreshScans event,
-    final Emitter<HistoryScreenState> emit,
-  ) async {
-    emit(state.copyWith(isRefreshing: true));
-
-    final Either<Failure, List<PendingSyncEntity>> result =
-        await getHistoryScansUseCase();
-
-    await result.fold(
-      (final Failure failure) {
-        emit(state.copyWith(isRefreshing: false, error: failure.message));
-      },
-      (final List<PendingSyncEntity> scans) {
-        emit(
-          state.copyWith(
-            isRefreshing: false,
-            allScans: scans,
-            filteredScans: scans,
-            searchQuery: '',
-          ),
-        );
-      },
-    );
   }
 }

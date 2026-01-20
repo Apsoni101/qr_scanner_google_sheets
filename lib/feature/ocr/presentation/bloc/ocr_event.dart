@@ -22,15 +22,6 @@ class PickImageFromGalleryEvent extends OcrEvent {
   List<Object?> get props => <Object?>[];
 }
 
-class ProcessInputImageEvent extends OcrEvent {
-  const ProcessInputImageEvent({required this.inputImage});
-
-  final dynamic inputImage;
-
-  @override
-  List<Object?> get props => <Object?>[inputImage];
-}
-
 class ClearOcrResultEvent extends OcrEvent {
   const ClearOcrResultEvent();
 

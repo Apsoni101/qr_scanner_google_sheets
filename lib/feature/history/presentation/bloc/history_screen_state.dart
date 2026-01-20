@@ -3,7 +3,6 @@ part of 'history_screen_bloc.dart';
 class HistoryScreenState extends Equatable {
   const HistoryScreenState({
     this.isLoading = false,
-    this.isRefreshing = false,
     this.allScans = const <PendingSyncEntity>[],
     this.filteredScans = const <PendingSyncEntity>[],
     this.searchQuery = '',
@@ -11,7 +10,6 @@ class HistoryScreenState extends Equatable {
   });
 
   final bool isLoading;
-  final bool isRefreshing;
   final List<PendingSyncEntity> allScans;
   final List<PendingSyncEntity> filteredScans;
   final String searchQuery;
@@ -27,7 +25,6 @@ class HistoryScreenState extends Equatable {
   }) {
     return HistoryScreenState(
       isLoading: isLoading ?? this.isLoading,
-      isRefreshing: isRefreshing ?? this.isRefreshing,
       allScans: allScans ?? this.allScans,
       filteredScans: filteredScans ?? this.filteredScans,
       searchQuery: searchQuery ?? this.searchQuery,
@@ -38,7 +35,6 @@ class HistoryScreenState extends Equatable {
   @override
   List<Object?> get props => <Object?>[
     isLoading,
-    isRefreshing,
     allScans,
     filteredScans,
     searchQuery,

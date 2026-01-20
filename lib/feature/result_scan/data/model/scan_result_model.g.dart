@@ -1,39 +1,45 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pending_sync_model.dart';
+part of 'scan_result_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class PendingSyncModelAdapter extends TypeAdapter<PendingSyncModel> {
+class ScanResultModelAdapter extends TypeAdapter<ScanResultModel> {
   @override
-  final int typeId = 3;
+  final int typeId = 1;
 
   @override
-  PendingSyncModel read(BinaryReader reader) {
+  ScanResultModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
 
-    return PendingSyncModel(
-      scan: fields[0] as ScanResultModel,
-      sheetId: fields[1] as String,
-      sheetTitle: fields[2] as String,
+    return ScanResultModel(
+      data: fields[0] as String,
+      comment: fields[1] as String,
+      timestamp: fields[2] as DateTime,
+      deviceId: fields[3] as String?,
+      userId: fields[4] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, PendingSyncModel obj) {
+  void write(BinaryWriter writer, ScanResultModel obj) {
     writer
-      ..writeByte(3) // number of fields
+      ..writeByte(5) // number of fields
       ..writeByte(0)
-      ..write(obj.scan)
+      ..write(obj.data)
       ..writeByte(1)
-      ..write(obj.sheetId)
+      ..write(obj.comment)
       ..writeByte(2)
-      ..write(obj.sheetTitle);
+      ..write(obj.timestamp)
+      ..writeByte(3)
+      ..write(obj.deviceId)
+      ..writeByte(4)
+      ..write(obj.userId);
   }
 
   @override
@@ -42,7 +48,7 @@ class PendingSyncModelAdapter extends TypeAdapter<PendingSyncModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is PendingSyncModelAdapter &&
+          other is ScanResultModelAdapter &&
               runtimeType == other.runtimeType &&
               typeId == other.typeId;
 }

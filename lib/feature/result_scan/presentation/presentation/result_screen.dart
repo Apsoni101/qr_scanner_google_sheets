@@ -103,7 +103,7 @@ class _SuccessIcon extends StatelessWidget {
     return Center(
       child: CircleAvatar(
         radius: 40,
-        backgroundColor: context.appColors.c3BA935,
+        backgroundColor: context.appColors.kellyGreen,
         child: Icon(Icons.check, size: 48, color: context.appColors.white),
       ),
     );
@@ -187,7 +187,7 @@ class _DataContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.appColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.appColors.cEAECF0),
+        border: Border.all(color: context.appColors.lightGray),
       ),
       child: child,
     );
@@ -217,7 +217,7 @@ class _CommentTextField extends StatelessWidget {
   InputDecoration _buildInputDecoration(final BuildContext context) {
     final BorderRadius borderRadius = BorderRadius.circular(12);
     final BorderSide normalBorder = BorderSide(
-      color: context.appColors.cEAECF0,
+      color: context.appColors.lightGray,
     );
     final BorderSide focusedBorder = BorderSide(
       color: context.appColors.primaryBlue,
@@ -271,7 +271,7 @@ class _ActionButtons extends StatelessWidget {
                   onPressed: () => context.router.maybePop(),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: context.appColors.black,
-                    side: BorderSide(color: context.appColors.cEAECF0),
+                    side: BorderSide(color: context.appColors.lightGray),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

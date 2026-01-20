@@ -35,26 +35,8 @@ class OcrSuccessState extends OcrState {
   List<Object?> get props => <Object?>[result, imageFile];
 }
 
-class OcrLiveSuccessState extends OcrState {
-  const OcrLiveSuccessState({required this.text});
-
-  final String text;
-
-  @override
-  List<Object?> get props => <Object?>[text];
-}
-
 class OcrErrorState extends OcrState {
   const OcrErrorState({required this.message});
-
-  final String message;
-
-  @override
-  List<Object?> get props => <Object?>[message];
-}
-
-class PermissionDeniedState extends OcrState {
-  const PermissionDeniedState({required this.message});
 
   final String message;
 

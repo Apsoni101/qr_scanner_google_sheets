@@ -33,5 +33,4 @@ class HomeScreenLocalUseCase {
   Future<Either<Failure, Unit>> removeSyncedScan(final int index) =>
       repository.removeSyncedScan(index);
 
-  Future<Either<Failure, Unit>> clearAllCache() => repository.clearAllCache();
 }

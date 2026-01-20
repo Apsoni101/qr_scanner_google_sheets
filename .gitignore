@@ -12,6 +12,27 @@
 .swiftpm/
 migrate_working_dir/
 
+android/.gradle/
+android/app/build/
+android/local.properties
+android/app/google-services.json
+android/app/src/**/google-services.json
+android/key.properties
+*.keystore
+*.jks
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/ephemeral/
+ios/Flutter/AppFrameworkInfo.plist
+ios/Runner/GoogleService-Info.plist
+
+.vscode/
+
+macos/
+windows/
+linux/
+
+
 # IntelliJ related
 *.iml
 *.ipr

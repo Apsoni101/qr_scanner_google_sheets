@@ -91,7 +91,7 @@ class _ResultConfirmationViewState extends State<_ResultConfirmationView> {
               _showSnackBar(
                 context,
                 context.locale.scanSavedSuccessfully,
-                context.appColors.c3BA935,
+                context.appColors.kellyGreen,
               );
               if (context.mounted) {
                 context.router.maybePop();
@@ -235,7 +235,7 @@ class _DetailRow extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: context.appColors.cEAECF0,
+            color: context.appColors.lightGray,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
@@ -316,7 +316,7 @@ class _SheetsList extends StatelessWidget {
   Widget build(final BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        border: Border.all(color: context.appColors.cEAECF0),
+        border: Border.all(color: context.appColors.lightGray),
         borderRadius: BorderRadius.circular(8),
       ),
       child: ListView.separated(
@@ -324,7 +324,7 @@ class _SheetsList extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: sheets.length,
         separatorBuilder: (final _, final __) =>
-            Divider(height: 1, color: context.appColors.cEAECF0),
+            Divider(height: 1, color: context.appColors.lightGray),
         itemBuilder: (final _, final int index) {
           final SheetEntity sheet = sheets[index];
           return _SheetItem(sheet: sheet);
@@ -434,11 +434,11 @@ class _CreateNewSheetSection extends StatelessWidget {
                     fillColor: context.appColors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: context.appColors.cEAECF0),
+                      borderSide: BorderSide(color: context.appColors.lightGray),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide(color: context.appColors.cEAECF0),
+                      borderSide: BorderSide(color: context.appColors.lightGray),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -514,7 +514,7 @@ class _ModeToggleButton extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: context.appColors.cEAECF0.withValues(alpha: 0.5),
+              color: context.appColors.lightGray.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Row(
@@ -589,7 +589,7 @@ class _ConfirmationActionButtons extends StatelessWidget {
                         ? null
                         : () => context.router.maybePop(),
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: context.appColors.cEAECF0),
+                      side: BorderSide(color: context.appColors.lightGray),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -720,7 +720,7 @@ class _EmptyStateContainer extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: context.appColors.cEAECF0,
+        color: context.appColors.lightGray,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Text(

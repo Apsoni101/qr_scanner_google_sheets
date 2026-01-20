@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/result_scan_model.dart';
+import 'package:qr_scanner_practice/feature/result_scan/data/model/scan_result_model.dart';
 import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
 
 part 'pending_sync_model.g.dart';
@@ -14,7 +14,7 @@ class PendingSyncModel extends HiveObject {
 
   factory PendingSyncModel.fromEntity(final PendingSyncEntity entity) {
     return PendingSyncModel(
-      scan: ResultScanModel.fromEntity(entity.scan),
+      scan: ScanResultModel.fromEntity(entity.scan),
       sheetId: entity.sheetId,
       sheetTitle: entity.sheetTitle,
     );
@@ -22,14 +22,14 @@ class PendingSyncModel extends HiveObject {
 
   factory PendingSyncModel.fromJson(final Map<String, dynamic> json) {
     return PendingSyncModel(
-      scan: ResultScanModel.fromJson(json['scan'] ?? <String, dynamic>{}),
+      scan: ScanResultModel.fromJson(json['scan'] ?? <String, dynamic>{}),
       sheetId: json['sheetId'] ?? '',
       sheetTitle: json['sheetTitle'] ?? '',
     );
   }
 
   @HiveField(0)
-  final ResultScanModel scan;
+  final ScanResultModel scan;
 
   @HiveField(1)
   final String sheetId;
@@ -54,7 +54,7 @@ class PendingSyncModel extends HiveObject {
   }
 
   PendingSyncModel copyWith({
-    final ResultScanModel? scan,
+    final ScanResultModel? scan,
     final String? sheetId,
     final String? sheetTitle,
   }) {
