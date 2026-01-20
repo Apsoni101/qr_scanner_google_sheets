@@ -1,9 +1,7 @@
-part of 'result_confirmation_bloc.dart';
+part of 'result_saving_bloc.dart';
 
-class ResultConfirmationState extends Equatable {
-  // Indicates if data is from local cache
-
-  const ResultConfirmationState({
+class ResultSavingState extends Equatable {
+  const ResultSavingState({
     this.isLoadingSheets = false,
     this.isCreatingSheet = false,
     this.isSavingScan = false,
@@ -33,7 +31,7 @@ class ResultConfirmationState extends Equatable {
   final bool isScanSaved;
   final bool isCachedData;
 
-  ResultConfirmationState copyWith({
+  ResultSavingState copyWith({
     final bool? isLoadingSheets,
     final bool? isCreatingSheet,
     final bool? isSavingScan,
@@ -48,7 +46,7 @@ class ResultConfirmationState extends Equatable {
     final bool? isScanSaved,
     final bool? isCachedData,
   }) {
-    return ResultConfirmationState(
+    return ResultSavingState(
       isLoadingSheets: isLoadingSheets ?? this.isLoadingSheets,
       isCreatingSheet: isCreatingSheet ?? this.isCreatingSheet,
       isSavingScan: isSavingScan ?? this.isSavingScan,
@@ -83,6 +81,6 @@ class ResultConfirmationState extends Equatable {
   ];
 }
 
-class ResultConfirmationInitial extends ResultConfirmationState {
-  const ResultConfirmationInitial();
+class ResultSavingInitial extends ResultSavingState {
+  const ResultSavingInitial();
 }

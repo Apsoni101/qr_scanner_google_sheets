@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
 
 abstract class ResultScanLocalRepository {
   Future<Either<Failure, List<SheetEntity>>> getLocalSheets();

@@ -1,5 +1,4 @@
 import 'package:get_it/get_it.dart';
-import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
 import 'package:qr_scanner_practice/core/navigation/auth_guard.dart';
 import 'package:qr_scanner_practice/core/services/connectivity_service.dart';
 import 'package:qr_scanner_practice/core/services/device_info_service.dart';
@@ -33,16 +32,16 @@ import 'package:qr_scanner_practice/feature/ocr/domain/repo/ocr_repo.dart';
 import 'package:qr_scanner_practice/feature/ocr/domain/use_case/ocr_use_case.dart';
 import 'package:qr_scanner_practice/feature/ocr/presentation/bloc/ocr_bloc.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/bloc/qr_scanning_bloc/qr_scanning_bloc.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/data_source/scan_result_local_data_source.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/data_source/scan_result_remote_data_source.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/repo_impl/result_scan_local_repository_impl.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/repo_impl/result_scan_remote_repository_impl.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/repo/result_scan_local_repository.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/repo/result_scan_remote_repository.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/usecase/result_scan_local_use_case.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/usecase/result_scan_remote_use_case.dart';
-import 'package:qr_scanner_practice/feature/result_scan/presentation/bloc/result_bloc/result_bloc.dart';
-import 'package:qr_scanner_practice/feature/result_scan/presentation/bloc/result_confirmation_bloc/result_confirmation_bloc.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/data_source/scan_result_local_data_source.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/data_source/scan_result_remote_data_source.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/repo_impl/result_scan_local_repository_impl.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/repo_impl/result_scan_remote_repository_impl.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/repo/result_scan_local_repository.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/repo/result_scan_remote_repository.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/usecase/result_scan_local_use_case.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/usecase/result_scan_remote_use_case.dart';
+import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_bloc/result_bloc.dart';
+import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_saving_bloc/result_saving_bloc.dart';
 
 class AppInjector {
   AppInjector._();
@@ -185,8 +184,8 @@ class AppInjector {
         () => QrScanningBloc(imagePickerService: getIt<ImagePickerService>()),
       )
       ..registerFactory<OcrBloc>(() => OcrBloc(ocrUseCase: getIt<OcrUseCase>()))
-      ..registerFactory<ResultConfirmationBloc>(
-        () => ResultConfirmationBloc(
+      ..registerFactory<ResultSavingBloc>(
+        () => ResultSavingBloc(
           remoteUseCase: getIt<ResultScanRemoteUseCase>(),
           localUseCase: getIt<ResultScanLocalUseCase>(),
         ),

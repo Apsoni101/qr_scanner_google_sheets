@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
 
 abstract class ResultScanRemoteRepository {
   /// Returns all spreadsheets (owned / accessible by the user)

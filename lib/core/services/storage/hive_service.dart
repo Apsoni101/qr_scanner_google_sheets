@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/pending_sync_model.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/sheet_model.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/model/pending_sync_model.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/model/scan_result_model.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/model/sheet_model.dart';
 
 class HiveService {
   late Box _box;

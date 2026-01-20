@@ -10,7 +10,7 @@ import 'package:qr_scanner_practice/core/extensions/localization_extension.dart'
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/bloc/qr_scanning_bloc/qr_scanning_bloc.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/widgets/scanner_overlay_painter.dart';
-import 'package:qr_scanner_practice/feature/result_scan/presentation/presentation/result_screen.dart';
+import 'package:qr_scanner_practice/feature/scan_result/presentation/presentation/result_screen.dart';
 
 @RoutePage()
 class QrScanningScreen extends StatelessWidget {

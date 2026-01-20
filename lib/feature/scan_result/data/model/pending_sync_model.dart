@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/model/scan_result_model.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
 
 part 'pending_sync_model.g.dart';
 

@@ -5,9 +5,9 @@ import 'package:qr_scanner_practice/core/services/firebase/firebase_auth_service
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
 import 'package:qr_scanner_practice/core/services/network/http_api_client.dart';
 import 'package:qr_scanner_practice/core/services/network/http_method.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/result_scan/data/model/sheet_model.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/model/scan_result_model.dart';
+import 'package:qr_scanner_practice/feature/scan_result/data/model/sheet_model.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
 
 abstract class ScansHistoryRemoteDataSource {
   Future<Either<Failure, List<PendingSyncEntity>>> getAllScansFromAllSheets();

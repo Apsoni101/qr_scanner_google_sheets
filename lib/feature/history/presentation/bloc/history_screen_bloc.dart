@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
 import 'package:qr_scanner_practice/feature/history/domain/usecase/get_scans_history_remote_use_case.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
 
 part 'history_screen_event.dart';
 

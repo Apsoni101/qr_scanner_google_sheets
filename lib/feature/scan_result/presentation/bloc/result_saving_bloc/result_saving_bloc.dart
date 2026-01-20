@@ -3,20 +3,17 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:qr_scanner_practice/core/services/network/failure.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/sheet_entity.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/usecase/result_scan_local_use_case.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/usecase/result_scan_remote_use_case.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/usecase/result_scan_local_use_case.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/usecase/result_scan_remote_use_case.dart';
 
-part 'result_confirmation_event.dart';
-part 'result_confirmation_state.dart';
+part 'result_saving_event.dart';
+part 'result_saving_state.dart';
 
-class ResultConfirmationBloc
-    extends Bloc<ResultConfirmationEvent, ResultConfirmationState> {
-  ResultConfirmationBloc({
-    required this.remoteUseCase,
-    required this.localUseCase,
-  }) : super(const ResultConfirmationInitial()) {
+class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
+  ResultSavingBloc({required this.remoteUseCase, required this.localUseCase})
+    : super(const ResultSavingInitial()) {
     on<OnConfirmationLoadSheets>(_onLoadSheets);
     on<OnConfirmationSheetSelected>(_onSheetSelected);
     on<OnConfirmationCreateSheet>(_onCreateSheet);
@@ -30,7 +27,7 @@ class ResultConfirmationBloc
 
   Future<void> _onLoadSheets(
     final OnConfirmationLoadSheets event,
-    final Emitter<ResultConfirmationState> emit,
+    final Emitter<ResultSavingState> emit,
   ) async {
     emit(state.copyWith(isLoadingSheets: true));
 
@@ -86,7 +83,7 @@ class ResultConfirmationBloc
 
   void _onSheetSelected(
     final OnConfirmationSheetSelected event,
-    final Emitter<ResultConfirmationState> emit,
+    final Emitter<ResultSavingState> emit,
   ) {
     final int selectedSheetIndex = state.sheets.indexWhere(
       (final SheetEntity s) => s.id == event.sheetId,
@@ -105,14 +102,14 @@ class ResultConfirmationBloc
 
   void _onSheetNameChanged(
     final OnConfirmationSheetNameChanged event,
-    final Emitter<ResultConfirmationState> emit,
+    final Emitter<ResultSavingState> emit,
   ) {
     emit(state.copyWith(newSheetName: event.sheetName));
   }
 
   void _onModeToggled(
     final OnConfirmationModeToggled event,
-    final Emitter<ResultConfirmationState> emit,
+    final Emitter<ResultSavingState> emit,
   ) {
     emit(
       state.copyWith(isCreatingNewSheet: event.isCreating, newSheetName: ''),
@@ -121,7 +118,7 @@ class ResultConfirmationBloc
 
   Future<void> _onCreateSheet(
     final OnConfirmationCreateSheet event,
-    final Emitter<ResultConfirmationState> emit,
+    final Emitter<ResultSavingState> emit,
   ) async {
     final String trimmedName = state.newSheetName.trim();
 
@@ -230,7 +227,7 @@ class ResultConfirmationBloc
 
   Future<void> _onSaveScan(
     final OnConfirmationSaveScan event,
-    final Emitter<ResultConfirmationState> emit,
+    final Emitter<ResultSavingState> emit,
   ) async {
     emit(state.copyWith(isSavingScan: true));
 

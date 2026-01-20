@@ -7,7 +7,7 @@ import 'package:qr_scanner_practice/core/enums/result_type.dart';
 import 'package:qr_scanner_practice/core/extensions/color_extension.dart';
 import 'package:qr_scanner_practice/core/extensions/localization_extension.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
-import 'package:qr_scanner_practice/feature/result_scan/presentation/bloc/result_bloc/result_bloc.dart';
+import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_bloc/result_bloc.dart';
 
 @RoutePage()
 class ResultScreen extends StatelessWidget {
@@ -289,7 +289,7 @@ class _ActionButtons extends StatelessWidget {
                   onPressed: () {
                     final String comment = state.comment;
                     context.router.push(
-                      ResultConfirmationRoute(
+                      ResultSavingRoute(
                         data: data,
                         comment: comment,
                         resultType: resultType,

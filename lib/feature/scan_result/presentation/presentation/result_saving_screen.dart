@@ -7,14 +7,13 @@ import 'package:qr_scanner_practice/core/enums/result_type.dart';
 import 'package:qr_scanner_practice/core/extensions/color_extension.dart';
 import 'package:qr_scanner_practice/core/extensions/date_time_extension.dart';
 import 'package:qr_scanner_practice/core/extensions/localization_extension.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/sheet_entity.dart';
-import 'package:qr_scanner_practice/feature/result_scan/presentation/bloc/result_confirmation_bloc/result_confirmation_bloc.dart';
-import 'package:qr_scanner_practice/feature/result_scan/presentation/presentation/result_screen.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_saving_bloc/result_saving_bloc.dart';
 
 @RoutePage()
-class ResultConfirmationScreen extends StatelessWidget {
-  const ResultConfirmationScreen({
+class ResultSavingScreen extends StatelessWidget {
+  const ResultSavingScreen({
     required this.data,
     required this.comment,
     required this.resultType,
@@ -27,10 +26,10 @@ class ResultConfirmationScreen extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return BlocProvider<ResultConfirmationBloc>(
+    return BlocProvider<ResultSavingBloc>(
       create: (final BuildContext context) =>
-          AppInjector.getIt<ResultConfirmationBloc>(),
-      child: _ResultConfirmationView(
+          AppInjector.getIt<ResultSavingBloc>(),
+      child: _ResultSavingView(
         data: data,
         comment: comment,
         resultType: resultType,
@@ -39,8 +38,8 @@ class ResultConfirmationScreen extends StatelessWidget {
   }
 }
 
-class _ResultConfirmationView extends StatefulWidget {
-  const _ResultConfirmationView({
+class _ResultSavingView extends StatefulWidget {
+  const _ResultSavingView({
     required this.data,
     required this.comment,
     required this.resultType,
@@ -51,11 +50,10 @@ class _ResultConfirmationView extends StatefulWidget {
   final ResultType resultType;
 
   @override
-  State<_ResultConfirmationView> createState() =>
-      _ResultConfirmationViewState();
+  State<_ResultSavingView> createState() => _ResultSavingViewState();
 }
 
-class _ResultConfirmationViewState extends State<_ResultConfirmationView> {
+class _ResultSavingViewState extends State<_ResultSavingView> {
   late TextEditingController _sheetNameController;
 
   @override
@@ -64,9 +62,7 @@ class _ResultConfirmationViewState extends State<_ResultConfirmationView> {
     _sheetNameController = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
-        context.read<ResultConfirmationBloc>().add(
-          const OnConfirmationLoadSheets(),
-        );
+        context.read<ResultSavingBloc>().add(const OnConfirmationLoadSheets());
       }
     });
   }
@@ -79,26 +75,21 @@ class _ResultConfirmationViewState extends State<_ResultConfirmationView> {
 
   @override
   Widget build(final BuildContext context) {
-    return BlocListener<ResultConfirmationBloc, ResultConfirmationState>(
-      listener:
-          (final BuildContext context, final ResultConfirmationState state) {
-            if (state.scanSaveError != null) {
-              _showSnackBar(
-                context,
-                state.scanSaveError!,
-                context.appColors.red,
-              );
-            } else if (state.isScanSaved) {
-              _showSnackBar(
-                context,
-                context.locale.scanSavedSuccessfully,
-                context.appColors.kellyGreen,
-              );
-              if (context.mounted) {
-                context.router.maybePop();
-              }
-            }
-          },
+    return BlocListener<ResultSavingBloc, ResultSavingState>(
+      listener: (final BuildContext context, final ResultSavingState state) {
+        if (state.scanSaveError != null) {
+          _showSnackBar(context, state.scanSaveError!, context.appColors.red);
+        } else if (state.isScanSaved) {
+          _showSnackBar(
+            context,
+            context.locale.scanSavedSuccessfully,
+            context.appColors.kellyGreen,
+          );
+          if (context.mounted) {
+            context.router.maybePop();
+          }
+        }
+      },
       child: Scaffold(
         backgroundColor: context.appColors.white,
         appBar: _buildAppBar(context),
@@ -111,8 +102,8 @@ class _ResultConfirmationViewState extends State<_ResultConfirmationView> {
               resultType: widget.resultType,
             ),
             const SizedBox(height: 24),
-            BlocSelector<ResultConfirmationBloc, ResultConfirmationState, bool>(
-              selector: (final ResultConfirmationState state) =>
+            BlocSelector<ResultSavingBloc, ResultSavingState, bool>(
+              selector: (final ResultSavingState state) =>
                   state.isCreatingNewSheet,
               builder:
                   (final BuildContext context, final bool isCreatingNewSheet) {
@@ -262,11 +253,11 @@ class _SelectSheetSection extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return BlocSelector<
-      ResultConfirmationBloc,
-      ResultConfirmationState,
+      ResultSavingBloc,
+      ResultSavingState,
       ({bool isLoading, String? error, List<SheetEntity> sheets})
     >(
-      selector: (final ResultConfirmationState state) => (
+      selector: (final ResultSavingState state) => (
         isLoading: state.isLoadingSheets,
         error: state.sheetsLoadError,
         sheets: state.sheets,
@@ -342,18 +333,14 @@ class _SheetItem extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return BlocSelector<
-      ResultConfirmationBloc,
-      ResultConfirmationState,
-      String?
-    >(
-      selector: (final ResultConfirmationState state) => state.selectedSheetId,
+    return BlocSelector<ResultSavingBloc, ResultSavingState, String?>(
+      selector: (final ResultSavingState state) => state.selectedSheetId,
       builder: (final BuildContext context, final String? selectedSheetId) {
         return RadioListTile<String>(
           value: sheet.id,
           groupValue: selectedSheetId,
           onChanged: (final String? value) {
-            context.read<ResultConfirmationBloc>().add(
+            context.read<ResultSavingBloc>().add(
               OnConfirmationSheetSelected(sheet.id),
             );
           },
@@ -395,11 +382,11 @@ class _CreateNewSheetSection extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return BlocSelector<
-      ResultConfirmationBloc,
-      ResultConfirmationState,
+      ResultSavingBloc,
+      ResultSavingState,
       ({bool isCreating, String? error})
     >(
-      selector: (final ResultConfirmationState state) =>
+      selector: (final ResultSavingState state) =>
           (isCreating: state.isCreatingSheet, error: state.sheetCreationError),
       builder:
           (
@@ -420,7 +407,7 @@ class _CreateNewSheetSection extends StatelessWidget {
                   controller: controller,
                   enabled: !data.isCreating,
                   onChanged: (final String value) {
-                    context.read<ResultConfirmationBloc>().add(
+                    context.read<ResultSavingBloc>().add(
                       OnConfirmationSheetNameChanged(value),
                     );
                   },
@@ -465,7 +452,7 @@ class _CreateNewSheetSection extends StatelessWidget {
                     onPressed: data.isCreating
                         ? null
                         : () {
-                            context.read<ResultConfirmationBloc>().add(
+                            context.read<ResultSavingBloc>().add(
                               const OnConfirmationCreateSheet(),
                             );
                           },
@@ -505,13 +492,12 @@ class _ModeToggleButton extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return BlocSelector<ResultConfirmationBloc, ResultConfirmationState, bool>(
-      selector: (final ResultConfirmationState state) =>
-          state.isCreatingNewSheet,
+    return BlocSelector<ResultSavingBloc, ResultSavingState, bool>(
+      selector: (final ResultSavingState state) => state.isCreatingNewSheet,
       builder: (final BuildContext context, final bool isCreatingNewSheet) {
         return InkWell(
           onTap: () {
-            context.read<ResultConfirmationBloc>().add(
+            context.read<ResultSavingBloc>().add(
               OnConfirmationModeToggled(!isCreatingNewSheet),
             );
           },
@@ -558,11 +544,11 @@ class _ConfirmationActionButtons extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return BlocSelector<
-      ResultConfirmationBloc,
-      ResultConfirmationState,
+      ResultSavingBloc,
+      ResultSavingState,
       ({bool isLoading, bool canSave, bool isSaving})
     >(
-      selector: (final ResultConfirmationState state) {
+      selector: (final ResultSavingState state) {
         final bool isLoading =
             state.isSavingScan ||
             state.isCreatingSheet ||
@@ -608,11 +594,11 @@ class _ConfirmationActionButtons extends StatelessWidget {
                   ),
                   const SizedBox(width: 16),
                   BlocSelector<
-                    ResultConfirmationBloc,
-                    ResultConfirmationState,
+                    ResultSavingBloc,
+                    ResultSavingState,
                     ({String? selectedSheetId, List<SheetEntity> sheets})
                   >(
-                    selector: (final ResultConfirmationState state) => (
+                    selector: (final ResultSavingState state) => (
                       selectedSheetId: state.selectedSheetId,
                       sheets: state.sheets,
                     ),
@@ -645,7 +631,7 @@ class _ConfirmationActionButtons extends StatelessWidget {
                                           timestamp: DateTime.now(),
                                         );
 
-                                    context.read<ResultConfirmationBloc>().add(
+                                    context.read<ResultSavingBloc>().add(
                                       OnConfirmationSaveScan(
                                         scanEntity,
                                         sheetData.selectedSheetId ?? '',

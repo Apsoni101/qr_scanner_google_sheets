@@ -10,7 +10,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i11;
-import 'package:flutter/material.dart' as _i12;
+import 'package:flutter/material.dart' as _i13;
+import 'package:qr_scanner_practice/core/enums/result_type.dart' as _i12;
 import 'package:qr_scanner_practice/core/navigation/router/auth_router.dart'
     as _i1;
 import 'package:qr_scanner_practice/core/navigation/router/dashboard_router.dart'
@@ -25,9 +26,9 @@ import 'package:qr_scanner_practice/feature/ocr/presentation/screen/ocr_screen.d
     as _i5;
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/presentation/qr_scanner_screen.dart'
     as _i6;
-import 'package:qr_scanner_practice/feature/result_scan/presentation/presentation/result_confirmation_screen.dart'
+import 'package:qr_scanner_practice/feature/scan_result/presentation/presentation/result_saving_screen.dart'
     as _i7;
-import 'package:qr_scanner_practice/feature/result_scan/presentation/presentation/result_screen.dart'
+import 'package:qr_scanner_practice/feature/scan_result/presentation/presentation/result_screen.dart'
     as _i8;
 import 'package:qr_scanner_practice/feature/splash/presentation/screens/splash_screen.dart'
     as _i10;
@@ -129,18 +130,17 @@ class QrScanningRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.ResultConfirmationScreen]
-class ResultConfirmationRoute
-    extends _i11.PageRouteInfo<ResultConfirmationRouteArgs> {
-  ResultConfirmationRoute({
+/// [_i7.ResultSavingScreen]
+class ResultSavingRoute extends _i11.PageRouteInfo<ResultSavingRouteArgs> {
+  ResultSavingRoute({
     required String data,
     required String comment,
-    required _i8.ResultType resultType,
-    _i12.Key? key,
+    required _i12.ResultType resultType,
+    _i13.Key? key,
     List<_i11.PageRouteInfo>? children,
   }) : super(
-         ResultConfirmationRoute.name,
-         args: ResultConfirmationRouteArgs(
+         ResultSavingRoute.name,
+         args: ResultSavingRouteArgs(
            data: data,
            comment: comment,
            resultType: resultType,
@@ -149,13 +149,13 @@ class ResultConfirmationRoute
          initialChildren: children,
        );
 
-  static const String name = 'ResultConfirmationRoute';
+  static const String name = 'ResultSavingRoute';
 
   static _i11.PageInfo page = _i11.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<ResultConfirmationRouteArgs>();
-      return _i7.ResultConfirmationScreen(
+      final args = data.argsAs<ResultSavingRouteArgs>();
+      return _i7.ResultSavingScreen(
         data: args.data,
         comment: args.comment,
         resultType: args.resultType,
@@ -165,8 +165,8 @@ class ResultConfirmationRoute
   );
 }
 
-class ResultConfirmationRouteArgs {
-  const ResultConfirmationRouteArgs({
+class ResultSavingRouteArgs {
+  const ResultSavingRouteArgs({
     required this.data,
     required this.comment,
     required this.resultType,
@@ -177,19 +177,19 @@ class ResultConfirmationRouteArgs {
 
   final String comment;
 
-  final _i8.ResultType resultType;
+  final _i12.ResultType resultType;
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
   @override
   String toString() {
-    return 'ResultConfirmationRouteArgs{data: $data, comment: $comment, resultType: $resultType, key: $key}';
+    return 'ResultSavingRouteArgs{data: $data, comment: $comment, resultType: $resultType, key: $key}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other is! ResultConfirmationRouteArgs) return false;
+    if (other is! ResultSavingRouteArgs) return false;
     return data == other.data &&
         comment == other.comment &&
         resultType == other.resultType &&
@@ -206,8 +206,8 @@ class ResultConfirmationRouteArgs {
 class ResultRoute extends _i11.PageRouteInfo<ResultRouteArgs> {
   ResultRoute({
     required String data,
-    required _i8.ResultType resultType,
-    _i12.Key? key,
+    required _i12.ResultType resultType,
+    _i13.Key? key,
     List<_i11.PageRouteInfo>? children,
   }) : super(
          ResultRoute.name,
@@ -239,9 +239,9 @@ class ResultRouteArgs {
 
   final String data;
 
-  final _i8.ResultType resultType;
+  final _i12.ResultType resultType;
 
-  final _i12.Key? key;
+  final _i13.Key? key;
 
   @override
   String toString() {

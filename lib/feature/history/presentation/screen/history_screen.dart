@@ -10,7 +10,7 @@ import 'package:qr_scanner_practice/feature/history/presentation/widget/history_
 import 'package:qr_scanner_practice/feature/history/presentation/widget/history_empty_view.dart';
 import 'package:qr_scanner_practice/feature/history/presentation/widget/history_error_view.dart';
 import 'package:qr_scanner_practice/feature/history/presentation/widget/history_search_bar.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
 
 @RoutePage()
 class HistoryScreen extends StatelessWidget {

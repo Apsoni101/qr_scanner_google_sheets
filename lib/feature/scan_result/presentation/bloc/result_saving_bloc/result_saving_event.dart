@@ -1,18 +1,18 @@
-part of 'result_confirmation_bloc.dart';
+part of 'result_saving_bloc.dart';
 
 @immutable
-sealed class ResultConfirmationEvent extends Equatable {
-  const ResultConfirmationEvent();
+sealed class ResultSavingEvent extends Equatable {
+  const ResultSavingEvent();
 
   @override
   List<Object?> get props => <Object?>[];
 }
 
-final class OnConfirmationLoadSheets extends ResultConfirmationEvent {
+final class OnConfirmationLoadSheets extends ResultSavingEvent {
   const OnConfirmationLoadSheets();
 }
 
-final class OnConfirmationSheetSelected extends ResultConfirmationEvent {
+final class OnConfirmationSheetSelected extends ResultSavingEvent {
   const OnConfirmationSheetSelected(this.sheetId);
 
   final String sheetId;
@@ -21,7 +21,7 @@ final class OnConfirmationSheetSelected extends ResultConfirmationEvent {
   List<Object?> get props => <Object?>[sheetId];
 }
 
-final class OnConfirmationSheetNameChanged extends ResultConfirmationEvent {
+final class OnConfirmationSheetNameChanged extends ResultSavingEvent {
   const OnConfirmationSheetNameChanged(this.sheetName);
 
   final String sheetName;
@@ -30,7 +30,7 @@ final class OnConfirmationSheetNameChanged extends ResultConfirmationEvent {
   List<Object?> get props => <Object?>[sheetName];
 }
 
-final class OnConfirmationModeToggled extends ResultConfirmationEvent {
+final class OnConfirmationModeToggled extends ResultSavingEvent {
   const OnConfirmationModeToggled(this.isCreating);
 
   final bool isCreating;
@@ -39,11 +39,11 @@ final class OnConfirmationModeToggled extends ResultConfirmationEvent {
   List<Object?> get props => <Object?>[isCreating];
 }
 
-final class OnConfirmationCreateSheet extends ResultConfirmationEvent {
+final class OnConfirmationCreateSheet extends ResultSavingEvent {
   const OnConfirmationCreateSheet();
 }
 
-class OnConfirmationSaveScan extends ResultConfirmationEvent {
+class OnConfirmationSaveScan extends ResultSavingEvent {
   const OnConfirmationSaveScan(this.scanEntity, this.sheetId, this.sheetTitle);
 
   final ResultScanEntity scanEntity;

@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:qr_scanner_practice/feature/result_scan/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
 
 part 'scan_result_model.g.dart';
 
