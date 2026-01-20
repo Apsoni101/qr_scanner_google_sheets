@@ -23,61 +23,6 @@ class FirebaseAuthService {
   /// Google Sign In instance
   final GoogleSignIn googleSignIn;
 
-  /// Used for sign up with email and password
-  Future<Either<Failure, User>> signUpWithEmail(
-      final String email,
-      final String password,
-      ) async {
-    try {
-      final UserCredential result = await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return Right<Failure, User>(result.user!);
-    } on FirebaseAuthException catch (e) {
-      return Left<Failure, User>(
-        Failure(
-          message: 'Firebase error: ${e.message} \n errorCode: ${e.code}',
-        ),
-      );
-    } on FirebaseException catch (e) {
-      return Left<Failure, User>(
-        Failure(
-          message: 'Firebase error: ${e.message} \n errorCode: ${e.code}',
-        ),
-      );
-    } on Exception catch (e) {
-      return Left<Failure, User>(Failure(message: 'Unexpected error: $e'));
-    }
-  }
-
-  /// Used for sign in with email and password
-  Future<Either<Failure, User>> signInWithEmail(
-      final String email,
-      final String password,
-      ) async {
-    try {
-      final UserCredential result = await auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      return Right<Failure, User>(result.user!);
-    } on FirebaseAuthException catch (e) {
-      return Left<Failure, User>(
-        Failure(
-          message: 'Firebase error: ${e.message} \n errorCode: ${e.code}',
-        ),
-      );
-    } on FirebaseException catch (e) {
-      return Left<Failure, User>(
-        Failure(
-          message: 'Firebase error: ${e.message} \n errorCode: ${e.code}',
-        ),
-      );
-    } on Exception catch (e) {
-      return Left<Failure, User>(Failure(message: 'Unexpected error: $e'));
-    }
-  }
 
   /// Used for signing out user
   Future<Either<Failure, Unit>> signOut() async {
