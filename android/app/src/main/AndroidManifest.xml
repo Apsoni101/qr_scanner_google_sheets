@@ -36,7 +36,7 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon"
-        android:label="qr_scanner_practice">
+        android:label="@string/app_name">
         <receiver
             android:name=".QrScanWidget"
             android:exported="false">

@@ -12,7 +12,35 @@ android {
     namespace = "com.example.qr_scanner_practice"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
-
+    flavorDimensions += "default"
+    productFlavors {
+        create("uat") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "CodiScan UAT"
+            )
+            applicationIdSuffix = ".uat"
+        }
+        create("dev") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "CodiScan DEV"
+            )
+            applicationIdSuffix = ".dev"
+        }
+        create("prod") {
+            dimension = "default"
+            resValue(
+                type = "string",
+                name = "app_name",
+                value = "CodiScan"
+            )
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
