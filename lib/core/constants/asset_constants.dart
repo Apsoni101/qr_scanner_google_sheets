@@ -9,6 +9,8 @@ class AppAssets {
   static const String settingsIc = 'assets/icons/settings_icon.svg';
   static const String qrIc = 'assets/icons/qr_icon.svg';
   static const String ocrIc = 'assets/icons/ocr_file_icon.svg';
+  static const String cameraIc = 'assets/icons/camera_icon.svg';
+  static const String imageIc = 'assets/icons/image_icon.svg';
   static const String lightThemeIc = 'assets/icons/light_theme_icon.svg';
   static const String darkThemeIc = 'assets/icons/dark_theme_icon.svg';
   static const String languageGlobeIc = 'assets/icons/language_globe_icon.svg';

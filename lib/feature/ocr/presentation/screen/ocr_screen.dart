@@ -6,9 +6,10 @@ import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/enums/result_type.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/common_app_bar.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/common_loading_view.dart';
 import 'package:qr_scanner_practice/feature/ocr/presentation/bloc/ocr_bloc.dart';
-import 'package:qr_scanner_practice/feature/ocr/presentation/widgets/ocr_content_view.dart';
+import 'package:qr_scanner_practice/feature/ocr/presentation/widgets/ocr_screen_content_view.dart';
 
 @RoutePage()
 class OcrScreen extends StatelessWidget {
@@ -18,28 +19,19 @@ class OcrScreen extends StatelessWidget {
   Widget build(final BuildContext context) {
     return BlocProvider<OcrBloc>(
       create: (_) => AppInjector.getIt<OcrBloc>(),
-      child: const OcrView(),
+      child: const OcrScreenView(),
     );
   }
 }
 
-class OcrView extends StatelessWidget {
-  const OcrView({super.key});
+class OcrScreenView extends StatelessWidget {
+  const OcrScreenView({super.key});
 
   @override
   Widget build(final BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          context.locale.ocrTitle,
-          style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1.copyWith(
-            color: context.appColors.textPrimary,
-          ),
-        ),
-        centerTitle: true,
-        backgroundColor: context.appColors.textInversePrimary,
-        elevation: 0,
-      ),
+      appBar: CommonAppBar(title: context.locale.extractTextOcr),
+      backgroundColor: context.appColors.scaffoldBackground,
       body: BlocListener<OcrBloc, OcrState>(
         listener: (final BuildContext context, final OcrState state) {
           if (state is OcrErrorState) {
@@ -70,7 +62,7 @@ class OcrView extends StatelessWidget {
               OcrImagePickedState() ||
               OcrSuccessState() ||
               OcrErrorState() ||
-              OcrInitialState() => const OcrContentView(),
+              OcrInitialState() => const OcrScreenContentView(),
             };
           },
         ),

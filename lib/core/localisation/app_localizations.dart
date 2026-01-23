@@ -304,6 +304,30 @@ abstract class AppLocalizations {
   /// **'Help & Support'**
   String get helpAndSupport;
 
+  /// No description provided for @extractFromCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Extract from Camera'**
+  String get extractFromCamera;
+
+  /// No description provided for @capturePhotoAndExtractTextInstantly.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture a photo and extract text instantly'**
+  String get capturePhotoAndExtractTextInstantly;
+
+  /// No description provided for @extractFromImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Extract from Image'**
+  String get extractFromImage;
+
+  /// No description provided for @uploadExistingImageToExtractText.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload an existing image to extract text'**
+  String get uploadExistingImageToExtractText;
+
   /// No description provided for @createAccount.
   ///
   /// In en, this message translates to:

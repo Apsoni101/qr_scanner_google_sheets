@@ -120,6 +120,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpAndSupport => 'Help & Support';
 
   @override
+  String get extractFromCamera => 'Extract from Camera';
+
+  @override
+  String get capturePhotoAndExtractTextInstantly =>
+      'Capture a photo and extract text instantly';
+
+  @override
+  String get extractFromImage => 'Extract from Image';
+
+  @override
+  String get uploadExistingImageToExtractText =>
+      'Upload an existing image to extract text';
+
+  @override
   String get createAccount => 'Create Account';
 
   @override

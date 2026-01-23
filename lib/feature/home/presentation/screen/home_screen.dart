@@ -6,9 +6,9 @@ import 'package:qr_scanner_practice/core/constants/asset_constants.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/on_screen_option_item_card.dart';
 import 'package:qr_scanner_practice/feature/home/presentation/bloc/home_screen_bloc/home_screen_bloc.dart';
 import 'package:qr_scanner_practice/feature/home/presentation/widgets/home_screen_app_bar.dart';
-import 'package:qr_scanner_practice/feature/home/presentation/widgets/home_screen_option_item_card.dart';
 import 'package:qr_scanner_practice/feature/home/presentation/widgets/sync_status_banner.dart';
 
 @RoutePage()
@@ -72,7 +72,7 @@ class HomeScreenViewState extends State<HomeScreenView>
             children: <Widget>[
               const SyncStatusBanner(),
               const SizedBox(height: 12),
-              HomeScreenOptionItemCard(
+              OnScreenOptionItemCard(
                 iconPath: AppAssets.qrIc,
                 title: context.locale.scanQrCode,
                 subtitle: context.locale.pointCameraAtQrCodeToScanInstantly,
@@ -81,8 +81,8 @@ class HomeScreenViewState extends State<HomeScreenView>
                 },
               ),
               const SizedBox(height: 12),
-              HomeScreenOptionItemCard(
-                duration: const Duration(milliseconds: 2500),
+              OnScreenOptionItemCard(
+                animationDuration: const Duration(milliseconds: 2500),
                 iconPath: AppAssets.ocrIc,
                 title: context.locale.extractTextOcr,
                 subtitle: context.locale.extractTextFromImagesOrCamera,

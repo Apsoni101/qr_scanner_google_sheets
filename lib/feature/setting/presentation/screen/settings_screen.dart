@@ -8,6 +8,7 @@ import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/enums/language_enum.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/common_app_bar.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/padded_text.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/bloc/settings_bloc.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/language_selection_dialog.dart';
@@ -33,16 +34,7 @@ class SettingsScreen extends StatelessWidget {
 
           return Scaffold(
             backgroundColor: context.appColors.scaffoldBackground,
-            appBar: AppBar(
-              titleSpacing: 0,
-              backgroundColor: context.appColors.appBarBackground,
-              title: Text(
-                context.locale.settings,
-                style: AppTextStyles.airbnbCerealW600S20Lh28Ls0.copyWith(
-                  color: context.appColors.textPrimary,
-                ),
-              ),
-            ),
+            appBar: CommonAppBar(title: context.locale.settings),
             body: Column(
               children: <Widget>[
                 ///app name and version
@@ -66,7 +58,7 @@ class SettingsScreen extends StatelessWidget {
                       SettingsSectionCardContent(
                         child: SettingsActionTile(
                           title: context.locale.theme,
-                          iconAsset: AppAssets.lightThemeIc,
+                          iconAsset:isDark?AppAssets.darkThemeIc: AppAssets.lightThemeIc,
                           onPressed: () {
                             final ThemeController themeController =
                                 AppInjector.getIt<ThemeController>()

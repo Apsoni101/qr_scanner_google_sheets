@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_scanner_practice/core/constants/asset_constants.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
 class CommonLoadingView extends StatelessWidget {
@@ -6,12 +7,6 @@ class CommonLoadingView extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(
-          context.appColors.iconPrimary,
-        ),
-      ),
-    );
+    return Center(child: Image.asset(AppAssets.codeIsArtLoading));
   }
 }

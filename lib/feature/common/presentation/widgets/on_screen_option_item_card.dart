@@ -3,13 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
-class HomeScreenOptionItemCard extends StatefulWidget {
-  const HomeScreenOptionItemCard({
+class OnScreenOptionItemCard extends StatefulWidget {
+  const OnScreenOptionItemCard({
     required this.iconPath,
     required this.title,
     required this.subtitle,
     required this.onPressed,
-    this.duration = const Duration(milliseconds: 1500),
+    this.animationDuration = const Duration(milliseconds: 1500),
     super.key,
   });
 
@@ -17,14 +17,14 @@ class HomeScreenOptionItemCard extends StatefulWidget {
   final String title;
   final String subtitle;
   final VoidCallback onPressed;
-  final Duration duration;
+  final Duration animationDuration;
 
   @override
-  State<HomeScreenOptionItemCard> createState() =>
-      _HomeScreenOptionItemCardState();
+  State<OnScreenOptionItemCard> createState() =>
+      _OnScreenOptionItemCardState();
 }
 
-class _HomeScreenOptionItemCardState extends State<HomeScreenOptionItemCard>
+class _OnScreenOptionItemCardState extends State<OnScreenOptionItemCard>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<Offset> _slideAnimation;
@@ -33,7 +33,7 @@ class _HomeScreenOptionItemCardState extends State<HomeScreenOptionItemCard>
   void initState() {
     super.initState();
 
-    _controller = AnimationController(vsync: this, duration: widget.duration);
+    _controller = AnimationController(vsync: this, duration: widget.animationDuration);
 
     _slideAnimation = Tween<Offset>(
       begin: const Offset(1, 0),
@@ -50,10 +50,10 @@ class _HomeScreenOptionItemCardState extends State<HomeScreenOptionItemCard>
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(final BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (context, child) {
+      builder: (final BuildContext context, final Widget? child) {
         return SlideTransition(position: _slideAnimation, child: child);
       },
       child: Card(
