@@ -3,9 +3,14 @@ import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const CommonAppBar({required this.title, super.key});
+  const CommonAppBar({
+    required this.title,
+    this.showBottomDivider = false,
+    super.key,
+  });
 
   final String title;
+  final bool showBottomDivider;
 
   @override
   Widget build(final BuildContext context) {
@@ -18,9 +23,17 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
           color: context.appColors.textPrimary,
         ),
       ),
+
+      bottom: showBottomDivider
+          ? PreferredSize(
+              preferredSize: const Size.fromHeight(2),
+              child: Divider(height: 2, color: context.appColors.separator),
+            )
+          : null,
     );
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize =>
+      Size.fromHeight(kToolbarHeight + (showBottomDivider ? 2 : 0));
 }

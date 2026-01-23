@@ -164,16 +164,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewHistory => 'View History';
 
   @override
-  String get scannedDataTitle => 'Scanned Data';
+  String get scannedContent => 'Scanned Content';
 
   @override
   String get addCommentTitle => 'Add Comment (Optional)';
 
   @override
-  String get commentHint => 'Enter your comment or notes...';
+  String get addANoteOrDescription => 'Add a note or description...';
 
   @override
-  String get ocrTitle => 'OCR Scanner';
+  String get selectGoogleSheet => 'Select Google Sheet';
 
   @override
   String get selectImagePrompt => 'Select an image to extract text';
@@ -204,6 +204,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get data => 'QR Data:';
+
+  @override
+  String get qrResult => 'QR Result';
 
   @override
   String get comment => 'Comment:';

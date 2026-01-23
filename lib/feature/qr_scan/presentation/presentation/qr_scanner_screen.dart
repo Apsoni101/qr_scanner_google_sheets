@@ -51,7 +51,7 @@ class QrScanningViewState extends State<QrScanningView> {
     context.read<QrScanningBloc>().add(QrDetectedEvent(code));
     _controller.stop();
     context.router
-        .push(ResultRoute(data: code, resultType: ResultType.qr))
+        .push(ScanResultRoute(scanResult: code, resultType: ResultType.qr))
         .then((_) {
           if (mounted) {
             _controller.start();

@@ -222,63 +222,78 @@ class ResultSavingRouteArgs {
 }
 
 /// generated route for
-/// [_i9.ResultScreen]
-class ResultRoute extends _i13.PageRouteInfo<ResultRouteArgs> {
-  ResultRoute({
-    required String data,
+/// [_i9.ScanResultScreen]
+class ScanResultRoute extends _i13.PageRouteInfo<ScanResultRouteArgs> {
+  ScanResultRoute({
+    required String scanResult,
     required _i14.ResultType resultType,
+    _i15.ImageProvider<Object>? previewImage,
     _i15.Key? key,
     List<_i13.PageRouteInfo>? children,
   }) : super(
-         ResultRoute.name,
-         args: ResultRouteArgs(data: data, resultType: resultType, key: key),
+         ScanResultRoute.name,
+         args: ScanResultRouteArgs(
+           scanResult: scanResult,
+           resultType: resultType,
+           previewImage: previewImage,
+           key: key,
+         ),
          initialChildren: children,
        );
 
-  static const String name = 'ResultRoute';
+  static const String name = 'ScanResultRoute';
 
   static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<ResultRouteArgs>();
-      return _i9.ResultScreen(
-        data: args.data,
+      final args = data.argsAs<ScanResultRouteArgs>();
+      return _i9.ScanResultScreen(
+        scanResult: args.scanResult,
         resultType: args.resultType,
+        previewImage: args.previewImage,
         key: args.key,
       );
     },
   );
 }
 
-class ResultRouteArgs {
-  const ResultRouteArgs({
-    required this.data,
+class ScanResultRouteArgs {
+  const ScanResultRouteArgs({
+    required this.scanResult,
     required this.resultType,
+    this.previewImage,
     this.key,
   });
 
-  final String data;
+  final String scanResult;
 
   final _i14.ResultType resultType;
+
+  final _i15.ImageProvider<Object>? previewImage;
 
   final _i15.Key? key;
 
   @override
   String toString() {
-    return 'ResultRouteArgs{data: $data, resultType: $resultType, key: $key}';
+    return 'ScanResultRouteArgs{scanResult: $scanResult, resultType: $resultType, previewImage: $previewImage, key: $key}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other is! ResultRouteArgs) return false;
-    return data == other.data &&
+    if (other is! ScanResultRouteArgs) return false;
+    return scanResult == other.scanResult &&
         resultType == other.resultType &&
+        previewImage == other.previewImage &&
         key == other.key;
   }
 
   @override
-  int get hashCode => data.hashCode ^ resultType.hashCode ^ key.hashCode;
+  int get hashCode =>
+      scanResult.hashCode ^
+      resultType.hashCode ^
+      previewImage.hashCode ^
+      key.hashCode;
 }
 
 /// generated route for

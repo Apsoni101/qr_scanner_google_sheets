@@ -26,13 +26,12 @@ class OcrImagePickedState extends OcrState {
 }
 
 class OcrSuccessState extends OcrState {
-  const OcrSuccessState({required this.result, this.imageFile});
+  const OcrSuccessState({required this.ocrResultEntity});
 
-  final String result;
-  final File? imageFile;
+  final OcrResultEntity ocrResultEntity;
 
   @override
-  List<Object?> get props => <Object?>[result, imageFile];
+  List<Object?> get props => <Object?>[ocrResultEntity];
 }
 
 class OcrErrorState extends OcrState {

@@ -5,31 +5,50 @@ import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/enums/result_type.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
-
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/common_app_bar.dart';
 import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_bloc/result_bloc.dart';
+import 'package:qr_scanner_practice/feature/scan_result/presentation/widgets/comment_input_card.dart';
+import 'package:qr_scanner_practice/feature/scan_result/presentation/widgets/ocr_preview_image.dart';
+import 'package:qr_scanner_practice/feature/scan_result/presentation/widgets/scan_result_section.dart';
 
 @RoutePage()
-class ResultScreen extends StatelessWidget {
-  const ResultScreen({required this.data, required this.resultType, super.key});
+class ScanResultScreen extends StatelessWidget {
+  const ScanResultScreen({
+    required this.scanResult,
+    required this.resultType,
+    this.previewImage,
 
-  final String data;
+    super.key,
+  });
+
+  final String scanResult;
+  final ImageProvider? previewImage;
   final ResultType resultType;
 
   @override
   Widget build(final BuildContext context) {
     return BlocProvider<ResultBloc>(
       create: (final BuildContext context) => AppInjector.getIt<ResultBloc>(),
-      child: _ResultView(data: data, resultType: resultType),
+      child: _ResultView(
+        scanResult: scanResult,
+        resultType: resultType,
+        previewImage: previewImage,
+      ),
     );
   }
 }
 
 class _ResultView extends StatefulWidget {
-  const _ResultView({required this.data, required this.resultType});
+  const _ResultView({
+    required this.scanResult,
+    required this.resultType,
+    this.previewImage,
+  });
 
-  final String data;
+  final String scanResult;
   final ResultType resultType;
+  final ImageProvider? previewImage;
 
   @override
   State<_ResultView> createState() => _ResultViewState();
@@ -52,199 +71,43 @@ class _ResultViewState extends State<_ResultView> {
 
   @override
   Widget build(final BuildContext context) {
+    final ImageProvider<Object>? imagePreview = widget.previewImage;
     return Scaffold(
-      backgroundColor: context.appColors.textInversePrimary,
-      appBar: _buildAppBar(context),
+      backgroundColor: context.appColors.scaffoldBackground,
+      appBar: CommonAppBar(
+        title: widget.resultType == ResultType.qr
+            ? context.locale.qrResult
+            : context.locale.extractedText,
+        showBottomDivider: true,
+      ),
       body: ListView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         children: <Widget>[
-          const _SuccessIcon(),
+          if (imagePreview != null) ...[
+            OcrImagePreview(image: imagePreview),
+            const SizedBox(height: 24),
+          ],
+          ScanResultSection(
+            scannedResult: widget.scanResult,
+            resultType: widget.resultType,
+          ),
           const SizedBox(height: 24),
-          _DataSection(data: widget.data, resultType: widget.resultType),
-          const SizedBox(height: 24),
-          _CommentSection(commentController: _commentController),
+          CommentInputCard(commentController: _commentController),
         ],
       ),
-      bottomNavigationBar: SafeArea(
-        child: _ActionButtons(
-          commentController: _commentController,
-          data: widget.data,
-          resultType: widget.resultType,
-        ),
-      ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(final BuildContext context) {
-    return AppBar(
-      backgroundColor: context.appColors.textInversePrimary,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back, color: context.appColors.textPrimary),
-        onPressed: () => context.router.maybePop(),
-      ),
-      title: Text(
-        widget.resultType == ResultType.qr
-            ? context.locale.qrCodeDetailsTitle
-            : context.locale.extractedText,
-        style: AppTextStyles.airbnbCerealW500S18Lh24Ls0.copyWith(
-          color: context.appColors.textPrimary,
-        ),
-      ),
-    );
-  }
-}
-
-class _SuccessIcon extends StatelessWidget {
-  const _SuccessIcon();
-
-  @override
-  Widget build(final BuildContext context) {
-    return Center(
-      child: CircleAvatar(
-        radius: 40,
-        backgroundColor: context.appColors.semanticsIconSuccess,
-        child: Icon(
-          Icons.check,
-          size: 48,
-          color: context.appColors.textInversePrimary,
-        ),
-      ),
-    );
-  }
-}
-
-class _DataSection extends StatelessWidget {
-  const _DataSection({required this.data, required this.resultType});
-
-  final String data;
-  final ResultType resultType;
-
-  @override
-  Widget build(final BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _SectionLabel(
-          label: resultType == ResultType.qr
-              ? context.locale.scannedDataTitle
-              : context.locale.extractedText,
-        ),
-        const SizedBox(height: 8),
-        _DataContainer(
-          child: Text(
-            data,
-            style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
-              color: context.appColors.textPrimary,
-            ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.appColors.surfaceL1,
+          border: Border.symmetric(
+            horizontal: BorderSide(color: context.appColors.separator),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _CommentSection extends StatelessWidget {
-  const _CommentSection({required this.commentController});
-
-  final TextEditingController commentController;
-
-  @override
-  Widget build(final BuildContext context) {
-    return Column(
-      spacing: 8,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        _SectionLabel(label: context.locale.addCommentTitle),
-        _CommentTextField(controller: commentController),
-      ],
-    );
-  }
-}
-
-class _SectionLabel extends StatelessWidget {
-  const _SectionLabel({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(final BuildContext context) {
-    return Text(
-      label,
-      style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-        color: context.appColors.textSecondary,
-      ),
-    );
-  }
-}
-
-class _DataContainer extends StatelessWidget {
-  const _DataContainer({required this.child});
-
-  final Widget child;
-
-  @override
-  Widget build(final BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.appColors.textInversePrimary,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.appColors.borderInputDefault),
-      ),
-      child: child,
-    );
-  }
-}
-
-class _CommentTextField extends StatelessWidget {
-  const _CommentTextField({required this.controller});
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(final BuildContext context) {
-    return TextField(
-      controller: controller,
-      onChanged: (final String value) {
-        context.read<ResultBloc>().add(OnResultCommentChanged(value));
-      },
-      maxLines: 4,
-      style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
-        color: context.appColors.textPrimary,
-      ),
-      decoration: _buildInputDecoration(context),
-    );
-  }
-
-  InputDecoration _buildInputDecoration(final BuildContext context) {
-    final BorderRadius borderRadius = BorderRadius.circular(12);
-    final BorderSide normalBorder = BorderSide(
-      color: context.appColors.borderInputDefault,
-    );
-    final BorderSide focusedBorder = BorderSide(
-      color: context.appColors.iconPrimary,
-      width: 2,
-    );
-
-    return InputDecoration(
-      hintText: context.locale.commentHint,
-      hintStyle: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
-        color: context.appColors.textSecondary,
-      ),
-      filled: true,
-      fillColor: context.appColors.textInversePrimary,
-      border: OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: normalBorder,
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: normalBorder,
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: borderRadius,
-        borderSide: focusedBorder,
+        child: _ActionButtons(
+          commentController: _commentController,
+          data: widget.scanResult,
+          resultType: widget.resultType,
+        ),
       ),
     );
   }
@@ -265,59 +128,30 @@ class _ActionButtons extends StatelessWidget {
   Widget build(final BuildContext context) {
     return BlocBuilder<ResultBloc, ResultState>(
       builder: (final BuildContext context, final ResultState state) {
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => context.router.maybePop(),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: context.appColors.textPrimary,
-                    side: BorderSide(
-                      color: context.appColors.borderInputDefault,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    context.locale.cancelButton,
-                    style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-                      color: context.appColors.textPrimary,
-                    ),
-                  ),
-                ),
+        return ElevatedButton(
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            final String comment = state.comment;
+            context.router.push(
+              ResultSavingRoute(
+                data: data,
+                comment: comment,
+                resultType: resultType,
               ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () {
-                    final String comment = state.comment;
-                    context.router.push(
-                      ResultSavingRoute(
-                        data: data,
-                        comment: comment,
-                        resultType: resultType,
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: context.appColors.iconPrimary,
-                    foregroundColor: context.appColors.textInversePrimary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    context.locale.saveButton,
-                    style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-                      color: context.appColors.textInversePrimary,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: context.appColors.primaryDefault,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            padding: const EdgeInsets.all(16),
+          ),
+          child: Text(
+            context.locale.selectGoogleSheet,
+            style: AppTextStyles.airbnbCerealW600S16Lh24Ls0.copyWith(
+              color: context.appColors.textInverseSecondary,
+            ),
           ),
         );
       },

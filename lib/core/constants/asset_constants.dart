@@ -15,6 +15,7 @@ class AppAssets {
   static const String flashLightOffIc = 'assets/icons/flash_light_off_icon.svg';
   static const String flashLightOnIc = 'assets/icons/flash_light_on_icon.svg';
   static const String darkThemeIc = 'assets/icons/dark_theme_icon.svg';
+  static const String copyIc = 'assets/icons/copy_icon.svg';
   static const String languageGlobeIc = 'assets/icons/language_globe_icon.svg';
   static const String logOutIc = 'assets/icons/log_out_icon.svg';
   static const String codeIsArtLoading =

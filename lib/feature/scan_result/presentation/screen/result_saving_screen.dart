@@ -190,7 +190,7 @@ class _ScanDetailsSection extends StatelessWidget {
         const SizedBox(height: 16),
         _DetailRow(
           label: resultType == ResultType.qr
-              ? context.locale.scannedDataTitle
+              ? context.locale.scannedContent
               : context.locale.extractedText,
           value: data,
         ),

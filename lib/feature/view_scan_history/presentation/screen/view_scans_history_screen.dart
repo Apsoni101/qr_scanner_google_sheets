@@ -10,7 +10,6 @@ import 'package:qr_scanner_practice/feature/view_scan_history/presentation/bloc/
 import 'package:qr_scanner_practice/feature/view_scan_history/presentation/widget/history_card_item.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/presentation/widget/history_empty_view.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/presentation/widget/history_error_view.dart';
-import 'package:qr_scanner_practice/feature/view_scan_history/presentation/widget/history_search_bar.dart';
 
 @RoutePage()
 class ViewScansHistoryScreen extends StatelessWidget {
@@ -35,71 +34,53 @@ class _HistoryScreenView extends StatelessWidget {
     return Scaffold(
       backgroundColor: context.appColors.scaffoldBackground,
       appBar: _buildAppBar(context),
-      body: Column(
-        children: <Widget>[
-          HistorySearchBar(
-            onSearchChanged: (final String query) {
-              context.read<ViewScansHistoryScreenBloc>().add(
-                OnHistorySearchScans(query),
-              );
-            },
-          ),
-          Expanded(
-            child:
-                BlocBuilder<
-                  ViewScansHistoryScreenBloc,
-                  ViewScansHistoryScreenState
-                >(
-                  builder:
-                      (
-                        final BuildContext context,
-                        final ViewScansHistoryScreenState state,
-                      ) {
-                        if (state.isLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
+      body:
+          BlocBuilder<ViewScansHistoryScreenBloc, ViewScansHistoryScreenState>(
+            builder:
+                (
+                  final BuildContext context,
+                  final ViewScansHistoryScreenState state,
+                ) {
+                  if (state.isLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
 
-                        if (state.error != null && state.error!.isNotEmpty) {
-                          return HistoryErrorState(errorMessage: state.error!);
-                        }
+                  if (state.error != null && state.error!.isNotEmpty) {
+                    return HistoryErrorState(errorMessage: state.error!);
+                  }
 
-                        if (state.filteredScans.isEmpty) {
-                          return HistoryEmptyState(
-                            isSearchActive: state.searchQuery.isNotEmpty,
-                          );
-                        }
+                  if (state.filteredScans.isEmpty) {
+                    return HistoryEmptyState(
+                      isSearchActive: state.searchQuery.isNotEmpty,
+                    );
+                  }
 
-                        return RefreshIndicator(
-                          onRefresh: () async {
-                            context.read<ViewScansHistoryScreenBloc>().add(
-                              const OnHistoryLoadScans(),
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      context.read<ViewScansHistoryScreenBloc>().add(
+                        const OnHistoryLoadScans(),
+                      );
+                    },
+                    color: context.appColors.iconPrimary,
+                    backgroundColor: context.appColors.textInversePrimary,
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: state.filteredScans.length,
+                      itemBuilder:
+                          (final BuildContext context, final int index) {
+                            final PendingSyncEntity historyScan =
+                                state.filteredScans[index];
+                            return HistoryCardItem(
+                              data: historyScan.scan.data,
+                              sheetTitle: historyScan.sheetTitle,
+                              timestamp: historyScan.scan.timestamp,
+                              comment: historyScan.scan.comment,
                             );
                           },
-                          color: context.appColors.iconPrimary,
-                          backgroundColor: context.appColors.textInversePrimary,
-                          child: ListView.builder(
-                            padding: const EdgeInsets.all(16),
-                            itemCount: state.filteredScans.length,
-                            itemBuilder:
-                                (final BuildContext context, final int index) {
-                                  final PendingSyncEntity historyScan =
-                                      state.filteredScans[index];
-                                  return HistoryCardItem(
-                                    data: historyScan.scan.data,
-                                    sheetTitle: historyScan.sheetTitle,
-                                    timestamp: historyScan.scan.timestamp,
-                                    comment: historyScan.scan.comment,
-                                  );
-                                },
-                          ),
-                        );
-                      },
-                ),
+                    ),
+                  );
+                },
           ),
-        ],
-      ),
     );
   }
 

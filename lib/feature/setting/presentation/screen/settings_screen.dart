@@ -10,12 +10,12 @@ import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/common_app_bar.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/padded_text.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/rounded_corner_elevated_card.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/bloc/settings_bloc.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/language_selection_dialog.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_about_text_button_tile.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_action_tile.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_app_info_tile.dart';
-import 'package:qr_scanner_practice/feature/common/presentation/widgets/rounded_corner_elevated_card.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_theme_switch.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_user_info_tile.dart';
 

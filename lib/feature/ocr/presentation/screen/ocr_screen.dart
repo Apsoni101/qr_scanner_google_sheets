@@ -47,12 +47,24 @@ class OcrScreenView extends StatelessWidget {
               ),
             );
           }
-
           if (state is OcrSuccessState) {
-            context.router.push(
-              ResultRoute(data: state.result, resultType: ResultType.ocr),
+            final ImageProvider previewImage = FileImage(
+              state.ocrResultEntity.imageFile,
             );
-            context.read<OcrBloc>().add(const ClearOcrResultEvent());
+
+            context.router
+                .push(
+                  ScanResultRoute(
+                    scanResult: state.ocrResultEntity.recognizedText,
+                    resultType: ResultType.ocr,
+                    previewImage: previewImage,
+                  ),
+                )
+                .then((_) {
+                  if (context.mounted) {
+                    context.read<OcrBloc>().add(const ClearOcrResultEvent());
+                  }
+                });
           }
         },
         child: BlocBuilder<OcrBloc, OcrState>(

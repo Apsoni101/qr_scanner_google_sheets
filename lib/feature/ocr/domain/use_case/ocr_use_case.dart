@@ -1,7 +1,6 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
+import 'package:qr_scanner_practice/feature/ocr/domain/entity/ocr_result_entity.dart';
 import 'package:qr_scanner_practice/feature/ocr/domain/repo/ocr_repo.dart';
 
 class OcrUseCase {
@@ -9,11 +8,11 @@ class OcrUseCase {
 
   final OcrRepository ocrRepository;
 
-  Future<Either<Failure, String>> callFromGallery() async {
+  Future<Either<Failure, OcrResultEntity>> callFromGallery() async {
     return ocrRepository.recognizeTextFromGallery();
   }
 
-  Future<Either<Failure, String>> callFromCamera() async {
+  Future<Either<Failure, OcrResultEntity>> callFromCamera() async {
     return ocrRepository.recognizeTextFromCamera();
   }
 }

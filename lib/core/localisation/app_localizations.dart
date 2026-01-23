@@ -388,11 +388,11 @@ abstract class AppLocalizations {
   /// **'View History'**
   String get viewHistory;
 
-  /// No description provided for @scannedDataTitle.
+  /// No description provided for @scannedContent.
   ///
   /// In en, this message translates to:
-  /// **'Scanned Data'**
-  String get scannedDataTitle;
+  /// **'Scanned Content'**
+  String get scannedContent;
 
   /// No description provided for @addCommentTitle.
   ///
@@ -400,17 +400,17 @@ abstract class AppLocalizations {
   /// **'Add Comment (Optional)'**
   String get addCommentTitle;
 
-  /// No description provided for @commentHint.
+  /// No description provided for @addANoteOrDescription.
   ///
   /// In en, this message translates to:
-  /// **'Enter your comment or notes...'**
-  String get commentHint;
+  /// **'Add a note or description...'**
+  String get addANoteOrDescription;
 
-  /// No description provided for @ocrTitle.
+  /// No description provided for @selectGoogleSheet.
   ///
   /// In en, this message translates to:
-  /// **'OCR Scanner'**
-  String get ocrTitle;
+  /// **'Select Google Sheet'**
+  String get selectGoogleSheet;
 
   /// No description provided for @selectImagePrompt.
   ///
@@ -471,6 +471,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'QR Data:'**
   String get data;
+
+  /// No description provided for @qrResult.
+  ///
+  /// In en, this message translates to:
+  /// **'QR Result'**
+  String get qrResult;
 
   /// No description provided for @comment.
   ///

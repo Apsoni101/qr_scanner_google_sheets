@@ -1,0 +1,21 @@
+import 'package:flutter/material.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/rounded_corner_elevated_card.dart';
+
+class OcrImagePreview extends StatelessWidget {
+  const OcrImagePreview({super.key, required this.image});
+
+  final ImageProvider image;
+
+  @override
+  Widget build(final BuildContext context) {
+    return RoundedCornerElevatedCard(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: Image(image: image, fit: BoxFit.cover, width: double.infinity),
+        ),
+      ),
+    );
+  }
+}
