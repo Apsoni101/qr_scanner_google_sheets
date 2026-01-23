@@ -33,7 +33,7 @@ Future<void> main() async {
       ? ThemeMode.values.byName(modeName)
       : ThemeMode.system;
 
-  final ThemeController themeController = ThemeController();
+  final ThemeController themeController = AppInjector.getIt<ThemeController>();
   await themeController.setTheme(savedTheme);
 
   runApp(MyApp(themeController: themeController));
@@ -60,11 +60,11 @@ class MyApp extends StatelessWidget {
           themeMode: themeMode,
           theme: ThemeData(
             brightness: Brightness.light,
-            extensions: [AppLightThemeColors()],
+            extensions: <ThemeExtension>[AppLightThemeColors()],
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
-            extensions: [AppDarkThemeColors()],
+            extensions: <ThemeExtension>[AppDarkThemeColors()],
           ),
         );
       },

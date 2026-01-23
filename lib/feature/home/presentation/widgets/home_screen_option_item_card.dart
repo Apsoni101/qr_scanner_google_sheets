@@ -1,0 +1,136 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
+import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
+
+class HomeScreenOptionItemCard extends StatefulWidget {
+  const HomeScreenOptionItemCard({
+    required this.iconPath,
+    required this.title,
+    required this.subtitle,
+    required this.onPressed,
+    this.duration = const Duration(milliseconds: 1500),
+    super.key,
+  });
+
+  final String iconPath;
+  final String title;
+  final String subtitle;
+  final VoidCallback onPressed;
+  final Duration duration;
+
+  @override
+  State<HomeScreenOptionItemCard> createState() =>
+      _HomeScreenOptionItemCardState();
+}
+
+class _HomeScreenOptionItemCardState
+    extends State<HomeScreenOptionItemCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: widget.duration,
+    );
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(1, 0),
+      end: Offset.zero,
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOut,
+      ),
+    );
+
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return SlideTransition(
+          position: _slideAnimation,
+          child: child,
+        );
+      },
+      child: Card(
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        color: context.appColors.cardBackground,
+        child: InkWell(
+          onTap: widget.onPressed,
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 26),
+            child: Row(
+              spacing: 16,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: 56,
+                  height: 56,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: context.appColors.primaryDefault,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: SvgPicture.asset(
+                    widget.iconPath,
+                    colorFilter: ColorFilter.mode(
+                      context.appColors.surfaceL1,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    padding:
+                    const EdgeInsets.symmetric(vertical: 4),
+                    children: <Widget>[
+                      Text(
+                        widget.title,
+                        style: AppTextStyles
+                            .airbnbCerealW600S18Lh24Ls0
+                            .copyWith(
+                          color: context.appColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        widget.subtitle,
+                        style: AppTextStyles
+                            .interW400S14Lh20Ls0_2
+                            .copyWith(
+                          color: context.appColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

@@ -7,8 +7,8 @@ class UserEntity extends Equatable {
     this.uid,
     this.email,
     this.name,
-    this.birthdate,
     this.surname,
+    this.profilePicture,
   });
 
   /// Unique user id
@@ -23,11 +23,11 @@ class UserEntity extends Equatable {
   /// User email
   final String? email;
 
-  /// User birthdate
-  final String? birthdate;
+  /// User profile picture URL
+  final String? profilePicture;
 
   @override
-  List<Object?> get props => <Object?>[uid, email, name, surname, birthdate];
+  List<Object?> get props => <Object?>[uid, email, name, surname, profilePicture];
 
   /// Copy with method for entity
   UserEntity copyWith({
@@ -35,14 +35,14 @@ class UserEntity extends Equatable {
     final String? name,
     final String? surname,
     final String? email,
-    final String? birthdate,
+    final String? profilePicture,
   }) {
     return UserEntity(
       uid: uid ?? this.uid,
       name: name ?? this.name,
       surname: surname ?? this.surname,
       email: email ?? this.email,
-      birthdate: birthdate ?? this.birthdate,
+      profilePicture: profilePicture ?? this.profilePicture,
     );
   }
 }

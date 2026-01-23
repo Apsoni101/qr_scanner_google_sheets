@@ -6,21 +6,11 @@ class UserModel extends UserEntity {
     super.uid,
     super.email,
     super.name,
-    super.surname = '',
-    super.birthdate = '',
+    super.surname,
+    super.profilePicture,
   });
 
-  factory UserModel.fromFirestore({required final Map<String, dynamic> data}) =>
-      UserModel(
-        uid: data['uid']?.toString() ?? '',
-        email: data['email']?.toString() ?? '',
-        name: data['name']?.toString() ?? '',
-        surname: data['surname']?.toString() ?? '',
-        birthdate: data['birthdate']?.toString() ?? '',
-      );
-
   factory UserModel.fromFirebaseUser(final User user) {
-    /// Extract name and surname from Google account
     final String fullName =
         user.displayName ?? user.email?.split('@').first ?? '';
     final List<String> nameParts = fullName.split(' ');
@@ -35,6 +25,17 @@ class UserModel extends UserEntity {
       email: user.email ?? '',
       name: name,
       surname: surname,
+      profilePicture: user.photoURL ?? '',
+    );
+  }
+
+  factory UserModel.fromJson(final Map<String, dynamic> json) {
+    return UserModel(
+      uid: json['uid'] ?? '',
+      email: json['email'] ?? '',
+      name: json['name'] ?? '',
+      surname: json['surname'] ?? '',
+      profilePicture: json['profilePicture'] ?? '',
     );
   }
 
@@ -43,23 +44,26 @@ class UserModel extends UserEntity {
     'email': email ?? '',
     'name': name ?? '',
     'surname': surname ?? '',
-    'birthdate': birthdate ?? '',
+    'profilePicture': profilePicture ?? '',
   };
 
-  @override
-  UserModel copyWith({
-    final String? uid,
-    final String? name,
-    final String? surname,
-    final String? email,
-    final String? birthdate,
-  }) {
+  UserEntity toEntity() {
+    return UserEntity(
+      uid: uid,
+      email: email,
+      name: name,
+      surname: surname,
+      profilePicture: profilePicture,
+    );
+  }
+
+  factory UserModel.fromEntity(final UserEntity entity) {
     return UserModel(
-      uid: uid ?? this.uid,
-      name: name ?? this.name,
-      surname: surname ?? this.surname,
-      email: email ?? this.email,
-      birthdate: birthdate ?? this.birthdate,
+      uid: entity.uid,
+      email: entity.email,
+      name: entity.name,
+      surname: entity.surname,
+      profilePicture: entity.profilePicture,
     );
   }
 }

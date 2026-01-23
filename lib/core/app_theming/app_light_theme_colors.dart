@@ -40,7 +40,7 @@ class AppLightThemeColors extends AppColorThemeExtension {
     super.qrBadgeText = const Color(0xFF2096F3),
     super.ocrBadgeBackground = const Color(0x1A9C27B0),
     super.ocrBadgeText = const Color(0xFF9C27B0),
-    super.scaffoldBackground = const Color(0xFFFFFFFF),
+    super.scaffoldBackground = const Color(0xFFF9FAFB),
     super.appBarBackground = const Color(0xFFFFFFFF),
     super.buttonPrimaryBackground = const Color(0xFF2096F3),
     super.buttonSecondaryBackground = const Color(0xFFE3F2FD),
@@ -52,5 +52,9 @@ class AppLightThemeColors extends AppColorThemeExtension {
     super.splashLogoTint = const Color(0xFF2096F3),
     super.splashText = const Color(0xFF111827),
     super.splashIndicator = const Color(0xFF2096F3),
+    super.switchActiveTrack = const Color(0xFF2096F3),
+    super.switchActiveThumb = const Color(0xFFFFFFFF),
+    super.switchInactiveTrack = const Color(0xFFD1D5DB),
+    super.switchInactiveThumb = const Color(0xFFFFFFFF),
   });
 }

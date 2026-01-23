@@ -21,6 +21,105 @@ class AppLocalizationsEn extends AppLocalizations {
   String get history => 'History';
 
   @override
+  String get scanQrCode => 'Scan QR Code';
+
+  @override
+  String get pointCameraAtQrCodeToScanInstantly =>
+      'Point camera at a QR code to scan instantly';
+
+  @override
+  String get pointCameraToScanQr => 'Point your camera at a QR code to scan';
+
+  @override
+  String get extractTextOcr => 'Extract Text (OCR)';
+
+  @override
+  String get extractTextFromImagesOrCamera =>
+      'Extract text from images or camera';
+
+  @override
+  String get welcome => 'Welcome';
+
+  @override
+  String get settings => 'Settings';
+
+  @override
+  String get version1 => 'Version 1.0.0';
+
+  @override
+  String get signInToSyncYourScansAcrossDevices =>
+      'Sign in to sync your scans across devices';
+
+  @override
+  String get signingIn => 'Signing in...';
+
+  @override
+  String get continueWithGoogle => 'Continue with Google';
+
+  @override
+  String get newUserSameButtonCreatesYourAccountAutomatically =>
+      'New user? The same button creates your account automatically';
+
+  @override
+  String get failedToSignInPleaseTryAgain =>
+      'Failed to sign in. Please try again.';
+
+  @override
+  String get byContinuingYouAgreeToOurTermsOfServiceAndPrivacyPolicy =>
+      'By continuing, you agree to our Terms of Service and Privacy Policy';
+
+  @override
+  String get appearance => 'APPEARANCE';
+
+  @override
+  String get theme => 'Theme';
+
+  @override
+  String get dark => 'Dark';
+
+  @override
+  String get light => 'Light';
+
+  @override
+  String get language => 'Language';
+
+  @override
+  String get english => 'English';
+
+  @override
+  String get account => 'ACCOUNT';
+
+  @override
+  String get errorLoadingUser => 'Error loading user';
+
+  @override
+  String get user => 'User';
+
+  @override
+  String get noEmail => 'No email';
+
+  @override
+  String get signedOut => 'Signed Out';
+
+  @override
+  String get youHaveBeenSignedOut => 'You have been signed out';
+
+  @override
+  String get about => 'ABOUT';
+
+  @override
+  String get logOut => 'Log out';
+
+  @override
+  String get privacyPolicy => 'Privacy Policy';
+
+  @override
+  String get termsOfService => 'Terms of Service';
+
+  @override
+  String get helpAndSupport => 'Help & Support';
+
+  @override
   String get createAccount => 'Create Account';
 
   @override
@@ -39,9 +138,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInWithGoogle => 'Sign in with your Google account';
 
   @override
-  String get signingIn => 'Signing in...';
-
-  @override
   String get loginSuccess => 'Login successful!';
 
   @override
@@ -55,12 +151,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get uploadFromGallery => 'Upload from Gallery';
-
-  @override
-  String get scanQrCode => 'Scan QR Code';
-
-  @override
-  String get pointCameraToScanQr => 'Point your camera at a QR code to scan';
 
   @override
   String get viewHistory => 'View History';

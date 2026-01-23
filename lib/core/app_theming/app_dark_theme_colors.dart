@@ -52,5 +52,9 @@ class AppDarkThemeColors extends AppColorThemeExtension {
     super.splashLogoTint = const Color(0xFF2096F3),
     super.splashText = const Color(0xFFF9FAFB),
     super.splashIndicator = const Color(0xFF2096F3),
+    super.switchActiveTrack = const Color(0xFF2096F3),
+    super.switchActiveThumb = const Color(0xFFF9FAFB),
+    super.switchInactiveTrack = const Color(0xFF4B5563),
+    super.switchInactiveThumb = const Color(0xFFF9FAFB),
   });
 }

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
 import 'package:qr_scanner_practice/core/firebase/firebase_auth_service.dart';
 import 'package:qr_scanner_practice/core/navigation/auth_guard.dart';
 import 'package:qr_scanner_practice/core/network/http_api_client.dart';
@@ -31,6 +32,11 @@ import 'package:qr_scanner_practice/feature/scan_result/domain/repo/scan_result_
 import 'package:qr_scanner_practice/feature/scan_result/domain/usecase/scan_result_use_case.dart';
 import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_bloc/result_bloc.dart';
 import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_saving_bloc/result_saving_bloc.dart';
+import 'package:qr_scanner_practice/feature/setting/data/data_source/settings_remote_data_source.dart';
+import 'package:qr_scanner_practice/feature/setting/data/repo_impl/settings_repository_impl.dart';
+import 'package:qr_scanner_practice/feature/setting/domain/repo/settings_repository.dart';
+import 'package:qr_scanner_practice/feature/setting/domain/usecase/settings_usecase.dart';
+import 'package:qr_scanner_practice/feature/setting/presentation/bloc/settings_bloc.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/data/data_source/view_scans_history_remote_data_source.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/data/repo_impl/view_scans_history_remote_repository_impl.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/domain/repo/view_scans_history_remote_repository.dart';
@@ -47,11 +53,12 @@ class AppInjector {
       /// Core Services
       ..registerSingleton<HiveService>(HiveService())
       ..registerLazySingleton<HttpApiClient>(HttpApiClient.new)
-      ..registerLazySingleton(FirebaseAuthService.new)
-      ..registerLazySingleton(ConnectivityService.new)
-      ..registerLazySingleton(DeviceInfoService.new)
-      ..registerLazySingleton(ImagePickerService.new)
-      ..registerLazySingleton(OcrService.new)
+      ..registerLazySingleton<FirebaseAuthService>(FirebaseAuthService.new)
+      ..registerLazySingleton<ConnectivityService>(ConnectivityService.new)
+      ..registerLazySingleton<DeviceInfoService>(DeviceInfoService.new)
+      ..registerLazySingleton<ImagePickerService>(ImagePickerService.new)
+      ..registerLazySingleton<OcrService>(OcrService.new)
+      ..registerLazySingleton<ThemeController>(ThemeController.new)
       ..registerLazySingleton<AuthGuard>(
         () => AuthGuard(firebaseAuthService: getIt<FirebaseAuthService>()),
       )
@@ -92,6 +99,11 @@ class AppInjector {
           imagePickerService: getIt<ImagePickerService>(),
         ),
       )
+      ..registerSingleton<SettingsRemoteDataSource>(
+        SettingsRemoteDataSourceImpl(
+          firebaseAuthService: getIt<FirebaseAuthService>(),
+        ),
+      )
       ///Repo
       ..registerLazySingleton<GoogleSignInSignUpRemoteRepo>(
         () => GoogleSignInSignUpRemoteRepoImpl(
@@ -118,6 +130,11 @@ class AppInjector {
       ..registerSingleton<OcrRepository>(
         OcrRepositoryImpl(ocrDataSource: getIt<OcrDataSource>()),
       )
+      ..registerSingleton<SettingsRepository>(
+        SettingsRepositoryImpl(
+          remoteDataSource: getIt<SettingsRemoteDataSource>(),
+        ),
+      )
       ///USE CASES
       ..registerLazySingleton<GoogleSignInSignUpRemoteUseCase>(
         () => GoogleSignInSignUpRemoteUseCase(
@@ -137,6 +154,9 @@ class AppInjector {
       )
       ..registerSingleton<OcrUseCase>(
         OcrUseCase(ocrRepository: getIt<OcrRepository>()),
+      )
+      ..registerSingleton<SettingsUseCase>(
+        SettingsUseCase(repository: getIt<SettingsRepository>()),
       )
       ///BLOCS
       ..registerFactory(
@@ -158,6 +178,9 @@ class AppInjector {
       ..registerFactory<ResultBloc>(ResultBloc.new)
       ..registerFactory<QrScanningBloc>(
         () => QrScanningBloc(imagePickerService: getIt<ImagePickerService>()),
+      )
+      ..registerFactory<SettingsBloc>(
+        () => SettingsBloc(settingsUseCase: getIt<SettingsUseCase>()),
       )
       ..registerFactory<OcrBloc>(() => OcrBloc(ocrUseCase: getIt<OcrUseCase>()))
       ..registerFactory<ResultSavingBloc>(

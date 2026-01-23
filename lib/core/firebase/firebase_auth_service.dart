@@ -104,6 +104,36 @@ class FirebaseAuthService {
     }
   }
 
+  /// Get currently signed-in Firebase user
+  /// Contains name, email, photoURL, uid to display in settings
+  Future<Either<Failure, User>> getCurrentUser() async {
+    try {
+      final User? user = auth.currentUser;
+
+      if (user == null) {
+        return const Left<Failure, User>(
+          Failure(message: 'No user is currently signed in'),
+        );
+      }
+
+      return Right<Failure, User>(user);
+    } on FirebaseAuthException catch (e) {
+      return Left<Failure, User>(
+        Failure(
+          message: 'Firebase error: ${e.message} \n errorCode: ${e.code}',
+        ),
+      );
+    } on FirebaseException catch (e) {
+      return Left<Failure, User>(
+        Failure(
+          message: 'Firebase error: ${e.message} \n errorCode: ${e.code}',
+        ),
+      );
+    } on Exception catch (e) {
+      return Left<Failure, User>(Failure(message: 'Unexpected error: $e'));
+    }
+  }
+
   /// Used to get currently signed-in user id
   Future<Either<Failure, String>> getCurrentUserId() async {
     try {
@@ -137,12 +167,9 @@ class FirebaseAuthService {
   /// This token has permission to access Google Sheets and Drive APIs
   Future<Either<Failure, String>> getGoogleAccessToken() async {
     try {
-      // Try to restore previous sign-in session silently
       GoogleSignInAccount? googleUser = googleSignIn.currentUser;
 
-      if (googleUser == null) {
-        googleUser = await googleSignIn.signInSilently();
-      }
+      googleUser ??= await googleSignIn.signInSilently();
 
       if (googleUser == null) {
         return const Left<Failure, String>(

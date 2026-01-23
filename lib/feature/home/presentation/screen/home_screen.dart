@@ -1,13 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
+import 'package:qr_scanner_practice/core/constants/asset_constants.dart';
+
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
+import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
 import 'package:qr_scanner_practice/feature/home/presentation/bloc/home_screen_bloc/home_screen_bloc.dart';
-import 'package:qr_scanner_practice/feature/home/presentation/widgets/action_buttons_section.dart';
-import 'package:qr_scanner_practice/feature/home/presentation/widgets/qr_icon_section.dart';
-import 'package:qr_scanner_practice/feature/home/presentation/widgets/qr_title_section.dart';
+import 'package:qr_scanner_practice/feature/home/presentation/widgets/home_screen_app_bar.dart';
+import 'package:qr_scanner_practice/feature/home/presentation/widgets/home_screen_option_item_card.dart';
 import 'package:qr_scanner_practice/feature/home/presentation/widgets/sync_status_banner.dart';
 
 @RoutePage()
@@ -58,8 +59,8 @@ class HomeScreenViewState extends State<HomeScreenView>
     return BlocListener<HomeScreenBloc, HomeScreenState>(
       listener: _handleStateChanges,
       child: Scaffold(
+        appBar: const HomeScreenAppBar(),
         backgroundColor: context.appColors.scaffoldBackground,
-        appBar: _buildAppBar(context),
         body: RefreshIndicator(
           onRefresh: () async {
             context.read<HomeScreenBloc>().add(const OnHomeRefreshSheets());
@@ -68,14 +69,27 @@ class HomeScreenViewState extends State<HomeScreenView>
           backgroundColor: context.appColors.textInversePrimary,
           child: ListView(
             padding: const EdgeInsets.all(24),
-            children: const <Widget>[
-              SyncStatusBanner(),
-              SizedBox(height: 32),
-              QrIconSection(),
-              SizedBox(height: 32),
-              QrTitleSection(),
-              SizedBox(height: 48),
-              ActionButtonsSection(),
+            children: <Widget>[
+              const SyncStatusBanner(),
+              const SizedBox(height: 12),
+              HomeScreenOptionItemCard(
+                iconPath: AppAssets.qrIc,
+                title: context.locale.scanQrCode,
+                subtitle: context.locale.pointCameraAtQrCodeToScanInstantly,
+                onPressed: () {
+                  context.router.push(const QrScanningRoute());
+                },
+              ),
+              const SizedBox(height: 12),
+              HomeScreenOptionItemCard(
+                duration: const Duration(milliseconds: 2500),
+                iconPath: AppAssets.ocrIc,
+                title: context.locale.extractTextOcr,
+                subtitle: context.locale.extractTextFromImagesOrCamera,
+                onPressed: () {
+                  context.router.push(const OcrRoute());
+                },
+              ),
             ],
           ),
         ),
@@ -126,76 +140,6 @@ class HomeScreenViewState extends State<HomeScreenView>
         backgroundColor: bgColor,
         duration: const Duration(seconds: 2),
       ),
-    );
-  }
-
-  PreferredSizeWidget _buildAppBar(final BuildContext context) {
-    return AppBar(
-      backgroundColor: context.appColors.textInversePrimary,
-      elevation: 0,
-      title: Text(
-        context.locale.qrScanner,
-        style: AppTextStyles.airbnbCerealW500S18Lh24Ls0.copyWith(
-          color: context.appColors.textPrimary,
-        ),
-      ),
-      centerTitle: true,
-      actions: <Widget>[
-        BlocSelector<
-          HomeScreenBloc,
-          HomeScreenState,
-          ({int pendingCount, bool isSyncing})
-        >(
-          selector: (final HomeScreenState state) => (
-            pendingCount: state.pendingSyncCount,
-            isSyncing: state.isSyncing,
-          ),
-          builder:
-              (
-                final BuildContext context,
-                final ({bool isSyncing, int pendingCount}) data,
-              ) {
-                if (data.pendingCount == 0) {
-                  return const SizedBox.shrink();
-                }
-
-                return Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Center(
-                    child: data.isSyncing
-                        ? SizedBox(
-                            width: 24,
-                            height: 24,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                context.appColors.iconPrimary,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: context.appColors.semanticsIconError
-                                  .withAlpha(51),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Text(
-                              '${data.pendingCount}',
-                              style: AppTextStyles.airbnbCerealW400S12Lh16
-                                  .copyWith(
-                                    color: context.appColors.semanticsIconError,
-                                  ),
-                            ),
-                          ),
-                  ),
-                );
-              },
-        ),
-      ],
     );
   }
 }

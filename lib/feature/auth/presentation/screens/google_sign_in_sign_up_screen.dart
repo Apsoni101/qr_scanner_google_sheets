@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
 import 'package:qr_scanner_practice/core/constants/asset_constants.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
@@ -10,6 +9,7 @@ import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
 import 'package:qr_scanner_practice/feature/auth/presentation/bloc/google_sign_in_sign_up_bloc/google_sign_in_sign_up_bloc.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/elevated_svg_icon_button.dart';
 
 @RoutePage()
 class GoogleSignInSignUpScreen extends StatefulWidget {
@@ -22,115 +22,121 @@ class GoogleSignInSignUpScreen extends StatefulWidget {
 
 class _GoogleSignInSignUpScreenState extends State<GoogleSignInSignUpScreen> {
   @override
-  Widget build(
-    final BuildContext context,
-  ) => BlocProvider<GoogleSignInSignUpBloc>(
-    create: (final BuildContext context) =>
-        AppInjector.getIt<GoogleSignInSignUpBloc>(),
-    child: BlocListener<GoogleSignInSignUpBloc, GoogleSignInSignUpState>(
-      listener:
-          (
-            final BuildContext context,
-            final GoogleSignInSignUpState state,
-          ) async {
-            if (state is LoginError) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.message)));
-            }
-            if (state is LoginSuccess) {
-              await context.router.replace(
-                const DashboardRouter(
-                  children: <PageRouteInfo<Object?>>[HomeRoute()],
+  Widget build(final BuildContext context) {
+    return BlocProvider<GoogleSignInSignUpBloc>(
+      create: (final BuildContext context) =>
+          AppInjector.getIt<GoogleSignInSignUpBloc>(),
+      child: BlocListener<GoogleSignInSignUpBloc, GoogleSignInSignUpState>(
+        listener:
+            (
+              final BuildContext context,
+              final GoogleSignInSignUpState state,
+            ) async {
+              if (state is LoginError) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+              }
+              if (state is LoginSuccess) {
+                await context.router.replace(
+                  const DashboardRouter(
+                    children: <PageRouteInfo<Object?>>[HomeRoute()],
+                  ),
+                );
+              }
+            },
+        child: Scaffold(
+          backgroundColor: context.appColors.scaffoldBackground,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                const Spacer(),
+                Image.asset(
+                  AppAssets.appLogoRoundedCorners,
+                  height: MediaQuery.heightOf(context) * 0.14,
                 ),
-              );
-            }
-          },
-      child: Scaffold(
-        backgroundColor: context.appColors.scaffoldBackground,
-        body: Padding(
-          padding: const EdgeInsets.all(30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Icon(Icons.login, size: 80, color: context.appColors.iconPrimary),
-              const SizedBox(height: 40),
-              Text(
-                context.locale.welcomeBack,
-                style: AppTextStyles.airbnbCerealW700S24Lh32LsMinus1.copyWith(
-                  color: context.appColors.textPrimary,
+                const SizedBox(height: 20),
+                Text(
+                  context.locale.appName,
+                  style: AppTextStyles.interW600S36Lh48Ls0.copyWith(
+                    color: context.appColors.textPrimary,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-              ),
-              const SizedBox(height: 16),
-              Text(
-                context.locale.signInWithGoogle,
-                style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
-                  color: context.appColors.textSecondary,
+                const SizedBox(height: 8),
+                Text(
+                  context.locale.scanExtractSave,
+                  style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
+                    color: context.appColors.textSecondary,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 48),
-              BlocSelector<
-                GoogleSignInSignUpBloc,
-                GoogleSignInSignUpState,
-                bool
-              >(
-                selector: (final GoogleSignInSignUpState state) =>
-                    state is LoginLoading,
-                builder: (final BuildContext context, final bool isLoading) {
-                  return SizedBox(
-                    width: double.infinity,
-                    height: 56,
-                    child: ElevatedButton.icon(
-                      onPressed: isLoading
-                          ? null
-                          : () {
-                              context.read<GoogleSignInSignUpBloc>().add(
-                                const OnGoogleLoginEvent(),
-                              );
-                            },
-                      icon: isLoading
-                          ? SizedBox(
-                              width: 20,
-                              height: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  context.appColors.textInversePrimary,
-                                ),
-                              ),
-                            )
-                          : SvgPicture.asset(
-                              AppAssets.googleIc,
-                              height: 24,
-                              width: 24,
-                            ),
-                      label: Text(
-                        isLoading
-                            ? context.locale.signingIn
-                            : context.locale.signInWithGoogle,
-                        style: AppTextStyles.airbnbCerealW500S14Lh20Ls0
-                            .copyWith(color: context.appColors.textPrimary),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: context.appColors.textInversePrimary,
-                        foregroundColor: context.appColors.textPrimary,
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          side: BorderSide(
-                            color: context.appColors.borderInputDefault,
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
+                const SizedBox(height: 32),
+                Text(
+                  context.locale.welcome,
+                  style: AppTextStyles.airbnbCerealW600S20Lh28Ls0.copyWith(
+                    color: context.appColors.textPrimary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  context.locale.signInToSyncYourScansAcrossDevices,
+                  style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
+                    color: context.appColors.textSecondary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 16),
+                BlocSelector<
+                  GoogleSignInSignUpBloc,
+                  GoogleSignInSignUpState,
+                  bool
+                >(
+                  selector: (final GoogleSignInSignUpState state) =>
+                      state is LoginLoading,
+                  builder: (final BuildContext context, final bool isLoading) {
+                    return ElevatedSvgIconButton(
+                      isLoading: isLoading,
+                      icon: AppAssets.googleIc,
+                      label: context.locale.continueWithGoogle,
+                      backgroundColor: context.appColors.primaryDefault,
+                      onPressed: () {
+                        context.read<GoogleSignInSignUpBloc>().add(
+                          const OnGoogleLoginEvent(),
+                        );
+                      },
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  context
+                      .locale
+                      .newUserSameButtonCreatesYourAccountAutomatically,
+                  style: AppTextStyles.airbnbCerealW400S12Lh16Ls0.copyWith(
+                    color: context.appColors.textSecondary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const Spacer(),
+                Text(
+                  context
+                      .locale
+                      .byContinuingYouAgreeToOurTermsOfServiceAndPrivacyPolicy,
+                  style: AppTextStyles.interW400S12Lh16Ls0.copyWith(
+                    color: context.appColors.textSecondary,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

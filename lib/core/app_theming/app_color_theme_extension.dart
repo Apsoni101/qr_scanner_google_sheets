@@ -54,6 +54,10 @@ class AppColorThemeExtension extends ThemeExtension<AppColorThemeExtension> {
     required this.splashLogoTint,
     required this.splashText,
     required this.splashIndicator,
+    required this.switchActiveTrack,
+    required this.switchActiveThumb,
+    required this.switchInactiveTrack,
+    required this.switchInactiveThumb,
   });
 
   final Color primaryDefault;
@@ -105,6 +109,10 @@ class AppColorThemeExtension extends ThemeExtension<AppColorThemeExtension> {
   final Color splashLogoTint;
   final Color splashText;
   final Color splashIndicator;
+  final Color switchActiveTrack;
+  final Color switchActiveThumb;
+  final Color switchInactiveTrack;
+  final Color switchInactiveThumb;
 
   @override
   ThemeExtension<AppColorThemeExtension> copyWith({
@@ -157,6 +165,10 @@ class AppColorThemeExtension extends ThemeExtension<AppColorThemeExtension> {
     final Color? splashLogoTint,
     final Color? splashText,
     final Color? splashIndicator,
+    final Color? switchActiveTrack,
+    final Color? switchActiveThumb,
+    final Color? switchInactiveTrack,
+    final Color? switchInactiveThumb,
   }) {
     return AppColorThemeExtension(
       primaryDefault: primaryDefault ?? this.primaryDefault,
@@ -214,6 +226,10 @@ class AppColorThemeExtension extends ThemeExtension<AppColorThemeExtension> {
       splashLogoTint: splashLogoTint ?? this.splashLogoTint,
       splashText: splashText ?? this.splashText,
       splashIndicator: splashIndicator ?? this.splashIndicator,
+      switchActiveTrack: switchActiveTrack ?? this.switchActiveTrack,
+      switchActiveThumb: switchActiveThumb ?? this.switchActiveThumb,
+      switchInactiveTrack: switchInactiveTrack ?? this.switchInactiveTrack,
+      switchInactiveThumb: switchInactiveThumb ?? this.switchInactiveThumb,
     );
   }
 
@@ -373,6 +389,10 @@ class AppColorThemeExtension extends ThemeExtension<AppColorThemeExtension> {
       splashLogoTint: Color.lerp(splashLogoTint, other.splashLogoTint, t)!,
       splashText: Color.lerp(splashText, other.splashText, t)!,
       splashIndicator: Color.lerp(splashIndicator, other.splashIndicator, t)!,
+      switchActiveTrack: Color.lerp(switchActiveTrack, other.switchActiveTrack, t)!,
+      switchActiveThumb: Color.lerp(switchActiveThumb, other.switchActiveThumb, t)!,
+      switchInactiveTrack: Color.lerp(switchInactiveTrack, other.switchInactiveTrack, t)!,
+      switchInactiveThumb: Color.lerp(switchInactiveThumb, other.switchInactiveThumb, t)!,
     );
   }
 }

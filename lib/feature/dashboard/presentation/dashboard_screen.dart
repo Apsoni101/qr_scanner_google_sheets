@@ -18,30 +18,41 @@ class DashboardScreen extends StatelessWidget {
         ViewScansHistoryRoute(),
       ],
       bottomNavigationBuilder: (_, final TabsRouter tabsRouter) {
-        return BottomNavigationBar(
-          elevation: 8,
-          onTap: tabsRouter.setActiveIndex,
-          selectedItemColor: context.appColors.primaryDefault,
-          type: BottomNavigationBarType.fixed,
-          currentIndex: tabsRouter.activeIndex,
-          selectedFontSize: 12,
-          backgroundColor: context.appColors.bottomNavBackground,
-          selectedLabelStyle: AppTextStyles.interW700S12Lh16,
-          unselectedLabelStyle: AppTextStyles.interW700S12Lh16,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              label: context.locale.home,
-              icon: BottomNavIcon(
-                iconPath: AppAssets.homeIc,
-                isActive: tabsRouter.activeIndex == 0,
-              ),
-            ),
-            BottomNavigationBarItem(
-              label: context.locale.home,
-              icon: BottomNavIcon(
-                iconPath: AppAssets.viewHistoryIc,
-                isActive: tabsRouter.activeIndex == 1,
-              ),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Divider(height: 1, color: context.appColors.separator),
+            BottomNavigationBar(
+              onTap: tabsRouter.setActiveIndex,
+              type: BottomNavigationBarType.fixed,
+              currentIndex: tabsRouter.activeIndex,
+
+              selectedFontSize: 12,
+              backgroundColor: context.appColors.bottomNavBackground,
+              selectedItemColor: context.appColors.primaryDefault,
+              unselectedItemColor: context.appColors.textSecondary,
+              selectedLabelStyle: AppTextStyles.interW700S12Lh16,
+              unselectedLabelStyle: AppTextStyles.interW700S12Lh16,
+              items: <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  label: context.locale.home,
+                  icon: BottomNavIcon(
+                    iconPath: AppAssets.homeIc,
+                    isActive: tabsRouter.activeIndex == 0,
+                    activeColor: context.appColors.primaryDefault,
+                    inactiveColor: context.appColors.textSecondary,
+                  ),
+                ),
+                BottomNavigationBarItem(
+                  label: context.locale.history,
+                  icon: BottomNavIcon(
+                    iconPath: AppAssets.viewHistoryIc,
+                    isActive: tabsRouter.activeIndex == 1,
+                    activeColor: context.appColors.primaryDefault,
+                    inactiveColor: context.appColors.textSecondary,
+                  ),
+                ),
+              ],
             ),
           ],
         );

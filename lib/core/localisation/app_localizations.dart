@@ -118,6 +118,192 @@ abstract class AppLocalizations {
   /// **'History'**
   String get history;
 
+  /// No description provided for @scanQrCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan QR Code'**
+  String get scanQrCode;
+
+  /// No description provided for @pointCameraAtQrCodeToScanInstantly.
+  ///
+  /// In en, this message translates to:
+  /// **'Point camera at a QR code to scan instantly'**
+  String get pointCameraAtQrCodeToScanInstantly;
+
+  /// No description provided for @pointCameraToScanQr.
+  ///
+  /// In en, this message translates to:
+  /// **'Point your camera at a QR code to scan'**
+  String get pointCameraToScanQr;
+
+  /// No description provided for @extractTextOcr.
+  ///
+  /// In en, this message translates to:
+  /// **'Extract Text (OCR)'**
+  String get extractTextOcr;
+
+  /// No description provided for @extractTextFromImagesOrCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Extract text from images or camera'**
+  String get extractTextFromImagesOrCamera;
+
+  /// No description provided for @welcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get welcome;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
+
+  /// No description provided for @version1.
+  ///
+  /// In en, this message translates to:
+  /// **'Version 1.0.0'**
+  String get version1;
+
+  /// No description provided for @signInToSyncYourScansAcrossDevices.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to sync your scans across devices'**
+  String get signInToSyncYourScansAcrossDevices;
+
+  /// No description provided for @signingIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing in...'**
+  String get signingIn;
+
+  /// No description provided for @continueWithGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get continueWithGoogle;
+
+  /// No description provided for @newUserSameButtonCreatesYourAccountAutomatically.
+  ///
+  /// In en, this message translates to:
+  /// **'New user? The same button creates your account automatically'**
+  String get newUserSameButtonCreatesYourAccountAutomatically;
+
+  /// No description provided for @failedToSignInPleaseTryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to sign in. Please try again.'**
+  String get failedToSignInPleaseTryAgain;
+
+  /// No description provided for @byContinuingYouAgreeToOurTermsOfServiceAndPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing, you agree to our Terms of Service and Privacy Policy'**
+  String get byContinuingYouAgreeToOurTermsOfServiceAndPrivacyPolicy;
+
+  /// No description provided for @appearance.
+  ///
+  /// In en, this message translates to:
+  /// **'APPEARANCE'**
+  String get appearance;
+
+  /// No description provided for @theme.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get theme;
+
+  /// No description provided for @dark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get dark;
+
+  /// No description provided for @light.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get light;
+
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get english;
+
+  /// No description provided for @account.
+  ///
+  /// In en, this message translates to:
+  /// **'ACCOUNT'**
+  String get account;
+
+  /// No description provided for @errorLoadingUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading user'**
+  String get errorLoadingUser;
+
+  /// No description provided for @user.
+  ///
+  /// In en, this message translates to:
+  /// **'User'**
+  String get user;
+
+  /// No description provided for @noEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'No email'**
+  String get noEmail;
+
+  /// No description provided for @signedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Signed Out'**
+  String get signedOut;
+
+  /// No description provided for @youHaveBeenSignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'You have been signed out'**
+  String get youHaveBeenSignedOut;
+
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'ABOUT'**
+  String get about;
+
+  /// No description provided for @logOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get logOut;
+
+  /// No description provided for @privacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyPolicy;
+
+  /// No description provided for @termsOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsOfService;
+
+  /// No description provided for @helpAndSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Help & Support'**
+  String get helpAndSupport;
+
   /// No description provided for @createAccount.
   ///
   /// In en, this message translates to:
@@ -154,12 +340,6 @@ abstract class AppLocalizations {
   /// **'Sign in with your Google account'**
   String get signInWithGoogle;
 
-  /// No description provided for @signingIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Signing in...'**
-  String get signingIn;
-
   /// No description provided for @loginSuccess.
   ///
   /// In en, this message translates to:
@@ -189,18 +369,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upload from Gallery'**
   String get uploadFromGallery;
-
-  /// No description provided for @scanQrCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan QR Code'**
-  String get scanQrCode;
-
-  /// No description provided for @pointCameraToScanQr.
-  ///
-  /// In en, this message translates to:
-  /// **'Point your camera at a QR code to scan'**
-  String get pointCameraToScanQr;
 
   /// Label for the button to view history
   ///

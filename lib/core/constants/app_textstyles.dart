@@ -77,4 +77,76 @@ class AppTextStyles {
     height: 16 / 12,
     decoration: TextDecoration.none,
   );
+  static const TextStyle interW700S22Lh28Ls0 = TextStyle(
+    fontFamily: fontFamilyInter,
+    fontWeight: FontWeight.w700,
+    fontSize: 22,
+    height: 28 / 20,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
+  static const TextStyle airbnbCerealW600S18Lh24Ls0 = TextStyle(
+    fontFamily: fontFamilyAirBnbCreal,
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
+    height: 24 / 18,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
+  static const TextStyle interW400S14Lh20Ls0_2 = TextStyle(
+    fontFamily: fontFamilyInter,
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    height: 20 / 14,
+    letterSpacing: 0.2,
+    decoration: TextDecoration.none,
+  );
+  static const TextStyle interW400S12Lh16Ls0 = TextStyle(
+    fontFamily: fontFamilyInter,
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    height: 16 / 12,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
+  static const TextStyle airbnbCerealW600S20Lh28Ls0 = TextStyle(
+    fontFamily: fontFamilyAirBnbCreal,
+    fontWeight: FontWeight.w600,
+    fontSize: 20,
+    height: 28 / 20,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
+  static const TextStyle airbnbCerealW400S12Lh16Ls0 = TextStyle(
+    fontFamily: fontFamilyAirBnbCreal,
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    height: 16 / 12,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
+  static const TextStyle airbnbCerealW500S16Lh24Ls0 = TextStyle(
+    fontFamily: fontFamilyAirBnbCreal,
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    height: 24 / 16,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
+  static const TextStyle airbnbCerealW600S16Lh24Ls0 = TextStyle(
+    fontFamily: fontFamilyAirBnbCreal,
+    fontWeight: FontWeight.w600,
+    fontSize: 16,
+    height: 24 / 16,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
+  static const TextStyle airbnbCerealW600S14Lh20Ls0 = TextStyle(
+    fontFamily: fontFamilyAirBnbCreal,
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+    height: 20 / 14,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
 }
