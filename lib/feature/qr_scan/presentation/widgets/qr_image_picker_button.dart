@@ -16,25 +16,24 @@ class QrImagePickerButton extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return Column(
-      spacing: 4,
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        FloatingActionButton(
-          mini: true,
-          backgroundColor: onPressed != null
-              ? context.appColors.textInversePrimary
-              : context.appColors.textInversePrimary.withValues(alpha: 0.5),
-          onPressed: onPressed,
-          child: Icon(icon, color: context.appColors.textPrimary),
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        size: 24,
+        color: context.appColors.buttonSecondaryBackground,
+      ),
+      label: Text(
+        label,
+        style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
+          color: context.appColors.textInversePrimary,
         ),
-        Text(
-          label,
-          style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
-            color: context.appColors.textInversePrimary,
-          ),
-        ),
-      ],
+      ),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        backgroundColor: context.appColors.cameraOverlay,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      ),
     );
   }
 }

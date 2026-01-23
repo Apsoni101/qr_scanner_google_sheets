@@ -1,106 +1,199 @@
 import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
-/// Scanner overlay with semi-transparent background and corner indicators.
-/// Highlights the scanning area in the center of the screen.
-class QrScannerOverlay extends StatelessWidget {
-  const QrScannerOverlay({required this.screenSize, super.key});
+class QrScannerOverlay extends StatefulWidget {
+  const QrScannerOverlay({super.key});
 
-  final Size screenSize;
+  @override
+  State<QrScannerOverlay> createState() => _QrScannerOverlayState();
+}
+
+class _QrScannerOverlayState extends State<QrScannerOverlay>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(final BuildContext context) {
-    final double frameSize = screenSize.width * 0.65;
+    final double frameSize = MediaQuery.widthOf(context) * 0.65;
 
-    return CustomPaint(
-      size: screenSize,
-      painter: ScannerOverlayPainter(
-        frameSize: frameSize,
-        overlayColor: context.appColors.textPrimary.withValues(alpha: 0.65),
-        cornerColor: context.appColors.textInversePrimary,
-        screenSize: screenSize,
-      ),
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (_, final __) {
+        return CustomPaint(
+          size: Size(frameSize, frameSize),
+          painter: _ScannerOverlayPainter(
+            frameSize: frameSize,
+            color: context.appColors.primaryDefault,
+            scanProgress: _controller.value,
+          ),
+        );
+      },
     );
   }
 }
 
-class ScannerOverlayPainter extends CustomPainter {
-  ScannerOverlayPainter({
+class _ScannerOverlayPainter extends CustomPainter {
+  _ScannerOverlayPainter({
     required this.frameSize,
-    required this.overlayColor,
-    required this.cornerColor,
-    required this.screenSize,
+    required this.color,
+    required this.scanProgress,
   });
 
   final double frameSize;
-  final Color overlayColor;
-  final Color cornerColor;
-  final Size screenSize;
+  final Color color;
+  final double scanProgress;
 
-  late final double _cornerLength = frameSize * 0.108;
-  late final double _strokeWidth = frameSize * 0.015;
-  late final double _radius = frameSize * 0.046;
+  final double cornerRadius = 8;
+  final double edgeLength = 48;
 
   @override
   void paint(final Canvas canvas, final Size size) {
     final Offset center = size.center(Offset.zero);
 
-    final Rect rect = Rect.fromCenter(
+    final Rect frameRect = Rect.fromCenter(
       center: center,
       width: frameSize,
       height: frameSize,
     );
 
-    final RRect rRect = RRect.fromRectAndRadius(rect, Radius.circular(_radius));
+    _drawCorners(canvas, frameRect);
 
-    /// Dark overlay with transparent cut-out
-    final Path overlayPath = Path()
-      ..addRect(Rect.fromLTWH(0, 0, size.width, size.height))
-      ..addRRect(rRect)
-      ..fillType = PathFillType.evenOdd;
+    ///this is the moving scanner line
+    _drawScannerLine(canvas, frameRect);
+  }
 
-    canvas.drawPath(overlayPath, Paint()..color = overlayColor);
+  void _drawScannerLine(final Canvas canvas, final Rect rect) {
+    final double y = rect.top + rect.height * scanProgress;
 
-    /// Corner lines
+    final Rect lineRect = Rect.fromLTWH(rect.left, y, rect.width, 2);
+
     final Paint paint = Paint()
-      ..color = cornerColor
-      ..strokeWidth = _strokeWidth
+      ..shader = LinearGradient(
+        colors: <Color>[
+          Colors.transparent,
+          color.withValues(alpha: 0.9),
+          Colors.transparent,
+        ],
+      ).createShader(lineRect);
+
+    canvas.drawRect(lineRect, paint);
+  }
+
+  void _drawCorners(final Canvas canvas, final Rect rect) {
+    final Paint paint = Paint()
+      ..color = color
+      /// this determines the width of my fram of qr scanner
+      ..strokeWidth = frameSize * 0.010
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    void drawCorner(final Offset start, final Offset h, final Offset v) {
-      canvas
-        ..drawLine(start, start + h, paint)
-        ..drawLine(start, start + v, paint);
-    }
-
-    final double left = rect.left;
-    final double right = rect.right;
-    final double top = rect.top;
-    final double bottom = rect.bottom;
-
-    drawCorner(
-      Offset(left, top),
-      Offset(_cornerLength, 0),
-      Offset(0, _cornerLength),
-    );
-    drawCorner(
-      Offset(right, top),
-      Offset(-_cornerLength, 0),
-      Offset(0, _cornerLength),
-    );
-    drawCorner(
-      Offset(left, bottom),
-      Offset(_cornerLength, 0),
-      Offset(0, -_cornerLength),
-    );
-    drawCorner(
-      Offset(right, bottom),
-      Offset(-_cornerLength, 0),
-      Offset(0, -_cornerLength),
-    );
+    // ─── Top Left
+    canvas
+      ..drawArc(
+        Rect.fromLTWH(rect.left, rect.top, cornerRadius * 2, cornerRadius * 2),
+        3.14,
+        1.57,
+        false,
+        paint,
+      )
+      ..drawLine(
+        Offset(rect.left + cornerRadius, rect.top),
+        Offset(rect.left + cornerRadius + edgeLength, rect.top),
+        paint,
+      )
+      ..drawLine(
+        Offset(rect.left, rect.top + cornerRadius),
+        Offset(rect.left, rect.top + cornerRadius + edgeLength),
+        paint,
+      )
+      // ─── Top Right
+      ..drawArc(
+        Rect.fromLTWH(
+          rect.right - cornerRadius * 2,
+          rect.top,
+          cornerRadius * 2,
+          cornerRadius * 2,
+        ),
+        4.71,
+        1.57,
+        false,
+        paint,
+      )
+      ..drawLine(
+        Offset(rect.right - cornerRadius, rect.top),
+        Offset(rect.right - cornerRadius - edgeLength, rect.top),
+        paint,
+      )
+      ..drawLine(
+        Offset(rect.right, rect.top + cornerRadius),
+        Offset(rect.right, rect.top + cornerRadius + edgeLength),
+        paint,
+      )
+      // ─── Bottom Right
+      ..drawArc(
+        Rect.fromLTWH(
+          rect.right - cornerRadius * 2,
+          rect.bottom - cornerRadius * 2,
+          cornerRadius * 2,
+          cornerRadius * 2,
+        ),
+        0,
+        1.57,
+        false,
+        paint,
+      )
+      ..drawLine(
+        Offset(rect.right - cornerRadius, rect.bottom),
+        Offset(rect.right - cornerRadius - edgeLength, rect.bottom),
+        paint,
+      )
+      ..drawLine(
+        Offset(rect.right, rect.bottom - cornerRadius),
+        Offset(rect.right, rect.bottom - cornerRadius - edgeLength),
+        paint,
+      )
+      // ─── Bottom Left
+      ..drawArc(
+        Rect.fromLTWH(
+          rect.left,
+          rect.bottom - cornerRadius * 2,
+          cornerRadius * 2,
+          cornerRadius * 2,
+        ),
+        1.57,
+        1.57,
+        false,
+        paint,
+      )
+      ..drawLine(
+        Offset(rect.left + cornerRadius, rect.bottom),
+        Offset(rect.left + cornerRadius + edgeLength, rect.bottom),
+        paint,
+      )
+      ..drawLine(
+        Offset(rect.left, rect.bottom - cornerRadius),
+        Offset(rect.left, rect.bottom - cornerRadius - edgeLength),
+        paint,
+      );
   }
 
   @override
-  bool shouldRepaint(_) => false;
+  bool shouldRepaint(covariant final _ScannerOverlayPainter oldDelegate) {
+    return oldDelegate.scanProgress != scanProgress;
+  }
 }

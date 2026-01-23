@@ -7,8 +7,8 @@ import 'package:qr_scanner_practice/core/enums/result_type.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/bloc/qr_scanning_bloc/qr_scanning_bloc.dart';
+import 'package:qr_scanner_practice/feature/qr_scan/presentation/widgets/qr_image_picker_button.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/widgets/qr_scan_instruction_text.dart';
-import 'package:qr_scanner_practice/feature/qr_scan/presentation/widgets/qr_scan_source_buttons.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/widgets/qr_scanner_app_bar.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/widgets/qr_scanner_overlay.dart';
 
@@ -93,8 +93,6 @@ class QrScanningViewState extends State<QrScanningView> {
 
   @override
   Widget build(final BuildContext context) {
-    final Size screenSize = MediaQuery.sizeOf(context);
-
     return BlocListener<QrScanningBloc, QrScanningState>(
       listener: (final BuildContext context, final QrScanningState state) {
         if (state.error != null && state.imagePath == null) {
@@ -116,32 +114,65 @@ class QrScanningViewState extends State<QrScanningView> {
         appBar: QrScannerAppBar(controller: _controller),
         body: Stack(
           children: <Widget>[
-            MobileScanner(
-              controller: _controller,
-              onDetect: (final BarcodeCapture capture) {
-                final String? code = capture.barcodes.firstOrNull?.rawValue;
-                if (code != null && code.isNotEmpty) {
-                  _handleQrDetected(code);
-                }
-              },
-              errorBuilder:
-                  (
-                    final BuildContext context,
-                    final MobileScannerException error,
-                  ) {
-                    return Center(
-                      child: Text(_getErrorMessage(context, error)),
-                    );
-                  },
+            Positioned.fill(
+              child: MobileScanner(
+                controller: _controller,
+                onDetect: (final BarcodeCapture capture) {
+                  final String? code = capture.barcodes.firstOrNull?.rawValue;
+                  if (code != null && code.isNotEmpty) {
+                    _handleQrDetected(code);
+                  }
+                },
+                errorBuilder:
+                    (
+                      final BuildContext context,
+                      final MobileScannerException error,
+                    ) {
+                      return Center(
+                        child: Text(_getErrorMessage(context, error)),
+                      );
+                    },
+              ),
             ),
-            QrScannerOverlay(screenSize: screenSize),
-            Positioned(
-              bottom: screenSize.height * 0.175,
-              left: 0,
-              right: 0,
-              child: const Center(child: QrScanInstructionText()),
+            Positioned.fill(
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  children: <Widget>[
+                    const Spacer(),
+                    const QrScannerOverlay(),
+                    const SizedBox(height: 32),
+                    const QrScanInstructionText(),
+                    const Spacer(),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      spacing: 16,
+                      children: <Widget>[
+                        QrImagePickerButton(
+                          icon: Icons.file_upload_outlined,
+                          label: context.locale.uploadImage,
+                          onPressed: () {
+                            context.read<QrScanningBloc>().add(
+                              const ScanQrFromGalleryEvent(),
+                            );
+                          },
+                        ),
+                        QrImagePickerButton(
+                          icon: Icons.camera,
+                          label: context.locale.captureImage,
+                          onPressed: () {
+                            context.read<QrScanningBloc>().add(
+                              const ScanQrFromCameraEvent(),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
-            QrScanSourceButtons(controller: _controller),
           ],
         ),
       ),

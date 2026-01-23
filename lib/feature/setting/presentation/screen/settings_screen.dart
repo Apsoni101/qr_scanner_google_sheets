@@ -15,7 +15,7 @@ import 'package:qr_scanner_practice/feature/setting/presentation/widgets/languag
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_about_text_button_tile.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_action_tile.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_app_info_tile.dart';
-import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_section_card_content.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/rounded_corner_elevated_card.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_theme_switch.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/widgets/settings_user_info_tile.dart';
 
@@ -55,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                       ),
                       const SizedBox(height: 12),
-                      SettingsSectionCardContent(
+                      RoundedCornerElevatedCard(
                         child: SettingsActionTile(
                           title: context.locale.theme,
                           iconAsset: isDark
@@ -86,7 +86,7 @@ class SettingsScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                       ),
                       const SizedBox(height: 12),
-                      SettingsSectionCardContent(
+                      RoundedCornerElevatedCard(
                         child: SettingsActionTile(
                           title: context.locale.language,
                           iconAsset: AppAssets.languageGlobeIc,
@@ -117,7 +117,7 @@ class SettingsScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                       ),
                       const SizedBox(height: 12),
-                      const SettingsSectionCardContent(
+                      const RoundedCornerElevatedCard(
                         child: SettingsUserInfoTile(),
                       ),
                       const SizedBox(height: 24),
@@ -130,7 +130,7 @@ class SettingsScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                       ),
                       const SizedBox(height: 12),
-                      SettingsSectionCardContent(
+                      RoundedCornerElevatedCard(
                         child: ListView(
                           shrinkWrap: true,
                           children: <Widget>[
@@ -179,7 +179,7 @@ class SettingsScreen extends StatelessWidget {
                                 );
                               }
                             },
-                        child: SettingsSectionCardContent(
+                        child: RoundedCornerElevatedCard(
                           child: SettingsActionTile(
                             title: context.locale.logOut,
                             iconAsset: AppAssets.logOutIc,

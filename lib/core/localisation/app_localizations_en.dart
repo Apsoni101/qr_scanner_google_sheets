@@ -28,7 +28,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Point camera at a QR code to scan instantly';
 
   @override
-  String get pointCameraToScanQr => 'Point your camera at a QR code to scan';
+  String get pointYourCameraAtAQrCode => 'Point your camera at a QR code ';
 
   @override
   String get extractTextOcr => 'Extract Text (OCR)';
@@ -79,6 +79,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get light => 'Light';
+
+  @override
+  String get captureImage => 'Capture image';
+
+  @override
+  String get uploadImage => 'Upload Image';
 
   @override
   String get language => 'Language';
@@ -134,22 +140,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Upload an existing image to extract text';
 
   @override
-  String get createAccount => 'Create Account';
-
-  @override
-  String get signIn => 'Sign In';
-
-  @override
-  String get google => 'Google';
-
-  @override
   String get extractText => 'Extract Text';
 
   @override
   String get welcomeBack => 'Welcome Back';
-
-  @override
-  String get signInWithGoogle => 'Sign in with your Google account';
 
   @override
   String get loginSuccess => 'Login successful!';

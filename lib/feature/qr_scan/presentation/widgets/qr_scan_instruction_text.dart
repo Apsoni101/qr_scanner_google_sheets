@@ -7,25 +7,10 @@ class QrScanInstructionText extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final Size screenSize = MediaQuery.sizeOf(context);
-    final double horizontalPadding = screenSize.width * 0.064;
-    final double verticalPadding = screenSize.height * 0.015;
-    final double borderRadius = screenSize.width * 0.02;
-
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: horizontalPadding,
-        vertical: verticalPadding,
-      ),
-      decoration: BoxDecoration(
-        color: context.appColors.textPrimary.withValues(alpha: 0.6),
-        borderRadius: BorderRadius.circular(borderRadius),
-      ),
-      child: Text(
-        context.locale.pointCameraToScanQr,
-        style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
-          color: context.appColors.textInversePrimary,
-        ),
+    return Text(
+      context.locale.pointYourCameraAtAQrCode,
+      style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
+        color: context.appColors.textInversePrimary,
       ),
     );
   }

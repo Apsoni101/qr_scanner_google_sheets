@@ -130,11 +130,11 @@ abstract class AppLocalizations {
   /// **'Point camera at a QR code to scan instantly'**
   String get pointCameraAtQrCodeToScanInstantly;
 
-  /// No description provided for @pointCameraToScanQr.
+  /// No description provided for @pointYourCameraAtAQrCode.
   ///
   /// In en, this message translates to:
-  /// **'Point your camera at a QR code to scan'**
-  String get pointCameraToScanQr;
+  /// **'Point your camera at a QR code '**
+  String get pointYourCameraAtAQrCode;
 
   /// No description provided for @extractTextOcr.
   ///
@@ -225,6 +225,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Light'**
   String get light;
+
+  /// No description provided for @captureImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Capture image'**
+  String get captureImage;
+
+  /// No description provided for @uploadImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Image'**
+  String get uploadImage;
 
   /// No description provided for @language.
   ///
@@ -328,24 +340,6 @@ abstract class AppLocalizations {
   /// **'Upload an existing image to extract text'**
   String get uploadExistingImageToExtractText;
 
-  /// No description provided for @createAccount.
-  ///
-  /// In en, this message translates to:
-  /// **'Create Account'**
-  String get createAccount;
-
-  /// No description provided for @signIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign In'**
-  String get signIn;
-
-  /// No description provided for @google.
-  ///
-  /// In en, this message translates to:
-  /// **'Google'**
-  String get google;
-
   /// No description provided for @extractText.
   ///
   /// In en, this message translates to:
@@ -357,12 +351,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Welcome Back'**
   String get welcomeBack;
-
-  /// No description provided for @signInWithGoogle.
-  ///
-  /// In en, this message translates to:
-  /// **'Sign in with your Google account'**
-  String get signInWithGoogle;
 
   /// No description provided for @loginSuccess.
   ///

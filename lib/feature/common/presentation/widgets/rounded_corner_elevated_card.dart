@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
-class SettingsSectionCardContent extends StatelessWidget {
-  const SettingsSectionCardContent({required this.child, super.key});
+class RoundedCornerElevatedCard extends StatelessWidget {
+  const RoundedCornerElevatedCard({required this.child, super.key});
 
   final Widget child;
 
