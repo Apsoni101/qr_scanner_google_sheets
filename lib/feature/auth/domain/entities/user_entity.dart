@@ -27,7 +27,13 @@ class UserEntity extends Equatable {
   final String? profilePicture;
 
   @override
-  List<Object?> get props => <Object?>[uid, email, name, surname, profilePicture];
+  List<Object?> get props => <Object?>[
+    uid,
+    email,
+    name,
+    surname,
+    profilePicture,
+  ];
 
   /// Copy with method for entity
   UserEntity copyWith({

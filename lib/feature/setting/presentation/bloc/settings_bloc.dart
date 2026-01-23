@@ -7,7 +7,8 @@ part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc({required this.settingsUseCase}) : super(const SettingsLoading()) {
+  SettingsBloc({required this.settingsUseCase})
+    : super(const SettingsLoading()) {
     on<LoadSettingsEvent>(_onLoadSettings);
     on<SignOutEvent>(_onSignOut);
     on<SaveThemeModeEvent>(_onSaveThemeMode);
@@ -17,9 +18,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SettingsUseCase settingsUseCase;
 
   Future<void> _onLoadSettings(
-      LoadSettingsEvent event,
-      Emitter<SettingsState> emit,
-      ) async {
+    LoadSettingsEvent event,
+    Emitter<SettingsState> emit,
+  ) async {
     emit(const SettingsLoading());
 
     final userResult = await settingsUseCase.getCurrentUser();
@@ -27,33 +28,35 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final languageCode = settingsUseCase.getLanguage();
 
     userResult.fold(
-          (failure) => emit(SettingsError(message: failure.message)),
-          (user) => emit(SettingsLoaded(
-        user: user,
-        themeName: themeName,
-        languageCode: languageCode,
-      )),
+      (failure) => emit(SettingsError(message: failure.message)),
+      (user) => emit(
+        SettingsLoaded(
+          user: user,
+          themeName: themeName,
+          languageCode: languageCode,
+        ),
+      ),
     );
   }
 
   Future<void> _onSignOut(
-      SignOutEvent event,
-      Emitter<SettingsState> emit,
-      ) async {
+    SignOutEvent event,
+    Emitter<SettingsState> emit,
+  ) async {
     emit(const SettingsLoading());
 
     final result = await settingsUseCase.signOut();
 
     result.fold(
-          (failure) => emit(SettingsError(message: failure.message)),
-          (_) => emit(const SignOutSuccess()),
+      (failure) => emit(SettingsError(message: failure.message)),
+      (_) => emit(const SignOutSuccess()),
     );
   }
 
   Future<void> _onSaveThemeMode(
-      SaveThemeModeEvent event,
-      Emitter<SettingsState> emit,
-      ) async {
+    SaveThemeModeEvent event,
+    Emitter<SettingsState> emit,
+  ) async {
     await settingsUseCase.saveThemeMode(event.themeName);
 
     if (state is SettingsLoaded) {
@@ -63,9 +66,9 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<void> _onSaveLanguage(
-      SaveLanguageEvent event,
-      Emitter<SettingsState> emit,
-      ) async {
+    SaveLanguageEvent event,
+    Emitter<SettingsState> emit,
+  ) async {
     await settingsUseCase.saveLanguage(event.languageCode);
 
     if (state is SettingsLoaded) {

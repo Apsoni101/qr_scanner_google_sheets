@@ -389,10 +389,26 @@ class AppColorThemeExtension extends ThemeExtension<AppColorThemeExtension> {
       splashLogoTint: Color.lerp(splashLogoTint, other.splashLogoTint, t)!,
       splashText: Color.lerp(splashText, other.splashText, t)!,
       splashIndicator: Color.lerp(splashIndicator, other.splashIndicator, t)!,
-      switchActiveTrack: Color.lerp(switchActiveTrack, other.switchActiveTrack, t)!,
-      switchActiveThumb: Color.lerp(switchActiveThumb, other.switchActiveThumb, t)!,
-      switchInactiveTrack: Color.lerp(switchInactiveTrack, other.switchInactiveTrack, t)!,
-      switchInactiveThumb: Color.lerp(switchInactiveThumb, other.switchInactiveThumb, t)!,
+      switchActiveTrack: Color.lerp(
+        switchActiveTrack,
+        other.switchActiveTrack,
+        t,
+      )!,
+      switchActiveThumb: Color.lerp(
+        switchActiveThumb,
+        other.switchActiveThumb,
+        t,
+      )!,
+      switchInactiveTrack: Color.lerp(
+        switchInactiveTrack,
+        other.switchInactiveTrack,
+        t,
+      )!,
+      switchInactiveThumb: Color.lerp(
+        switchInactiveThumb,
+        other.switchInactiveThumb,
+        t,
+      )!,
     );
   }
 }

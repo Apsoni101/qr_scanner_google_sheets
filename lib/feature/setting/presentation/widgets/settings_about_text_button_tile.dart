@@ -22,8 +22,9 @@ class SettingsAboutTextButtonTile extends StatelessWidget {
       ),
       child: Text(
         title,
-        style: AppTextStyles.airbnbCerealW500S16Lh24Ls0
-            .copyWith(color: context.appColors.textPrimary),
+        style: AppTextStyles.airbnbCerealW500S16Lh24Ls0.copyWith(
+          color: context.appColors.textPrimary,
+        ),
       ),
     );
   }

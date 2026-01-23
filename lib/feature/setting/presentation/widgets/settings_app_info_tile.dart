@@ -12,11 +12,7 @@ class SettingsAppInfoTile extends StatelessWidget {
       tileColor: context.appColors.appBarBackground,
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(12),
-        child: Image.asset(
-          AppAssets.appLogoSmallIcon,
-          width: 40,
-          height: 40,
-        ),
+        child: Image.asset(AppAssets.appLogoSmallIcon, width: 40, height: 40),
       ),
       title: Text(
         context.locale.appName,

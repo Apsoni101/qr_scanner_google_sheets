@@ -5,18 +5,18 @@ import 'package:qr_scanner_practice/core/enums/language_enum.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
 class LanguageSelectionDialog extends StatelessWidget {
-
   const LanguageSelectionDialog({
-    required this.currentLanguage, required this.onLanguageSelected, super.key,
+    required this.currentLanguage,
+    required this.onLanguageSelected,
+    super.key,
   });
   final LanguageEnum currentLanguage;
   final void Function(LanguageEnum) onLanguageSelected;
 
   @override
   Widget build(final BuildContext context) {
-    final ValueNotifier<LanguageEnum> selectedLanguageNotifier = ValueNotifier<LanguageEnum>(
-      currentLanguage,
-    );
+    final ValueNotifier<LanguageEnum> selectedLanguageNotifier =
+        ValueNotifier<LanguageEnum>(currentLanguage);
 
     return Dialog(
       backgroundColor: context.appColors.cardBackground,
@@ -63,10 +63,7 @@ class _DialogTitle extends StatelessWidget {
 }
 
 class _LanguageList extends StatelessWidget {
-
-  const _LanguageList({
-    required this.selectedLanguageNotifier,
-  });
+  const _LanguageList({required this.selectedLanguageNotifier});
   final ValueNotifier<LanguageEnum> selectedLanguageNotifier;
 
   @override
@@ -74,43 +71,46 @@ class _LanguageList extends StatelessWidget {
     final double maxHeight = MediaQuery.heightOf(context) * 0.5;
 
     return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: maxHeight,
-      ),
+      constraints: BoxConstraints(maxHeight: maxHeight),
       child: ValueListenableBuilder<LanguageEnum>(
         valueListenable: selectedLanguageNotifier,
-        builder: (final BuildContext context, final LanguageEnum selectedLanguage, _) {
-          return ListView(
-            shrinkWrap: true,
-            children: LanguageEnum.values.map((final LanguageEnum language) {
-              return RadioListTile<LanguageEnum>(
-                value: language,
-                groupValue: selectedLanguage,
-                onChanged: (final LanguageEnum? value) {
-                  if (value != null) {
-                    selectedLanguageNotifier.value = value;
-                  }
-                },
-                title: Text(
-                  language.nativeName,
-                  style:
-                  AppTextStyles.airbnbCerealW500S16Lh24Ls0.copyWith(
-                    color: context.appColors.textPrimary,
-                  ),
-                ),
-                activeColor: context.appColors.primaryDefault,
-                contentPadding: EdgeInsets.zero,
+        builder:
+            (
+              final BuildContext context,
+              final LanguageEnum selectedLanguage,
+              _,
+            ) {
+              return ListView(
+                shrinkWrap: true,
+                children: LanguageEnum.values.map((
+                  final LanguageEnum language,
+                ) {
+                  return RadioListTile<LanguageEnum>(
+                    value: language,
+                    groupValue: selectedLanguage,
+                    onChanged: (final LanguageEnum? value) {
+                      if (value != null) {
+                        selectedLanguageNotifier.value = value;
+                      }
+                    },
+                    title: Text(
+                      language.nativeName,
+                      style: AppTextStyles.airbnbCerealW500S16Lh24Ls0.copyWith(
+                        color: context.appColors.textPrimary,
+                      ),
+                    ),
+                    activeColor: context.appColors.primaryDefault,
+                    contentPadding: EdgeInsets.zero,
+                  );
+                }).toList(),
               );
-            }).toList(),
-          );
-        },
+            },
       ),
     );
   }
 }
 
 class _DialogActions extends StatelessWidget {
-
   const _DialogActions({
     required this.selectedLanguageNotifier,
     required this.onConfirm,
@@ -138,25 +138,30 @@ class _DialogActions extends StatelessWidget {
         /// Confirm
         ValueListenableBuilder<LanguageEnum>(
           valueListenable: selectedLanguageNotifier,
-          builder: (final BuildContext context, final LanguageEnum selectedLanguage, _) {
-            return ElevatedButton(
-              onPressed: () {
-                onConfirm(selectedLanguage);
+          builder:
+              (
+                final BuildContext context,
+                final LanguageEnum selectedLanguage,
+                _,
+              ) {
+                return ElevatedButton(
+                  onPressed: () {
+                    onConfirm(selectedLanguage);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: context.appColors.primaryDefault,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text(
+                    context.locale.confirm,
+                    style: AppTextStyles.airbnbCerealW500S16Lh24Ls0.copyWith(
+                      color: context.appColors.textInversePrimary,
+                    ),
+                  ),
+                );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: context.appColors.primaryDefault,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: Text(
-                context.locale.confirm,
-                style: AppTextStyles.airbnbCerealW500S16Lh24Ls0.copyWith(
-                  color: context.appColors.textInversePrimary,
-                ),
-              ),
-            );
-          },
         ),
       ],
     );

@@ -7,8 +7,8 @@ class LanguageController extends ValueNotifier<LanguageEnum> {
   /// Save language
   Future<void> setLanguage(final LanguageEnum language) async {
     value = language;
-
   }
+
   /// Get current language name
   String get languageName => value.name;
 }

@@ -26,14 +26,12 @@ class SettingsRepositoryImpl implements SettingsRepository {
       localDataSource.saveThemeMode(themeName);
 
   @override
-  String getThemeMode() =>
-      localDataSource.getThemeMode() ?? 'system';
+  String getThemeMode() => localDataSource.getThemeMode() ?? 'system';
 
   @override
   Future<void> saveLanguage(String languageCode) =>
       localDataSource.saveLanguage(languageCode);
 
   @override
-  String getLanguage() =>
-      localDataSource.getLanguage() ?? 'en';
+  String getLanguage() => localDataSource.getLanguage() ?? 'en';
 }

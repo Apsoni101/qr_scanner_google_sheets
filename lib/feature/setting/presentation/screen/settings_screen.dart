@@ -68,12 +68,14 @@ class SettingsScreen extends StatelessWidget {
                           title: context.locale.theme,
                           iconAsset: AppAssets.lightThemeIc,
                           onPressed: () {
-                           final ThemeController themeController= AppInjector.getIt<ThemeController>()
-                           ..toggleTheme();
+                            final ThemeController themeController =
+                                AppInjector.getIt<ThemeController>()
+                                  ..toggleTheme();
                             final String themeName = themeController.themeName;
                             context.read<SettingsBloc>().add(
                               SaveThemeModeEvent(themeName: themeName),
-                            );                          },
+                            );
+                          },
                           trailingTitle: isDark
                               ? context.locale.dark
                               : context.locale.light,

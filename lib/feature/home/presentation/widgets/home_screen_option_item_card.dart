@@ -24,8 +24,7 @@ class HomeScreenOptionItemCard extends StatefulWidget {
       _HomeScreenOptionItemCardState();
 }
 
-class _HomeScreenOptionItemCardState
-    extends State<HomeScreenOptionItemCard>
+class _HomeScreenOptionItemCardState extends State<HomeScreenOptionItemCard>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<Offset> _slideAnimation;
@@ -34,21 +33,12 @@ class _HomeScreenOptionItemCardState
   void initState() {
     super.initState();
 
-    _controller = AnimationController(
-      vsync: this,
-      duration: widget.duration,
-    );
+    _controller = AnimationController(vsync: this, duration: widget.duration);
 
     _slideAnimation = Tween<Offset>(
       begin: const Offset(1, 0),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Curves.easeOut,
-      ),
-    );
-
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _controller.forward();
   }
@@ -64,16 +54,11 @@ class _HomeScreenOptionItemCardState
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        return SlideTransition(
-          position: _slideAnimation,
-          child: child,
-        );
+        return SlideTransition(position: _slideAnimation, child: child);
       },
       child: Card(
         elevation: 3,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         color: context.appColors.cardBackground,
         child: InkWell(
           onTap: widget.onPressed,
@@ -103,23 +88,17 @@ class _HomeScreenOptionItemCardState
                 Expanded(
                   child: ListView(
                     shrinkWrap: true,
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 4),
+                    padding: const EdgeInsets.symmetric(vertical: 4),
                     children: <Widget>[
                       Text(
                         widget.title,
-                        style: AppTextStyles
-                            .airbnbCerealW600S18Lh24Ls0
-                            .copyWith(
-                          color: context.appColors.textPrimary,
-                        ),
+                        style: AppTextStyles.airbnbCerealW600S18Lh24Ls0
+                            .copyWith(color: context.appColors.textPrimary),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         widget.subtitle,
-                        style: AppTextStyles
-                            .interW400S14Lh20Ls0_2
-                            .copyWith(
+                        style: AppTextStyles.interW400S14Lh20Ls0_2.copyWith(
                           color: context.appColors.textSecondary,
                         ),
                       ),
