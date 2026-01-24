@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/core/services/connectivity_service.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/feature/home/domain/use_case/home_screen_use_case.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 
 part 'home_screen_event.dart';
 

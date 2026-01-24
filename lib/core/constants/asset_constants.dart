@@ -11,6 +11,7 @@ class AppAssets {
   static const String ocrIc = 'assets/icons/ocr_file_icon.svg';
   static const String cameraIc = 'assets/icons/camera_icon.svg';
   static const String imageIc = 'assets/icons/image_icon.svg';
+  static const String sheetIc = 'assets/icons/sheet_icon.svg';
   static const String lightThemeIc = 'assets/icons/light_theme_icon.svg';
   static const String flashLightOffIc = 'assets/icons/flash_light_off_icon.svg';
   static const String flashLightOnIc = 'assets/icons/flash_light_on_icon.svg';

@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/domain/usecase/view_scans_history_remote_use_case.dart';
 
 part 'view_scans_history_screen_event.dart';

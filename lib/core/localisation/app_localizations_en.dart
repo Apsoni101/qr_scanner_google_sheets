@@ -41,6 +41,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcome => 'Welcome';
 
   @override
+  String get create => 'Create';
+
+  @override
+  String get reviewBeforeSaving => 'Review Before Saving';
+
+  @override
   String get settings => 'Settings';
 
   @override
@@ -176,6 +182,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get selectGoogleSheet => 'Select Google Sheet';
 
   @override
+  String get saveToSheet => 'Save to Sheet';
+
+  @override
   String get selectImagePrompt => 'Select an image to extract text';
 
   @override
@@ -185,7 +194,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get textCopiedToClipboard => 'Text copied to clipboard';
 
   @override
-  String get clearButtonLabel => 'Clear';
+  String get selectSheet => 'Select Sheet';
 
   @override
   String get cameraButtonLabel => 'Camera';
@@ -255,7 +264,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get newSheetNameTitle => 'New Sheet Name';
 
   @override
-  String get sheetNameHint => 'Enter sheet name (e.g., \"Scans - Jan 2024\")';
+  String get enterSheetName => 'Enter sheet name...';
 
   @override
   String get createSheetButton => 'Create Sheet';

@@ -26,11 +26,11 @@ import 'package:qr_scanner_practice/feature/ocr/presentation/screen/ocr_screen.d
     as _i6;
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/presentation/qr_scanner_screen.dart'
     as _i7;
-import 'package:qr_scanner_practice/feature/scan_result/presentation/screen/result_saving_screen.dart'
+import 'package:qr_scanner_practice/feature/scan_result/presentation/screen/scan_result_screen.dart'
     as _i8;
-import 'package:qr_scanner_practice/feature/scan_result/presentation/screen/result_screen.dart'
-    as _i9;
 import 'package:qr_scanner_practice/feature/setting/presentation/screen/settings_screen.dart'
+    as _i9;
+import 'package:qr_scanner_practice/feature/sheet_selection/presentation/screen/sheet_selection_screen.dart'
     as _i10;
 import 'package:qr_scanner_practice/feature/splash/presentation/screens/splash_screen.dart'
     as _i11;
@@ -150,79 +150,7 @@ class QrScanningRoute extends _i13.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.ResultSavingScreen]
-class ResultSavingRoute extends _i13.PageRouteInfo<ResultSavingRouteArgs> {
-  ResultSavingRoute({
-    required String data,
-    required String comment,
-    required _i14.ResultType resultType,
-    _i15.Key? key,
-    List<_i13.PageRouteInfo>? children,
-  }) : super(
-         ResultSavingRoute.name,
-         args: ResultSavingRouteArgs(
-           data: data,
-           comment: comment,
-           resultType: resultType,
-           key: key,
-         ),
-         initialChildren: children,
-       );
-
-  static const String name = 'ResultSavingRoute';
-
-  static _i13.PageInfo page = _i13.PageInfo(
-    name,
-    builder: (data) {
-      final args = data.argsAs<ResultSavingRouteArgs>();
-      return _i8.ResultSavingScreen(
-        data: args.data,
-        comment: args.comment,
-        resultType: args.resultType,
-        key: args.key,
-      );
-    },
-  );
-}
-
-class ResultSavingRouteArgs {
-  const ResultSavingRouteArgs({
-    required this.data,
-    required this.comment,
-    required this.resultType,
-    this.key,
-  });
-
-  final String data;
-
-  final String comment;
-
-  final _i14.ResultType resultType;
-
-  final _i15.Key? key;
-
-  @override
-  String toString() {
-    return 'ResultSavingRouteArgs{data: $data, comment: $comment, resultType: $resultType, key: $key}';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! ResultSavingRouteArgs) return false;
-    return data == other.data &&
-        comment == other.comment &&
-        resultType == other.resultType &&
-        key == other.key;
-  }
-
-  @override
-  int get hashCode =>
-      data.hashCode ^ comment.hashCode ^ resultType.hashCode ^ key.hashCode;
-}
-
-/// generated route for
-/// [_i9.ScanResultScreen]
+/// [_i8.ScanResultScreen]
 class ScanResultRoute extends _i13.PageRouteInfo<ScanResultRouteArgs> {
   ScanResultRoute({
     required String scanResult,
@@ -247,7 +175,7 @@ class ScanResultRoute extends _i13.PageRouteInfo<ScanResultRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<ScanResultRouteArgs>();
-      return _i9.ScanResultScreen(
+      return _i8.ScanResultScreen(
         scanResult: args.scanResult,
         resultType: args.resultType,
         previewImage: args.previewImage,
@@ -297,7 +225,7 @@ class ScanResultRouteArgs {
 }
 
 /// generated route for
-/// [_i10.SettingsScreen]
+/// [_i9.SettingsScreen]
 class SettingsRoute extends _i13.PageRouteInfo<void> {
   const SettingsRoute({List<_i13.PageRouteInfo>? children})
     : super(SettingsRoute.name, initialChildren: children);
@@ -307,9 +235,84 @@ class SettingsRoute extends _i13.PageRouteInfo<void> {
   static _i13.PageInfo page = _i13.PageInfo(
     name,
     builder: (data) {
-      return const _i10.SettingsScreen();
+      return const _i9.SettingsScreen();
     },
   );
+}
+
+/// generated route for
+/// [_i10.SheetSelectionScreen]
+class SheetSelectionRoute extends _i13.PageRouteInfo<SheetSelectionRouteArgs> {
+  SheetSelectionRoute({
+    required String scannedData,
+    required String userComment,
+    required _i14.ResultType scanResultType,
+    _i15.Key? key,
+    List<_i13.PageRouteInfo>? children,
+  }) : super(
+         SheetSelectionRoute.name,
+         args: SheetSelectionRouteArgs(
+           scannedData: scannedData,
+           userComment: userComment,
+           scanResultType: scanResultType,
+           key: key,
+         ),
+         initialChildren: children,
+       );
+
+  static const String name = 'SheetSelectionRoute';
+
+  static _i13.PageInfo page = _i13.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<SheetSelectionRouteArgs>();
+      return _i10.SheetSelectionScreen(
+        scannedData: args.scannedData,
+        userComment: args.userComment,
+        scanResultType: args.scanResultType,
+        key: args.key,
+      );
+    },
+  );
+}
+
+class SheetSelectionRouteArgs {
+  const SheetSelectionRouteArgs({
+    required this.scannedData,
+    required this.userComment,
+    required this.scanResultType,
+    this.key,
+  });
+
+  final String scannedData;
+
+  final String userComment;
+
+  final _i14.ResultType scanResultType;
+
+  final _i15.Key? key;
+
+  @override
+  String toString() {
+    return 'SheetSelectionRouteArgs{scannedData: $scannedData, userComment: $userComment, scanResultType: $scanResultType, key: $key}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! SheetSelectionRouteArgs) return false;
+    return scannedData == other.scannedData &&
+        userComment == other.userComment &&
+        scanResultType == other.scanResultType &&
+        key == other.key;
+  }
+
+  @override
+  int get hashCode =>
+      scannedData.hashCode ^
+      userComment.hashCode ^
+      scanResultType.hashCode ^
+      key.hashCode;
 }
 
 /// generated route for

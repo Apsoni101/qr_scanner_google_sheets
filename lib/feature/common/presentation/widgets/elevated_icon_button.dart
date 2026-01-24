@@ -7,30 +7,49 @@ class ElevatedIconButton extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.onPressed,
+    this.iconColor,
+    this.backgroundColor,
+    this.labelColor,
+    this.borderSide,
     super.key,
   });
 
   final IconData icon;
   final String label;
   final VoidCallback onPressed;
+  final Color? iconColor;
+  final Color? labelColor;
+  final Color? backgroundColor;
+  final BorderSide? borderSide;
 
   @override
   Widget build(final BuildContext context) {
+    final Color resolvedBgColor =
+        backgroundColor ?? context.appColors.iconPrimary;
+
+    final Color resolvedIconColor =
+        iconColor ?? context.appColors.textInversePrimary;
+
+    final Color resolvedLabelColor =
+        labelColor ?? context.appColors.textInversePrimary;
+
     return ElevatedButton.icon(
       onPressed: onPressed,
-      icon: Icon(icon, color: context.appColors.textInversePrimary),
+      icon: Icon(icon, color: resolvedIconColor),
       label: Text(
         label,
         style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-          color: context.appColors.textInversePrimary,
+          color: resolvedLabelColor,
         ),
       ),
       style: ElevatedButton.styleFrom(
-        backgroundColor: context.appColors.iconPrimary,
-        foregroundColor: context.appColors.textInversePrimary,
+        backgroundColor: resolvedBgColor,
         elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: borderSide ?? BorderSide.none,
+        ),
       ),
     );
   }

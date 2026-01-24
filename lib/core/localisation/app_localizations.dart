@@ -154,6 +154,18 @@ abstract class AppLocalizations {
   /// **'Welcome'**
   String get welcome;
 
+  /// No description provided for @create.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get create;
+
+  /// No description provided for @reviewBeforeSaving.
+  ///
+  /// In en, this message translates to:
+  /// **'Review Before Saving'**
+  String get reviewBeforeSaving;
+
   /// No description provided for @settings.
   ///
   /// In en, this message translates to:
@@ -412,6 +424,12 @@ abstract class AppLocalizations {
   /// **'Select Google Sheet'**
   String get selectGoogleSheet;
 
+  /// No description provided for @saveToSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Sheet'**
+  String get saveToSheet;
+
   /// No description provided for @selectImagePrompt.
   ///
   /// In en, this message translates to:
@@ -430,11 +448,11 @@ abstract class AppLocalizations {
   /// **'Text copied to clipboard'**
   String get textCopiedToClipboard;
 
-  /// No description provided for @clearButtonLabel.
+  /// No description provided for @selectSheet.
   ///
   /// In en, this message translates to:
-  /// **'Clear'**
-  String get clearButtonLabel;
+  /// **'Select Sheet'**
+  String get selectSheet;
 
   /// No description provided for @cameraButtonLabel.
   ///
@@ -562,11 +580,11 @@ abstract class AppLocalizations {
   /// **'New Sheet Name'**
   String get newSheetNameTitle;
 
-  /// No description provided for @sheetNameHint.
+  /// No description provided for @enterSheetName.
   ///
   /// In en, this message translates to:
-  /// **'Enter sheet name (e.g., \"Scans - Jan 2024\")'**
-  String get sheetNameHint;
+  /// **'Enter sheet name...'**
+  String get enterSheetName;
 
   /// No description provided for @createSheetButton.
   ///

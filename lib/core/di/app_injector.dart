@@ -25,13 +25,13 @@ import 'package:qr_scanner_practice/feature/ocr/domain/repo/ocr_repo.dart';
 import 'package:qr_scanner_practice/feature/ocr/domain/use_case/ocr_use_case.dart';
 import 'package:qr_scanner_practice/feature/ocr/presentation/bloc/ocr_bloc.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/bloc/qr_scanning_bloc/qr_scanning_bloc.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/data_source/scan_result_local_data_source.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/data_source/scan_result_remote_data_source.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/repo_impl/scan_result_repository_impl.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/repo/scan_result_repository.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/usecase/scan_result_use_case.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_local_data_source.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_remote_data_source.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/repo_impl/sheet_selection_repository_impl.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/repo/sheet_selection_repository.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/use_case/sheet_selection_use_case.dart';
 import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_bloc/result_bloc.dart';
-import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_saving_bloc/result_saving_bloc.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/presentation/bloc/sheet_selection_bloc.dart';
 import 'package:qr_scanner_practice/feature/setting/data/data_source/settings_local_data_source.dart';
 import 'package:qr_scanner_practice/feature/setting/data/data_source/settings_remote_data_source.dart';
 import 'package:qr_scanner_practice/feature/setting/data/repo_impl/settings_repository_impl.dart';
@@ -69,14 +69,16 @@ class AppInjector {
           authService: getIt<FirebaseAuthService>(),
         ),
       )
-      ..registerLazySingleton<ScanResultLocalDataSource>(
-        () => ScanResultLocalDataSourceImpl(hiveService: getIt<HiveService>()),
+      ..registerLazySingleton<SheetSelectionLocalDataSource>(
+        () => SheetSelectionLocalDataSourceImpl(
+          hiveService: getIt<HiveService>(),
+        ),
       )
       ..registerLazySingleton<HomeScreenLocalDataSource>(
         () => HomeScreenLocalDataSourceImpl(hiveService: getIt<HiveService>()),
       )
-      ..registerSingleton<ScanResultRemoteDataSource>(
-        ScanResultRemoteDataSourceImpl(
+      ..registerSingleton<SheetSelectionRemoteDataSource>(
+        SheetSelectionRemoteDataSourceImpl(
           apiClient: getIt<HttpApiClient>(),
           authService: getIt<FirebaseAuthService>(),
           deviceInfoService: getIt<DeviceInfoService>(),
@@ -114,10 +116,10 @@ class AppInjector {
           authRemoteDataSource: getIt<GoogleSignInSignUpRemoteDataSource>(),
         ),
       )
-      ..registerSingleton<ScanResultRepository>(
-        ScanResultRepositoryImpl(
-          remoteDataSource: getIt<ScanResultRemoteDataSource>(),
-          localDataSource: getIt<ScanResultLocalDataSource>(),
+      ..registerSingleton<SheetSelectionRepository>(
+        SheetSelectionRepositoryImpl(
+          remoteDataSource: getIt<SheetSelectionRemoteDataSource>(),
+          localDataSource: getIt<SheetSelectionLocalDataSource>(),
         ),
       )
       ..registerSingleton<HomeScreenRepository>(
@@ -146,8 +148,8 @@ class AppInjector {
           authRemoteRepo: getIt<GoogleSignInSignUpRemoteRepo>(),
         ),
       )
-      ..registerSingleton<ScanResultUseCase>(
-        ScanResultUseCase(repository: getIt<ScanResultRepository>()),
+      ..registerSingleton<SheetSelectionUseCase>(
+        SheetSelectionUseCase(repository: getIt<SheetSelectionRepository>()),
       )
       ..registerSingleton<HomeScreenUseCase>(
         HomeScreenUseCase(repository: getIt<HomeScreenRepository>()),
@@ -188,8 +190,8 @@ class AppInjector {
         () => SettingsBloc(settingsUseCase: getIt<SettingsUseCase>()),
       )
       ..registerFactory<OcrBloc>(() => OcrBloc(ocrUseCase: getIt<OcrUseCase>()))
-      ..registerFactory<ResultSavingBloc>(
-        () => ResultSavingBloc(useCase: getIt<ScanResultUseCase>()),
+      ..registerFactory<SheetSelectionBloc>(
+        () => SheetSelectionBloc(useCase: getIt<SheetSelectionUseCase>()),
       );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
 
 class PendingSyncEntity extends Equatable {
   const PendingSyncEntity({

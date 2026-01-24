@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/repo/scan_result_repository.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/repo/sheet_selection_repository.dart';
 
-class ScanResultUseCase {
-  const ScanResultUseCase({required this.repository});
+class SheetSelectionUseCase {
+  const SheetSelectionUseCase({required this.repository});
 
-  final ScanResultRepository repository;
+  final SheetSelectionRepository repository;
 
   // Local operations
   Future<Either<Failure, List<SheetEntity>>> getLocalSheets() =>

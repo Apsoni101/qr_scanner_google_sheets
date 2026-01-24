@@ -3,15 +3,16 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/usecase/scan_result_use_case.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/use_case/sheet_selection_use_case.dart';
 
-part 'result_saving_event.dart';
-part 'result_saving_state.dart';
+part 'sheet_selection_event.dart';
+part 'sheet_selection_state.dart';
 
-class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
-  ResultSavingBloc({required this.useCase})
+class SheetSelectionBloc
+    extends Bloc<SheetSelectionEvent, SheetSelectionState> {
+  SheetSelectionBloc({required this.useCase})
     : super(const ResultSavingInitial()) {
     on<OnConfirmationLoadSheets>(_onLoadSheets);
     on<OnConfirmationSheetSelected>(_onSheetSelected);
@@ -21,11 +22,11 @@ class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
     on<OnConfirmationSaveScan>(_onSaveScan);
   }
 
-  final ScanResultUseCase useCase;
+  final SheetSelectionUseCase useCase;
 
   Future<void> _onLoadSheets(
     final OnConfirmationLoadSheets event,
-    final Emitter<ResultSavingState> emit,
+    final Emitter<SheetSelectionState> emit,
   ) async {
     emit(state.copyWith(isLoadingSheets: true));
 
@@ -51,10 +52,8 @@ class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
               state.copyWith(
                 isLoadingSheets: false,
                 sheets: sheets,
-                selectedSheetId: sheets.isNotEmpty ? sheets.first.id : null,
-                selectedSheetTitle: sheets.isNotEmpty
-                    ? sheets.first.title
-                    : null,
+                selectedSheetId: null,
+                selectedSheetTitle: null,
                 isCachedData: true,
               ),
             );
@@ -70,8 +69,8 @@ class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
           state.copyWith(
             isLoadingSheets: false,
             sheets: sheets,
-            selectedSheetId: sheets.isNotEmpty ? sheets.first.id : null,
-            selectedSheetTitle: sheets.isNotEmpty ? sheets.first.title : null,
+            selectedSheetId: null,
+            selectedSheetTitle: null,
             isCachedData: false,
           ),
         );
@@ -81,7 +80,7 @@ class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
 
   void _onSheetSelected(
     final OnConfirmationSheetSelected event,
-    final Emitter<ResultSavingState> emit,
+    final Emitter<SheetSelectionState> emit,
   ) {
     final int selectedSheetIndex = state.sheets.indexWhere(
       (final SheetEntity s) => s.id == event.sheetId,
@@ -100,14 +99,14 @@ class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
 
   void _onSheetNameChanged(
     final OnConfirmationSheetNameChanged event,
-    final Emitter<ResultSavingState> emit,
+    final Emitter<SheetSelectionState> emit,
   ) {
     emit(state.copyWith(newSheetName: event.sheetName));
   }
 
   void _onModeToggled(
     final OnConfirmationModeToggled event,
-    final Emitter<ResultSavingState> emit,
+    final Emitter<SheetSelectionState> emit,
   ) {
     emit(
       state.copyWith(isCreatingNewSheet: event.isCreating, newSheetName: ''),
@@ -116,7 +115,7 @@ class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
 
   Future<void> _onCreateSheet(
     final OnConfirmationCreateSheet event,
-    final Emitter<ResultSavingState> emit,
+    final Emitter<SheetSelectionState> emit,
   ) async {
     final String trimmedName = state.newSheetName.trim();
 
@@ -226,7 +225,7 @@ class ResultSavingBloc extends Bloc<ResultSavingEvent, ResultSavingState> {
 
   Future<void> _onSaveScan(
     final OnConfirmationSaveScan event,
-    final Emitter<ResultSavingState> emit,
+    final Emitter<SheetSelectionState> emit,
   ) async {
     emit(state.copyWith(isSavingScan: true));
 

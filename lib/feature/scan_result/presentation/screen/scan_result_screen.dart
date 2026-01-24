@@ -80,6 +80,20 @@ class _ResultViewState extends State<_ResultView> {
             : context.locale.extractedText,
         showBottomDivider: true,
       ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: context.appColors.surfaceL1,
+          border: Border.symmetric(
+            horizontal: BorderSide(color: context.appColors.separator),
+          ),
+        ),
+        child: _SelectGoogleSheetButton(
+          commentController: _commentController,
+          data: widget.scanResult,
+          resultType: widget.resultType,
+        ),
+      ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         children: <Widget>[
@@ -95,26 +109,12 @@ class _ResultViewState extends State<_ResultView> {
           CommentInputCard(commentController: _commentController),
         ],
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: context.appColors.surfaceL1,
-          border: Border.symmetric(
-            horizontal: BorderSide(color: context.appColors.separator),
-          ),
-        ),
-        child: _ActionButtons(
-          commentController: _commentController,
-          data: widget.scanResult,
-          resultType: widget.resultType,
-        ),
-      ),
     );
   }
 }
 
-class _ActionButtons extends StatelessWidget {
-  const _ActionButtons({
+class _SelectGoogleSheetButton extends StatelessWidget {
+  const _SelectGoogleSheetButton({
     required this.commentController,
     required this.data,
     required this.resultType,
@@ -133,10 +133,10 @@ class _ActionButtons extends StatelessWidget {
             FocusScope.of(context).unfocus();
             final String comment = state.comment;
             context.router.push(
-              ResultSavingRoute(
-                data: data,
-                comment: comment,
-                resultType: resultType,
+              SheetSelectionRoute(
+                scannedData: data,
+                userComment: comment,
+                scanResultType: resultType,
               ),
             );
           },

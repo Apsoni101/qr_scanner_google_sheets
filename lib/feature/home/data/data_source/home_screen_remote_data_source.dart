@@ -6,8 +6,8 @@ import 'package:qr_scanner_practice/core/network/constants/network_constants.dar
 import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/core/network/http_api_client.dart';
 import 'package:qr_scanner_practice/core/network/http_method.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/sheet_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
 
 abstract class HomeScreenRemoteDataSource {
   Future<Either<Failure, List<SheetModel>>> getOwnedSheets();

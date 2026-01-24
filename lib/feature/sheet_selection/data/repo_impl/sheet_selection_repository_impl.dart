@@ -1,23 +1,23 @@
 import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/data_source/scan_result_local_data_source.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/data_source/scan_result_remote_data_source.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/pending_sync_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/sheet_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/repo/scan_result_repository.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_local_data_source.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_remote_data_source.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/pending_sync_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/repo/sheet_selection_repository.dart';
 
-class ScanResultRepositoryImpl implements ScanResultRepository {
-  const ScanResultRepositoryImpl({
+class SheetSelectionRepositoryImpl implements SheetSelectionRepository {
+  const SheetSelectionRepositoryImpl({
     required this.localDataSource,
     required this.remoteDataSource,
   });
 
-  final ScanResultLocalDataSource localDataSource;
-  final ScanResultRemoteDataSource remoteDataSource;
+  final SheetSelectionLocalDataSource localDataSource;
+  final SheetSelectionRemoteDataSource remoteDataSource;
 
   /// Local operations
   @override

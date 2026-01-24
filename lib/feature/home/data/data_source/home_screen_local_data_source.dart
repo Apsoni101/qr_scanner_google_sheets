@@ -2,9 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/core/services/storage/hive_key_constants.dart';
 import 'package:qr_scanner_practice/core/services/storage/hive_service.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/pending_sync_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/sheet_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/pending_sync_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
 
 abstract class HomeScreenLocalDataSource {
   Future<Either<Failure, List<SheetModel>>> getLocalSheets();

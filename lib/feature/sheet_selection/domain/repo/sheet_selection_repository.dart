@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 
-abstract class ScanResultRepository {
-  // Local operations
+abstract class SheetSelectionRepository {
+  /// Local operations
   Future<Either<Failure, List<SheetEntity>>> getLocalSheets();
 
   Future<Either<Failure, Unit>> cacheSheet(final SheetEntity sheet);
@@ -26,7 +26,7 @@ abstract class ScanResultRepository {
 
   Future<Either<Failure, Unit>> clearAllCache();
 
-  // Remote operations
+  /// Remote operations
   Future<Either<Failure, List<SheetEntity>>> getOwnedSheets();
 
   Future<Either<Failure, String>> createSheet(final String sheetName);

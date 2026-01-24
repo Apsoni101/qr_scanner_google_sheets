@@ -1,7 +1,7 @@
-part of 'result_saving_bloc.dart';
+part of 'sheet_selection_bloc.dart';
 
-class ResultSavingState extends Equatable {
-  const ResultSavingState({
+class SheetSelectionState extends Equatable {
+  const SheetSelectionState({
     this.isLoadingSheets = false,
     this.isCreatingSheet = false,
     this.isSavingScan = false,
@@ -31,7 +31,7 @@ class ResultSavingState extends Equatable {
   final bool isScanSaved;
   final bool isCachedData;
 
-  ResultSavingState copyWith({
+  SheetSelectionState copyWith({
     final bool? isLoadingSheets,
     final bool? isCreatingSheet,
     final bool? isSavingScan,
@@ -46,7 +46,7 @@ class ResultSavingState extends Equatable {
     final bool? isScanSaved,
     final bool? isCachedData,
   }) {
-    return ResultSavingState(
+    return SheetSelectionState(
       isLoadingSheets: isLoadingSheets ?? this.isLoadingSheets,
       isCreatingSheet: isCreatingSheet ?? this.isCreatingSheet,
       isSavingScan: isSavingScan ?? this.isSavingScan,
@@ -81,6 +81,6 @@ class ResultSavingState extends Equatable {
   ];
 }
 
-class ResultSavingInitial extends ResultSavingState {
+class ResultSavingInitial extends SheetSelectionState {
   const ResultSavingInitial();
 }

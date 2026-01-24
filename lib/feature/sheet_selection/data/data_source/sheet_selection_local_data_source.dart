@@ -2,11 +2,11 @@ import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/core/services/storage/hive_key_constants.dart';
 import 'package:qr_scanner_practice/core/services/storage/hive_service.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/pending_sync_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/sheet_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/pending_sync_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
 
-abstract class ScanResultLocalDataSource {
+abstract class SheetSelectionLocalDataSource {
   Future<Either<Failure, List<SheetModel>>> getLocalSheets();
 
   Future<Either<Failure, Unit>> saveSheetLocally(final SheetModel sheet);
@@ -28,8 +28,9 @@ abstract class ScanResultLocalDataSource {
   Future<Either<Failure, Unit>> clearLocalData();
 }
 
-class ScanResultLocalDataSourceImpl implements ScanResultLocalDataSource {
-  ScanResultLocalDataSourceImpl({required this.hiveService});
+class SheetSelectionLocalDataSourceImpl
+    implements SheetSelectionLocalDataSource {
+  SheetSelectionLocalDataSourceImpl({required this.hiveService});
 
   final HiveService hiveService;
 

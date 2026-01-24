@@ -3,12 +3,12 @@ import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/feature/home/data/data_source/home_screen_local_data_source.dart';
 import 'package:qr_scanner_practice/feature/home/data/data_source/home_screen_remote_data_source.dart';
 import 'package:qr_scanner_practice/feature/home/domain/repo/home_screen_repository.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/pending_sync_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/data/model/sheet_model.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/pending_sync_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/scan_result/domain/entity/sheet_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/pending_sync_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 
 class HomeScreenRepositoryImpl implements HomeScreenRepository {
   const HomeScreenRepositoryImpl({
