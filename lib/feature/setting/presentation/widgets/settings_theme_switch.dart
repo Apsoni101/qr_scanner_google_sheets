@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
+import 'package:qr_scanner_practice/core/controller/app_settings_controller.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/bloc/settings_bloc.dart';
@@ -24,9 +24,9 @@ class SettingsThemeSwitch extends StatelessWidget {
         activeThumbColor: context.appColors.switchActiveThumb,
         value: isDark,
         onChanged: (final bool value) {
-          final ThemeController themeController =
-              AppInjector.getIt<ThemeController>()..toggleTheme();
-          final String themeName = themeController.themeName;
+          final AppSettingsController appSettingsController =
+              AppInjector.getIt<AppSettingsController>()..toggleTheme();
+          final String themeName = appSettingsController.themeMode.name;
           context.read<SettingsBloc>().add(
             SaveThemeModeEvent(themeName: themeName),
           );

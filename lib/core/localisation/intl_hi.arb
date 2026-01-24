@@ -1,0 +1,265 @@
+{
+  "@@locale": "hi",
+  "appName": "CodiScan",
+  "scanExtractSave": "स्कैन करें, निकालें, सहेजें",
+  "home": "होम",
+  "history": "इतिहास",
+  "scanQrCode": "QR कोड स्कैन करें",
+  "pointCameraAtQrCodeToScanInstantly": "तुरंत स्कैन करने के लिए कैमरा को QR कोड पर रखें",
+  "pointYourCameraAtAQrCode": "अपने कैमरे को QR कोड पर रखें",
+  "extractTextOcr": "टेक्स्ट निकालें (OCR)",
+  "extractTextFromImagesOrCamera": "छवियों या कैमरे से टेक्स्ट निकालें",
+  "welcome": "स्वागत है",
+  "create": "बनाएं",
+  "reviewBeforeSaving": "सहेजने से पहले समीक्षा करें",
+  "settings": "सेटिंग्स",
+  "noScanHistoryYet": "अभी तक कोई स्कैन इतिहास नहीं है",
+  "yourSavedScansWillAppearHere": "आपके सहेजे गए स्कैन यहां दिखाई देंगे",
+  "version1": "संस्करण 1.0.0",
+  "signInToSyncYourScansAcrossDevices": "अपने उपकरणों में स्कैन सिंक करने के लिए साइन इन करें",
+  "signingIn": "साइन इन हो रहा है...",
+  "continueWithGoogle": "Google के साथ जारी रखें",
+  "newUserSameButtonCreatesYourAccountAutomatically": "नए उपयोगकर्ता? यही बटन स्वचालित रूप से आपका खाता बना देता है",
+  "failedToSignInPleaseTryAgain": "साइन इन करने में विफल। कृपया पुनः प्रयास करें।",
+  "byContinuingYouAgreeToOurTermsOfServiceAndPrivacyPolicy": "जारी रखकर, आप हमारी सेवा की शर्तों और गोपनीयता नीति से सहमत हैं",
+  "appearance": "प्रदर्शन",
+  "theme": "थीम",
+  "dark": "डार्क",
+  "light": "लाइट",
+  "captureImage": "छवि कैप्चर करें",
+  "uploadImage": "छवि अपलोड करें",
+  "language": "भाषा",
+  "savedTo": "यहां सहेजा गया: ",
+  "english": "अंग्रेज़ी",
+  "account": "खाता",
+  "errorLoadingUser": "उपयोगकर्ता लोड करने में त्रुटि",
+  "user": "उपयोगकर्ता",
+  "noEmail": "कोई ईमेल नहीं",
+  "signedOut": "साइन आउट हो गया",
+  "youHaveBeenSignedOut": "आप साइन आउट हो गए हैं",
+  "about": "के बारे में",
+  "logOut": "लॉग आउट",
+  "privacyPolicy": "गोपनीयता नीति",
+  "termsOfService": "सेवा की शर्तें",
+  "helpAndSupport": "मदद और सहायता",
+  "extractFromCamera": "कैमरे से निकालें",
+  "capturePhotoAndExtractTextInstantly": "फोटो कैप्चर करें और तुरंत टेक्स्ट निकालें",
+  "extractFromImage": "छवि से निकालें",
+  "uploadExistingImageToExtractText": "टेक्स्ट निकालने के लिए मौजूदा छवि अपलोड करें",
+  "extractText": "टेक्स्ट निकालें",
+  "welcomeBack": "वापसी पर स्वागत है",
+  "loginSuccess": "लॉगिन सफल!",
+  "qrScanError": "QR कोड स्कैन करते समय कुछ गलत हो गया",
+  "noQrCodeFound": "छवि में कोई QR कोड नहीं मिला",
+  "uploadFromGallery": "गैलरी से अपलोड करें",
+  "viewHistory": "इतिहास देखें",
+  "scannedContent": "स्कैन की गई सामग्री",
+  "addCommentTitle": "टिप्पणी जोड़ें (वैकल्पिक)",
+  "addANoteOrDescription": "एक नोट या विवरण जोड़ें...",
+  "selectGoogleSheet": "Google Sheet चुनें",
+  "saveToSheet": "Sheet में सहेजें",
+  "selectImagePrompt": "टेक्स्ट निकालने के लिए एक छवि चुनें",
+  "extractedText": "निकाला गया टेक्स्ट",
+  "textCopiedToClipboard": "टेक्स्ट क्लिपबोर्ड पर कॉपी किया गया",
+  "selectSheet": "Sheet चुनें",
+  "cameraButtonLabel": "कैमरा",
+  "galleryButtonLabel": "गैलरी",
+  "liveTextRecognition": "लाइव टेक्स्ट पहचान",
+  "cancelButton": "रद्द करें",
+  "confirmSave": "सहेजने की पुष्टि करें",
+  "data": "QR डेटा:",
+  "qrResult": "QR परिणाम",
+  "comment": "टिप्पणी:",
+  "noCommentAdded": "(कोई टिप्पणी नहीं जोड़ी गई)",
+  "confirm": "पुष्टि करें",
+  "gallery": "गैलरी",
+  "camera": "कैमरा",
+  "cancel": "रद्द करें",
+  "saveButton": "सहेजें",
+  "allScansSuccessfullyMessage": "सभी स्कैन सफलतापूर्वक सिंक हो गए!",
+  "syncingMessage": "{count} स्कैन सिंक हो रहा है",
+  "@syncingMessage": {
+    "description": "Message shown when syncing scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "syncingMessagePlural": "{count} स्कैन सिंक हो रहे हैं",
+  "@syncingMessagePlural": {
+    "description": "Message shown when syncing multiple scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "confirmAndSaveTitle": "पुष्टि करें और सहेजें",
+  "scanDetailsTitle": "स्कैन विवरण",
+  "selectSheetTitle": "Sheet चुनें",
+  "newSheetNameTitle": "नई Sheet का नाम",
+  "enterSheetName": "Sheet का नाम दर्ज करें...",
+  "createSheetButton": "Sheet बनाएं",
+  "switchToSelectSheet": "Sheet चुनें पर जाएं",
+  "createNewSheet": "नई Sheet बनाएं",
+  "noSheetsAvailable": "कोई Sheet उपलब्ध नहीं है। एक नई बनाएं!",
+  "scanSavedSuccessfully": "स्कैन सफलतापूर्वक सहेजा गया!",
+  "modified": "संशोधित: {date}",
+  "@modified": {
+    "description": "Shows the modified date of a sheet",
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "15 जन, 2024"
+      }
+    }
+  },
+  "scanHistory": "स्कैन इतिहास",
+  "@scanHistory": {
+    "description": "Title for the history screen"
+  },
+  "searchScans": "स्कैन खोजें...",
+  "@searchScans": {
+    "description": "Hint text for search field in history screen"
+  },
+  "noScansYet": "अभी तक कोई स्कैन नहीं",
+  "@noScansYet": {
+    "description": "Empty state message when there are no scans"
+  },
+  "noResultsFound": "कोई परिणाम नहीं मिला",
+  "@noResultsFound": {
+    "description": "Empty state message when search returns no results"
+  },
+  "commentLabel": "टिप्पणी",
+  "@commentLabel": {
+    "description": "Label for the comment field in scan card"
+  },
+  "copiedToClipboard": "क्लिपबोर्ड पर कॉपी किया गया",
+  "@copiedToClipboard": {
+    "description": "Success message after copying QR code"
+  },
+  "justNow": "अभी",
+  "@justNow": {
+    "description": "Timestamp format for scans from seconds ago"
+  },
+  "minutesAgo": "{minutes} मिनट पहले",
+  "@minutesAgo": {
+    "description": "Timestamp format for scans from minutes ago",
+    "placeholders": {
+      "minutes": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "hoursAgo": "{hours} घंटे पहले",
+  "@hoursAgo": {
+    "description": "Timestamp format for scans from hours ago",
+    "placeholders": {
+      "hours": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "daysAgo": "{days} दिन पहले",
+  "@daysAgo": {
+    "description": "Timestamp format for scans from days ago",
+    "placeholders": {
+      "days": {
+        "type": "int",
+        "format": "compact"
+      }
+    }
+  },
+  "failedToFetchHistory": "इतिहास लाने में विफल",
+  "@failedToFetchHistory": {
+    "description": "Error message when fetching history fails"
+  },
+  "refreshing": "रीफ्रेश हो रहा है...",
+  "@refreshing": {
+    "description": "Message shown while refreshing history"
+  },
+  "cameraPermissionDenied": "कैमरा अनुमति अस्वीकृत",
+  "@cameraPermissionDenied": {
+    "description": "Error message when camera permission is denied"
+  },
+  "scanningNotSupported": "इस डिवाइस पर QR स्कैनिंग समर्थित नहीं है",
+  "@scanningNotSupported": {
+    "description": "Error message when device doesn't support QR scanning"
+  },
+  "scannerControllerDisposed": "स्कैनर त्रुटि: कंट्रोलर डिस्पोज़ हो गया",
+  "@scannerControllerDisposed": {
+    "description": "Error message when scanner controller is disposed"
+  },
+  "scannerError": "त्रुटि: {errorCode}",
+  "@scannerError": {
+    "description": "Generic scanner error message",
+    "placeholders": {
+      "errorCode": {
+        "type": "String"
+      }
+    }
+  },
+  "@viewHistory": {
+    "description": "Label for the button to view history"
+  },
+  "qrCodeDetailsTitle": "QR कोड विवरण",
+  "offlineMode": "ऑफलाइन मोड",
+  "waitingToSyncMessage": "{count} स्कैन सिंक होने की प्रतीक्षा में",
+  "@waitingToSyncMessage": {
+    "description": "Message shown when offline with pending scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "noQrFound": "छवि में कोई QR कोड नहीं मिला",
+  "errorProcessingImage": "छवि प्रोसेस करने में त्रुटि",
+  "waitingToSyncMessagePlural": "{count} स्कैन सिंक होने की प्रतीक्षा में",
+  "@waitingToSyncMessagePlural": {
+    "description": "Message shown when offline with multiple pending scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "scanToSyncMessage": "{count} स्कैन सिंक करने के लिए",
+  "@scanToSyncMessage": {
+    "description": "Message shown when ready to sync",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
+  "scanToSyncMessagePlural": "{count} स्कैन सिंक करने के लिए",
+  "@scanToSyncMessagePlural": {
+    "description": "Message shown when ready to sync multiple scans",
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "connectionAvailableSync": "कनेक्शन उपलब्ध है - सिंक करने के लिए क्लिक करें",
+  "syncButtonLabel": "सिंक करें",
+  "noInternetConnection": "कोई इंटरनेट कनेक्शन नहीं है। ऑनलाइन होने पर स्कैन सिंक हो जाएंगे।",
+  "cannotRefreshSheets": "कोई इंटरनेट कनेक्शन नहीं है। Sheet रीफ्रेश नहीं की जा सकती।",
+  "cameraPermissionTitle": "कैमरा अनुमति आवश्यक है",
+  "galleryPermissionTitle": "गैलरी अनुमति आवश्यक है",
+  "permissionRequiredMessage": "इस ऐप को आपके डिवाइस तक पहुंचने के लिए अनुमति की आवश्यकता है। कृपया जारी रखने के लिए अनुमति दें।",
+  "permissionPermanentlyDeniedMessage": "अनुमति स्थायी रूप से अस्वीकृत है। कृपया इसे ऐप सेटिंग्स में सक्षम करें।",
+  "openSettings": "सेटिंग्स खोलें",
+  "retry": "पुनः प्रयास करें",
+  "cancelButtonLabel": "रद्द करें"
+}

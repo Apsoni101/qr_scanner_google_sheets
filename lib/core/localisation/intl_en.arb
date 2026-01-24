@@ -49,7 +49,6 @@
   "extractText": "Extract Text",
   "welcomeBack": "Welcome Back",
   "loginSuccess": "Login successful!",
-  "qrScanner": "QR Scanner",
   "qrScanError": "Something went wrong while scanning the QR code",
   "noQrCodeFound": "No QR code found in image",
   "uploadFromGallery": "Upload from Gallery",
@@ -261,6 +260,6 @@
   "permissionRequiredMessage": "This app needs permission to access your device. Please grant permission to continue.",
   "permissionPermanentlyDeniedMessage": "Permission is permanently denied. Please enable it in app settings.",
   "openSettings": "Open Settings",
-  "retryButtonLabel": "Retry",
+  "retry": "Retry",
   "cancelButtonLabel": "Cancel"
 }

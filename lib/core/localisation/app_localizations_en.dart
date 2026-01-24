@@ -165,9 +165,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginSuccess => 'Login successful!';
 
   @override
-  String get qrScanner => 'QR Scanner';
-
-  @override
   String get qrScanError => 'Something went wrong while scanning the QR code';
 
   @override
@@ -432,7 +429,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openSettings => 'Open Settings';
 
   @override
-  String get retryButtonLabel => 'Retry';
+  String get retry => 'Retry';
 
   @override
   String get cancelButtonLabel => 'Cancel';

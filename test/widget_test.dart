@@ -7,16 +7,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
-import 'package:qr_scanner_practice/core/di/app_injector.dart';
-import 'package:qr_scanner_practice/core/local_storage/hive_service.dart';
+import 'package:qr_scanner_practice/core/controller/app_settings_controller.dart';
 
 import 'package:qr_scanner_practice/main.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp(themeController: ThemeController()));
+    await tester.pumpWidget(
+      MyApp(appSettingsController: AppSettingsController()),
+    );
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

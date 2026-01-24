@@ -1,13 +1,13 @@
 import 'package:get_it/get_it.dart';
-import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
+import 'package:qr_scanner_practice/core/controller/app_settings_controller.dart';
 import 'package:qr_scanner_practice/core/firebase/firebase_auth_service.dart';
+import 'package:qr_scanner_practice/core/local_storage/hive_service.dart';
 import 'package:qr_scanner_practice/core/navigation/auth_guard.dart';
 import 'package:qr_scanner_practice/core/network/http_api_client.dart';
 import 'package:qr_scanner_practice/core/services/connectivity_service.dart';
 import 'package:qr_scanner_practice/core/services/device_info_service.dart';
 import 'package:qr_scanner_practice/core/services/image_picker_service.dart';
 import 'package:qr_scanner_practice/core/services/ocr_service.dart';
-import 'package:qr_scanner_practice/core/local_storage/hive_service.dart';
 import 'package:qr_scanner_practice/feature/auth/data/data_sources/google_sign_in_sign_up_remote_datasource.dart';
 import 'package:qr_scanner_practice/feature/auth/data/repositories/google_sign_in_sign_up_remote_repo_impl.dart';
 import 'package:qr_scanner_practice/feature/auth/domain/repositories/google_sign_in_sign_up_remote_repo.dart';
@@ -25,19 +25,19 @@ import 'package:qr_scanner_practice/feature/ocr/domain/repo/ocr_repo.dart';
 import 'package:qr_scanner_practice/feature/ocr/domain/use_case/ocr_use_case.dart';
 import 'package:qr_scanner_practice/feature/ocr/presentation/bloc/ocr_bloc.dart';
 import 'package:qr_scanner_practice/feature/qr_scan/presentation/bloc/qr_scanning_bloc/qr_scanning_bloc.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_local_data_source.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_remote_data_source.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/data/repo_impl/sheet_selection_repository_impl.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/domain/repo/sheet_selection_repository.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/domain/use_case/sheet_selection_use_case.dart';
 import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result_bloc/result_bloc.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/presentation/bloc/sheet_selection_bloc.dart';
 import 'package:qr_scanner_practice/feature/setting/data/data_source/settings_local_data_source.dart';
 import 'package:qr_scanner_practice/feature/setting/data/data_source/settings_remote_data_source.dart';
 import 'package:qr_scanner_practice/feature/setting/data/repo_impl/settings_repository_impl.dart';
 import 'package:qr_scanner_practice/feature/setting/domain/repo/settings_repository.dart';
 import 'package:qr_scanner_practice/feature/setting/domain/usecase/settings_usecase.dart';
 import 'package:qr_scanner_practice/feature/setting/presentation/bloc/settings_bloc.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_local_data_source.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_remote_data_source.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/repo_impl/sheet_selection_repository_impl.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/repo/sheet_selection_repository.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/use_case/sheet_selection_use_case.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/presentation/bloc/sheet_selection_bloc.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/data/data_source/view_scans_history_remote_data_source.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/data/repo_impl/view_scans_history_remote_repository_impl.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/domain/repo/view_scans_history_remote_repository.dart';
@@ -59,7 +59,7 @@ class AppInjector {
       ..registerLazySingleton<DeviceInfoService>(DeviceInfoService.new)
       ..registerLazySingleton<ImagePickerService>(ImagePickerService.new)
       ..registerLazySingleton<OcrService>(OcrService.new)
-      ..registerLazySingleton<ThemeController>(ThemeController.new)
+      ..registerLazySingleton<AppSettingsController>(AppSettingsController.new)
       ..registerLazySingleton<AuthGuard>(
         () => AuthGuard(firebaseAuthService: getIt<FirebaseAuthService>()),
       )

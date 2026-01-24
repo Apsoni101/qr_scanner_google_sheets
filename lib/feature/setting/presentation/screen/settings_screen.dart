@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
 import 'package:qr_scanner_practice/core/constants/asset_constants.dart';
-import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
+import 'package:qr_scanner_practice/core/controller/app_settings_controller.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/enums/language_enum.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
@@ -30,7 +30,10 @@ class SettingsScreen extends StatelessWidget {
           AppInjector.getIt<SettingsBloc>()..add(const LoadSettingsEvent()),
       child: Builder(
         builder: (final BuildContext context) {
-          final bool isDark = Theme.of(context).brightness == Brightness.dark;
+          final AppSettingsController appSettingController =
+              AppInjector.getIt<AppSettingsController>();
+          final bool isDark = appSettingController.themeMode == ThemeMode.dark;
+          final LanguageEnum currentLanguage = appSettingController.language;
 
           return Scaffold(
             backgroundColor: context.appColors.scaffoldBackground,
@@ -62,10 +65,11 @@ class SettingsScreen extends StatelessWidget {
                               ? AppAssets.darkThemeIc
                               : AppAssets.lightThemeIc,
                           onPressed: () {
-                            final ThemeController themeController =
-                                AppInjector.getIt<ThemeController>()
+                            final AppSettingsController appSettingController =
+                                AppInjector.getIt<AppSettingsController>()
                                   ..toggleTheme();
-                            final String themeName = themeController.themeName;
+                            final String themeName =
+                                appSettingController.themeMode.name;
                             context.read<SettingsBloc>().add(
                               SaveThemeModeEvent(themeName: themeName),
                             );
@@ -95,16 +99,29 @@ class SettingsScreen extends StatelessWidget {
                               context: context,
                               builder: (final BuildContext dialogContext) {
                                 return LanguageSelectionDialog(
-                                  currentLanguage: LanguageEnum.english,
+                                  currentLanguage: currentLanguage,
                                   onLanguageSelected:
                                       (final LanguageEnum language) {
+                                        final AppSettingsController
+                                        appSettingController =
+                                            AppInjector.getIt<
+                                                AppSettingsController
+                                              >()
+                                              ..setLanguage(language);
+                                        final String languageCode =
+                                            appSettingController.language.code;
+                                        context.read<SettingsBloc>().add(
+                                          SaveLanguageEvent(
+                                            languageCode: languageCode,
+                                          ),
+                                        );
                                         dialogContext.router.pop();
                                       },
                                 );
                               },
                             );
                           },
-                          trailingTitle: context.locale.english,
+                          trailingTitle: currentLanguage.nativeName,
                         ),
                       ),
                       const SizedBox(height: 24),

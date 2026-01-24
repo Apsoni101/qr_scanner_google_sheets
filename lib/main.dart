@@ -8,14 +8,13 @@ import 'package:qr_scanner_practice/core/app_theming/app_color_theme_extension.d
 import 'package:qr_scanner_practice/core/app_theming/app_dark_theme_colors.dart';
 import 'package:qr_scanner_practice/core/app_theming/app_light_theme_colors.dart';
 import 'package:qr_scanner_practice/core/constants/app_constants.dart';
-
-import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
+import 'package:qr_scanner_practice/core/controller/app_settings_controller.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
-import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
-import 'package:qr_scanner_practice/core/localisation/app_localizations.dart';
-import 'package:qr_scanner_practice/core/navigation/app_router.dart';
+import 'package:qr_scanner_practice/core/enums/language_enum.dart';
 import 'package:qr_scanner_practice/core/local_storage/hive_key_constants.dart';
 import 'package:qr_scanner_practice/core/local_storage/hive_service.dart';
+import 'package:qr_scanner_practice/core/localisation/app_localizations.dart';
+import 'package:qr_scanner_practice/core/navigation/app_router.dart';
 import 'package:qr_scanner_practice/firebase_options.dart';
 
 Future<void> main() async {
@@ -32,49 +31,64 @@ Future<void> main() async {
   await hiveService.init(boxName: HiveKeyConstants.boxName);
 
   final String? modeName = hiveService.getString(HiveKeyConstants.themeMode);
+  final String? languageName = hiveService.getString(HiveKeyConstants.language);
   final ThemeMode savedTheme = modeName != null
       ? ThemeMode.values.byName(modeName)
       : ThemeMode.system;
+  final LanguageEnum savedLanguage = languageName != null
+      ? LanguageEnum.fromCode(languageName)
+      : LanguageEnum.english;
 
-  final ThemeController themeController = AppInjector.getIt<ThemeController>();
-  await themeController.setTheme(savedTheme);
-
-  runApp(MyApp(themeController: themeController));
+  final AppSettingsController appSettingsController =
+      AppInjector.getIt<AppSettingsController>()
+        ..initialize(themeMode: savedTheme, language: savedLanguage);
+  runApp(MyApp(appSettingsController: appSettingsController));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({required this.themeController, super.key});
+  const MyApp({required this.appSettingsController, super.key});
 
-  final ThemeController themeController;
+  final AppSettingsController appSettingsController;
 
   @override
   Widget build(final BuildContext context) {
     final AppRouter appRouter = AppRouter();
 
-    return ValueListenableBuilder<ThemeMode>(
-      valueListenable: themeController,
-      builder: (final BuildContext context, final ThemeMode themeMode, _) {
-        return MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          title: 'CodiScan',
-          routerConfig: appRouter.config(),
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          themeMode: themeMode,
-          theme: ThemeData(
-            brightness: Brightness.light,
-            extensions: <ThemeExtension<AppColorThemeExtension>>[
-              AppLightThemeColors(),
-            ],
-          ),
-          darkTheme: ThemeData(
-            brightness: Brightness.dark,
-            extensions: <ThemeExtension<AppColorThemeExtension>>[
-              AppDarkThemeColors(),
-            ],
-          ),
-        );
-      },
+    return ValueListenableBuilder<AppSettings>(
+      valueListenable: appSettingsController,
+      builder:
+          (
+            final BuildContext context,
+            final (ThemeMode, LanguageEnum) setting,
+            _,
+          ) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              title: 'CodiScan',
+              routerConfig: appRouter.config(),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+
+              ///gets the thememode value from records and give to thememode
+              themeMode: setting.$1,
+
+              ///gets the language locale from record and gives t
+              locale: setting.$2.locale,
+
+              theme: ThemeData(
+                brightness: Brightness.light,
+                extensions: <ThemeExtension<AppColorThemeExtension>>[
+                  AppLightThemeColors(),
+                ],
+              ),
+              darkTheme: ThemeData(
+                brightness: Brightness.dark,
+                extensions: <ThemeExtension<AppColorThemeExtension>>[
+                  AppDarkThemeColors(),
+                ],
+              ),
+            );
+          },
     );
   }
 }

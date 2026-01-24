@@ -1,7 +1,8 @@
 import 'dart:ui';
 
 enum LanguageEnum {
-  english('en', 'English', 'English', Locale('en', 'US'));
+  english('en', 'English', 'English', Locale('en', 'US')),
+  hindi('hi', 'हिन्दी', 'Hindi', Locale('hi', 'IN'));
 
   const LanguageEnum(this.code, this.nativeName, this.englishName, this.locale);
 
