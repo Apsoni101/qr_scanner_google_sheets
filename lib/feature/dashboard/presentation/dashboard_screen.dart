@@ -5,6 +5,7 @@ import 'package:qr_scanner_practice/core/constants/asset_constants.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
 import 'package:qr_scanner_practice/feature/dashboard/widgets/bottom_nav_icon.dart';
+import 'package:qr_scanner_practice/feature/home/presentation/widgets/home_screen_app_bar.dart';
 
 @RoutePage()
 class DashboardScreen extends StatelessWidget {
@@ -17,16 +18,18 @@ class DashboardScreen extends StatelessWidget {
         HomeRoute(),
         ViewScansHistoryRoute(),
       ],
+      appBarBuilder: (final BuildContext context, final TabsRouter tabsRouter) {
+        return const HomeScreenAppBar();
+      },
       bottomNavigationBuilder: (_, final TabsRouter tabsRouter) {
         return Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Divider(height: 1, color: context.appColors.separator),
             BottomNavigationBar(
               onTap: tabsRouter.setActiveIndex,
               type: BottomNavigationBarType.fixed,
               currentIndex: tabsRouter.activeIndex,
-
               selectedFontSize: 12,
               backgroundColor: context.appColors.bottomNavBackground,
               selectedItemColor: context.appColors.primaryDefault,

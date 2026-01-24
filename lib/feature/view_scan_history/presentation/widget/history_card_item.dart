@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
+import 'package:qr_scanner_practice/core/constants/asset_constants.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
 import 'package:qr_scanner_practice/core/extensions/date_time_extension.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/decorated_svg_asset_icon_container.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/rounded_corner_elevated_card.dart';
 
 /// Reusable scan card component
 class HistoryCardItem extends StatelessWidget {
@@ -22,50 +25,41 @@ class HistoryCardItem extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.appColors.textInversePrimary,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: context.appColors.surfaceL2),
-      ),
-      child: Column(
-        spacing: 12,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _SheetTitleBadge(title: sheetTitle),
-          _QrDataWithCopyButton(data: data),
-          if (comment != null && comment!.isNotEmpty)
-            _CommentSection(comment: comment!),
-          _TimestampText(timestamp: timestamp),
-        ],
-      ),
-    );
-  }
-}
-
-/// Sheet title badge component
-class _SheetTitleBadge extends StatelessWidget {
-  const _SheetTitleBadge({required this.title});
-
-  final String title;
-
-  @override
-  Widget build(final BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: context.appColors.iconPrimary.withAlpha(26),
-        borderRadius: BorderRadius.circular(6),
-      ),
-      child: Text(
-        title,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
-          color: context.appColors.iconPrimary,
+    return RoundedCornerElevatedCard(
+      elevation: 2,
+      child: ListTile(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 4,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              data,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+                color: context.appColors.textPrimary,
+              ),
+            ),
+            Text(
+              '${context.locale.savedTo}$sheetTitle',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
+                color: context.appColors.textTertiary,
+              ),
+            ),
+          ],
         ),
+        leading: DecoratedSvgAssetIconContainer(
+          assetPath: AppAssets.timeIc,
+          backgroundColor: context.appColors.primaryDefault.withValues(
+            alpha: 0.12,
+          ),
+          iconColor: context.appColors.primaryDefault,
+        ),
+        subtitle: _TimestampText(timestamp: timestamp),
+        trailing: _QrDataWithCopyButton(data: data),
       ),
     );
   }
@@ -90,64 +84,10 @@ class _QrDataWithCopyButton extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-          child: Text(
-            data,
-            style: AppTextStyles.airbnbCerealW500S14Lh20Ls0.copyWith(
-              color: context.appColors.textPrimary,
-            ),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        const SizedBox(width: 8),
-        IconButton(
-          icon: Icon(
-            Icons.copy,
-            color: context.appColors.iconPrimary,
-            size: 20,
-          ),
-          onPressed: () => _copyToClipboard(context),
-          constraints: const BoxConstraints(),
-          padding: EdgeInsets.zero,
-        ),
-      ],
-    );
-  }
-}
-
-/// Comment section component
-class _CommentSection extends StatelessWidget {
-  const _CommentSection({required this.comment});
-
-  final String comment;
-
-  @override
-  Widget build(final BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          context.locale.commentLabel,
-          style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
-            color: context.appColors.textSecondary,
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          comment,
-          style: AppTextStyles.airbnbCerealW400S12Lh16.copyWith(
-            color: context.appColors.textPrimary,
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-        const SizedBox(height: 8),
-      ],
+    return IconButton(
+      icon: Icon(Icons.copy, color: context.appColors.iconPrimary, size: 20),
+      onPressed: () => _copyToClipboard(context),
+      padding: EdgeInsets.zero,
     );
   }
 }

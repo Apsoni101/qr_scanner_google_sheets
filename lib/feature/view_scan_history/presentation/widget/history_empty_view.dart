@@ -18,17 +18,32 @@ class HistoryEmptyState extends StatelessWidget {
     return Column(
       spacing: 16,
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Icon(
-          Icons.history,
-          size: iconSize,
-          color: context.appColors.textSecondary,
+        Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: context.appColors.surfaceL3,
+          ),
+          child: Icon(
+            Icons.access_time,
+            size: iconSize,
+            color: context.appColors.textSecondary,
+          ),
         ),
         Text(
-          isSearchActive
-              ? context.locale.noResultsFound
-              : context.locale.noScansYet,
-          style: AppTextStyles.airbnbCerealW400S14Lh20Ls0,
+          context.locale.noScanHistoryYet,
+          style: AppTextStyles.airbnbCerealW400S16Lh24Ls0.copyWith(
+            color: context.appColors.textSecondary,
+          ),
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          context.locale.yourSavedScansWillAppearHere,
+          style: AppTextStyles.airbnbCerealW400S14Lh20Ls0.copyWith(
+            color: context.appColors.textTertiary,
+          ),
           textAlign: TextAlign.center,
         ),
       ],

@@ -59,7 +59,6 @@ class HomeScreenViewState extends State<HomeScreenView>
     return BlocListener<HomeScreenBloc, HomeScreenState>(
       listener: _handleStateChanges,
       child: Scaffold(
-        appBar: const HomeScreenAppBar(),
         backgroundColor: context.appColors.scaffoldBackground,
         body: RefreshIndicator(
           onRefresh: () async {
@@ -83,7 +82,7 @@ class HomeScreenViewState extends State<HomeScreenView>
               const SizedBox(height: 12),
               OnScreenOptionItemCard(
                 animationDuration: const Duration(milliseconds: 2500),
-                iconPath: AppAssets.ocrIc,
+                iconPath: AppAssets.sheetIc,
                 title: context.locale.extractTextOcr,
                 subtitle: context.locale.extractTextFromImagesOrCamera,
                 onPressed: () {

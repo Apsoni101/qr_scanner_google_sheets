@@ -50,6 +50,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings => 'Settings';
 
   @override
+  String get noScanHistoryYet => 'No scan history yet';
+
+  @override
+  String get yourSavedScansWillAppearHere =>
+      'Your saved scans will appear here';
+
+  @override
   String get version1 => 'Version 1.0.0';
 
   @override
@@ -94,6 +101,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get language => 'Language';
+
+  @override
+  String get savedTo => 'Saved to : ';
 
   @override
   String get english => 'English';

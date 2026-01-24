@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
 import 'package:qr_scanner_practice/core/constants/asset_constants.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/extensions/string_extensions.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/common_loading_view.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/decorated_svg_asset_icon_container.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/error_or_empty_message_container.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/presentation/bloc/sheet_selection_bloc.dart';
@@ -118,24 +118,16 @@ class _SelectableSheetItem extends StatelessWidget {
                 OnConfirmationSheetSelected(sheetData.id),
               );
             },
-            leading: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: isSelected
-                    ? context.appColors.surfaceL1.withValues(alpha: 0.16)
-                    : context.appColors.primaryDefault.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: SvgPicture.asset(
-                AppAssets.sheetIc,
-                colorFilter: ColorFilter.mode(
-                  isSelected
-                      ? context.appColors.surfaceL1
-                      : context.appColors.primaryDefault,
-                  BlendMode.srcIn,
-                ),
-              ),
+            leading: DecoratedSvgAssetIconContainer(
+              assetPath: AppAssets.sheetIc,
+              backgroundColor: isSelected
+                  ? context.appColors.surfaceL1.withValues(alpha: 0.16)
+                  : context.appColors.primaryDefault.withValues(alpha: 0.12),
+              iconColor: isSelected
+                  ? context.appColors.surfaceL1
+                  : context.appColors.primaryDefault,
             ),
+
             title: Text(
               sheetData.title,
               maxLines: 1,

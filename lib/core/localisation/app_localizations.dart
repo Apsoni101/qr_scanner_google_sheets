@@ -172,6 +172,18 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings;
 
+  /// No description provided for @noScanHistoryYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No scan history yet'**
+  String get noScanHistoryYet;
+
+  /// No description provided for @yourSavedScansWillAppearHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Your saved scans will appear here'**
+  String get yourSavedScansWillAppearHere;
+
   /// No description provided for @version1.
   ///
   /// In en, this message translates to:
@@ -255,6 +267,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get language;
+
+  /// No description provided for @savedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to : '**
+  String get savedTo;
 
   /// No description provided for @english.
   ///

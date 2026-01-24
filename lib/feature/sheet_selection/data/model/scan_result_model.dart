@@ -50,17 +50,7 @@ class ScanResultModel extends ScanResultEntity {
     );
   }
 
-  // ---------- MAPPERS ----------
-
   Map<String, dynamic> toJson() => <String, dynamic>{
-    'data': data,
-    'comment': comment,
-    'timestamp': timestamp.toIso8601String(),
-    'deviceId': deviceId,
-    'userId': userId,
-  };
-
-  Map<String, dynamic> toHiveMap() => <String, dynamic>{
     'data': data,
     'comment': comment,
     'timestamp': timestamp.toIso8601String(),

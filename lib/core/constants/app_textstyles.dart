@@ -16,6 +16,14 @@ class AppTextStyles {
     decoration: TextDecoration.none,
     textBaseline: TextBaseline.alphabetic,
   );
+  static const TextStyle airbnbCerealW400S16Lh24Ls0 = TextStyle(
+    fontFamily: fontFamilyAirBnbCreal,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+    height: 24 / 16,
+    letterSpacing: 0,
+    decoration: TextDecoration.none,
+  );
 
   static const TextStyle airbnbCerealW700S24Lh32LsMinus1 = TextStyle(
     fontFamily: fontFamilyAirBnbCreal,

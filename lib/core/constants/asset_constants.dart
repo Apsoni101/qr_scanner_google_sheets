@@ -8,9 +8,9 @@ class AppAssets {
   static const String viewHistoryIc = 'assets/icons/view_history_icon.svg';
   static const String settingsIc = 'assets/icons/settings_icon.svg';
   static const String qrIc = 'assets/icons/qr_icon.svg';
-  static const String ocrIc = 'assets/icons/ocr_file_icon.svg';
   static const String cameraIc = 'assets/icons/camera_icon.svg';
   static const String imageIc = 'assets/icons/image_icon.svg';
+  static const String timeIc = 'assets/icons/time_icon.svg';
   static const String sheetIc = 'assets/icons/sheet_icon.svg';
   static const String lightThemeIc = 'assets/icons/light_theme_icon.svg';
   static const String flashLightOffIc = 'assets/icons/flash_light_off_icon.svg';
