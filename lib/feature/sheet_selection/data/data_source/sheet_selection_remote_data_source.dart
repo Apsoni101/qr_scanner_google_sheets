@@ -19,19 +19,6 @@ abstract class SheetSelectionRemoteDataSource {
     final ScanResultModel model,
     final String sheetId,
   );
-
-  Future<Either<Failure, List<ScanResultModel>>> read(final String sheetId);
-
-  Future<Either<Failure, Unit>> update(
-    final String sheetId,
-    final String range,
-    final ScanResultModel model,
-  );
-
-  Future<Either<Failure, Unit>> delete(
-    final String sheetId,
-    final String range,
-  );
 }
 
 class SheetSelectionRemoteDataSourceImpl
@@ -226,78 +213,6 @@ class SheetSelectionRemoteDataSourceImpl
           );
         });
       });
-    });
-  }
-
-  @override
-  Future<Either<Failure, List<ScanResultModel>>> read(
-    final String sheetId,
-  ) async {
-    final Either<Failure, Options> authOptions = await _getAuthorizedOptions();
-    return authOptions.fold(Left.new, (final Options options) async {
-      return apiClient.request<List<ScanResultModel>>(
-        url:
-            '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${AppConstants.readRange}',
-        method: HttpMethod.get,
-        options: options,
-        responseParser: (final Map<String, dynamic> json) {
-          final List values = json['values'] as List<dynamic>? ?? <dynamic>[];
-          return values
-              .map(
-                (final e) =>
-                    ScanResultModel.fromSheetRow(List<dynamic>.from(e)),
-              )
-              .toList();
-        },
-      );
-    });
-  }
-
-  @override
-  Future<Either<Failure, Unit>> update(
-    final String sheetId,
-    final String range,
-    final ScanResultModel model,
-  ) async {
-    final Either<Failure, Options> authOptions = await _getAuthorizedOptions();
-    return authOptions.fold(Left.new, (final Options options) async {
-      final Either<Failure, String?> userIdResult = await _getUserId();
-      return userIdResult.fold(Left.new, (final String? userId) async {
-        final Either<Failure, String?> deviceIdResult = await _getDeviceId();
-        return deviceIdResult.fold(Left.new, (final String? deviceId) async {
-          final ScanResultModel modelWithIds = model.copyWith(
-            userId: userId,
-            deviceId: deviceId,
-          );
-          return apiClient.request<Unit>(
-            url:
-                '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!$range?valueInputOption=RAW',
-            method: HttpMethod.put,
-            options: options,
-            data: <String, dynamic>{
-              'values': <List<dynamic>>[modelWithIds.toSheetRow()],
-            },
-            responseParser: (_) => unit,
-          );
-        });
-      });
-    });
-  }
-
-  @override
-  Future<Either<Failure, Unit>> delete(
-    final String sheetId,
-    final String range,
-  ) async {
-    final Either<Failure, Options> authOptions = await _getAuthorizedOptions();
-    return authOptions.fold(Left.new, (final Options options) async {
-      return apiClient.request<Unit>(
-        url:
-            '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!$range${NetworkConstants.clearRangeSuffix}',
-        method: HttpMethod.post,
-        options: options,
-        responseParser: (_) => unit,
-      );
     });
   }
 }

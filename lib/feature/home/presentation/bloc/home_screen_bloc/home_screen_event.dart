@@ -16,10 +16,6 @@ final class OnHomeSyncPendingScans extends HomeScreenEvent {
   const OnHomeSyncPendingScans();
 }
 
-final class OnHomeRefreshSheets extends HomeScreenEvent {
-  const OnHomeRefreshSheets();
-}
-
 final class OnHomeNetworkStatusChanged extends HomeScreenEvent {
   const OnHomeNetworkStatusChanged(this.isConnected);
 

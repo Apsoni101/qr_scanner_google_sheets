@@ -6,46 +6,15 @@ import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_
 
 abstract class HomeScreenRepository {
   /// Local operations or methods
-  Future<Either<Failure, List<SheetEntity>>> getLocalSheets();
-
-  Future<Either<Failure, Unit>> cacheSheet(final SheetEntity sheet);
-
-  Future<Either<Failure, Unit>> cacheScanResult(
-    final ScanResultEntity scan,
-    final String sheetId,
-    final String sheetTitle,
-  );
-
-  Future<Either<Failure, List<ScanResultEntity>>> getCachedScans(
-    final String sheetId,
-  );
 
   Future<Either<Failure, List<PendingSyncEntity>>> getPendingSyncScans();
 
   Future<Either<Failure, Unit>> removeSyncedScan(final int index);
 
   /// Remote operations or methods
-  Future<Either<Failure, List<SheetEntity>>> getOwnedSheets();
-
-  Future<Either<Failure, String>> createSheet(final String sheetName);
 
   Future<Either<Failure, Unit>> saveScan(
     final ScanResultEntity entity,
     final String sheetId,
-  );
-
-  Future<Either<Failure, List<ScanResultEntity>>> getAllScans(
-    final String sheetId,
-  );
-
-  Future<Either<Failure, Unit>> updateScan(
-    final String sheetId,
-    final String range,
-    final ScanResultEntity entity,
-  );
-
-  Future<Either<Failure, Unit>> deleteScan(
-    final String sheetId,
-    final String range,
   );
 }

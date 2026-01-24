@@ -2,10 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_local_data_source.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_remote_data_source.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/data/model/pending_sync_model.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/repo/sheet_selection_repository.dart';
@@ -39,35 +37,6 @@ class SheetSelectionRepositoryImpl implements SheetSelectionRepository {
     sheetTitle,
   );
 
-  @override
-  Future<Either<Failure, List<ScanResultEntity>>> getCachedScans(
-    final String sheetId,
-  ) => localDataSource.getLocalScanResults(sheetId);
-
-  @override
-  Future<Either<Failure, List<PendingSyncEntity>>> getPendingSyncScans() async {
-    final Either<Failure, List<PendingSyncModel>> result = await localDataSource
-        .getPendingSyncs();
-
-    return result.fold(
-      Left.new,
-      (final List<PendingSyncModel> models) =>
-          Right<Failure, List<PendingSyncEntity>>(
-            models
-                .map((final PendingSyncModel model) => model.toEntity())
-                .toList(),
-          ),
-    );
-  }
-
-  @override
-  Future<Either<Failure, Unit>> removeSyncedScan(final int index) =>
-      localDataSource.removePendingSync(index);
-
-  @override
-  Future<Either<Failure, Unit>> clearAllCache() =>
-      localDataSource.clearLocalData();
-
   /// Remote operations
   @override
   Future<Either<Failure, List<SheetEntity>>> getOwnedSheets() =>
@@ -82,26 +51,4 @@ class SheetSelectionRepositoryImpl implements SheetSelectionRepository {
     final ScanResultEntity entity,
     final String sheetId,
   ) => remoteDataSource.saveScan(ScanResultModel.fromEntity(entity), sheetId);
-
-  @override
-  Future<Either<Failure, List<ScanResultEntity>>> getAllScans(
-    final String sheetId,
-  ) => remoteDataSource.read(sheetId);
-
-  @override
-  Future<Either<Failure, Unit>> updateScan(
-    final String sheetId,
-    final String range,
-    final ScanResultEntity entity,
-  ) => remoteDataSource.update(
-    sheetId,
-    range,
-    ScanResultModel.fromEntity(entity),
-  );
-
-  @override
-  Future<Either<Failure, Unit>> deleteScan(
-    final String sheetId,
-    final String range,
-  ) => remoteDataSource.delete(sheetId, range);
 }

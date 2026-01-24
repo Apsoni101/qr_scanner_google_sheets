@@ -16,16 +16,6 @@ abstract class SheetSelectionRepository {
     final String sheetTitle,
   );
 
-  Future<Either<Failure, List<ScanResultEntity>>> getCachedScans(
-    final String sheetId,
-  );
-
-  Future<Either<Failure, List<PendingSyncEntity>>> getPendingSyncScans();
-
-  Future<Either<Failure, Unit>> removeSyncedScan(final int index);
-
-  Future<Either<Failure, Unit>> clearAllCache();
-
   /// Remote operations
   Future<Either<Failure, List<SheetEntity>>> getOwnedSheets();
 
@@ -34,20 +24,5 @@ abstract class SheetSelectionRepository {
   Future<Either<Failure, Unit>> saveScan(
     final ScanResultEntity entity,
     final String sheetId,
-  );
-
-  Future<Either<Failure, List<ScanResultEntity>>> getAllScans(
-    final String sheetId,
-  );
-
-  Future<Either<Failure, Unit>> updateScan(
-    final String sheetId,
-    final String range,
-    final ScanResultEntity entity,
-  );
-
-  Future<Either<Failure, Unit>> deleteScan(
-    final String sheetId,
-    final String range,
   );
 }

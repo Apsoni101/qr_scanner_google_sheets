@@ -5,10 +5,8 @@ import 'package:qr_scanner_practice/feature/home/data/data_source/home_screen_re
 import 'package:qr_scanner_practice/feature/home/domain/repo/home_screen_repository.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/model/pending_sync_model.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 
 class HomeScreenRepositoryImpl implements HomeScreenRepository {
   const HomeScreenRepositoryImpl({
@@ -20,29 +18,6 @@ class HomeScreenRepositoryImpl implements HomeScreenRepository {
   final HomeScreenRemoteDataSource remoteDataSource;
 
   // Local operations
-  @override
-  Future<Either<Failure, List<SheetEntity>>> getLocalSheets() =>
-      localDataSource.getLocalSheets();
-
-  @override
-  Future<Either<Failure, Unit>> cacheSheet(final SheetEntity sheet) =>
-      localDataSource.saveSheetLocally(SheetModel.fromEntity(sheet));
-
-  @override
-  Future<Either<Failure, Unit>> cacheScanResult(
-    final ScanResultEntity scan,
-    final String sheetId,
-    final String sheetTitle,
-  ) => localDataSource.saveScanResultLocally(
-    ScanResultModel.fromEntity(scan),
-    sheetId,
-    sheetTitle,
-  );
-
-  @override
-  Future<Either<Failure, List<ScanResultEntity>>> getCachedScans(
-    final String sheetId,
-  ) => localDataSource.getLocalScanResults(sheetId);
 
   @override
   Future<Either<Failure, List<PendingSyncEntity>>> getPendingSyncScans() async {
@@ -65,39 +40,10 @@ class HomeScreenRepositoryImpl implements HomeScreenRepository {
       localDataSource.removePendingSync(index);
 
   // Remote operations
-  @override
-  Future<Either<Failure, List<SheetEntity>>> getOwnedSheets() =>
-      remoteDataSource.getOwnedSheets();
-
-  @override
-  Future<Either<Failure, String>> createSheet(final String sheetName) =>
-      remoteDataSource.createSheet(sheetName);
 
   @override
   Future<Either<Failure, Unit>> saveScan(
     final ScanResultEntity entity,
     final String sheetId,
   ) => remoteDataSource.saveScan(ScanResultModel.fromEntity(entity), sheetId);
-
-  @override
-  Future<Either<Failure, List<ScanResultEntity>>> getAllScans(
-    final String sheetId,
-  ) => remoteDataSource.read(sheetId);
-
-  @override
-  Future<Either<Failure, Unit>> updateScan(
-    final String sheetId,
-    final String range,
-    final ScanResultEntity entity,
-  ) => remoteDataSource.update(
-    sheetId,
-    range,
-    ScanResultModel.fromEntity(entity),
-  );
-
-  @override
-  Future<Either<Failure, Unit>> deleteScan(
-    final String sheetId,
-    final String range,
-  ) => remoteDataSource.delete(sheetId, range);
 }

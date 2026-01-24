@@ -38,6 +38,7 @@ class HttpNetworkService {
     required final T Function(Map<String, dynamic> response) responseParser,
     final dynamic data,
     final Options? options,
+    final Map<String, dynamic>? queryParameters,
   }) async {
     Response<dynamic> response;
 
@@ -50,6 +51,7 @@ class HttpNetworkService {
             url,
             data: data,
             options: options,
+            queryParameters: queryParameters,
             cancelToken: cancelToken,
           );
         case HttpMethod.delete:
@@ -57,6 +59,7 @@ class HttpNetworkService {
             url,
             data: data,
             options: options,
+            queryParameters: queryParameters,
             cancelToken: cancelToken,
           );
         case HttpMethod.patch:
@@ -65,11 +68,12 @@ class HttpNetworkService {
             data: data,
             options: options,
             cancelToken: cancelToken,
+            queryParameters: queryParameters,
           );
         case HttpMethod.get:
           response = await dio.get(
             url,
-            queryParameters: data is Map<String, dynamic> ? data : null,
+            queryParameters: queryParameters,
             options: options,
             cancelToken: cancelToken,
           );
@@ -78,6 +82,7 @@ class HttpNetworkService {
             url,
             data: data,
             options: options,
+            queryParameters: queryParameters,
             cancelToken: cancelToken,
           );
       }

@@ -20,7 +20,6 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     : super(const HomeScreenInitial()) {
     on<OnHomeLoadInitial>(_onLoadInitial);
     on<OnHomeSyncPendingScans>(_onSyncPendingScans);
-    on<OnHomeRefreshSheets>(_onRefreshSheets);
     on<OnHomeNetworkStatusChanged>(_onNetworkStatusChanged);
     on<OnHomeResetSyncSuccess>(_onResetSyncSuccess);
     on<OnHomeResetSyncError>(_onResetSyncError);
@@ -144,41 +143,6 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
             isOnline: true,
           ),
         );
-      },
-    );
-  }
-
-  Future<void> _onRefreshSheets(
-    final OnHomeRefreshSheets event,
-    final Emitter<HomeScreenState> emit,
-  ) async {
-    final bool isOnline = await connectivityService.hasInternetConnection();
-
-    if (!isOnline) {
-      emit(
-        state.copyWith(
-          error: 'No internet connection. Cannot refresh sheets.',
-          isOnline: false,
-        ),
-      );
-      return;
-    }
-
-    emit(state.copyWith(isLoading: true, isOnline: true));
-
-    final Either<Failure, List<SheetEntity>> result = await useCase
-        .getOwnedSheets();
-
-    await result.fold(
-      (final Failure failure) {
-        emit(state.copyWith(isLoading: false, error: failure.message));
-      },
-      (final List<SheetEntity> sheets) async {
-        for (final SheetEntity sheet in sheets) {
-          await useCase.cacheSheet(sheet);
-        }
-
-        emit(state.copyWith(isLoading: false));
       },
     );
   }

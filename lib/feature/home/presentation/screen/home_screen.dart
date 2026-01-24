@@ -60,37 +60,30 @@ class HomeScreenViewState extends State<HomeScreenView>
       listener: _handleStateChanges,
       child: Scaffold(
         backgroundColor: context.appColors.scaffoldBackground,
-        body: RefreshIndicator(
-          onRefresh: () async {
-            context.read<HomeScreenBloc>().add(const OnHomeRefreshSheets());
-          },
-          color: context.appColors.iconPrimary,
-          backgroundColor: context.appColors.textInversePrimary,
-          child: ListView(
-            padding: const EdgeInsets.all(24),
-            children: <Widget>[
-              const SyncStatusBanner(),
-              const SizedBox(height: 12),
-              OnScreenOptionItemCard(
-                iconPath: AppAssets.qrIc,
-                title: context.locale.scanQrCode,
-                subtitle: context.locale.pointCameraAtQrCodeToScanInstantly,
-                onPressed: () {
-                  context.router.push(const QrScanningRoute());
-                },
-              ),
-              const SizedBox(height: 12),
-              OnScreenOptionItemCard(
-                animationDuration: const Duration(milliseconds: 2500),
-                iconPath: AppAssets.sheetIc,
-                title: context.locale.extractTextOcr,
-                subtitle: context.locale.extractTextFromImagesOrCamera,
-                onPressed: () {
-                  context.router.push(const OcrRoute());
-                },
-              ),
-            ],
-          ),
+        body: ListView(
+          padding: const EdgeInsets.all(24),
+          children: <Widget>[
+            const SyncStatusBanner(),
+            const SizedBox(height: 12),
+            OnScreenOptionItemCard(
+              iconPath: AppAssets.qrIc,
+              title: context.locale.scanQrCode,
+              subtitle: context.locale.pointCameraAtQrCodeToScanInstantly,
+              onPressed: () {
+                context.router.push(const QrScanningRoute());
+              },
+            ),
+            const SizedBox(height: 12),
+            OnScreenOptionItemCard(
+              animationDuration: const Duration(milliseconds: 2500),
+              iconPath: AppAssets.sheetIc,
+              title: context.locale.extractTextOcr,
+              subtitle: context.locale.extractTextFromImagesOrCamera,
+              onPressed: () {
+                context.router.push(const OcrRoute());
+              },
+            ),
+          ],
         ),
       ),
     );

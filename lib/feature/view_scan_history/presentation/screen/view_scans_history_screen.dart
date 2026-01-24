@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/common_loading_view.dart';
-import 'package:qr_scanner_practice/feature/home/presentation/widgets/home_screen_app_bar.dart';
-
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/presentation/bloc/view_scans_history_screen_bloc.dart';
 import 'package:qr_scanner_practice/feature/view_scan_history/presentation/widget/history_card_item.dart';

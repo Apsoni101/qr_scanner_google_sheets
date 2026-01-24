@@ -10,7 +10,7 @@ class SheetSelectionUseCase {
 
   final SheetSelectionRepository repository;
 
-  // Local operations
+  /// Local operations
   Future<Either<Failure, List<SheetEntity>>> getLocalSheets() =>
       repository.getLocalSheets();
 
@@ -23,19 +23,7 @@ class SheetSelectionUseCase {
     final String sheetTitle,
   ) => repository.cacheScanResult(scan, sheetId, sheetTitle);
 
-  Future<Either<Failure, List<ScanResultEntity>>> getCachedScans(
-    final String sheetId,
-  ) => repository.getCachedScans(sheetId);
-
-  Future<Either<Failure, List<PendingSyncEntity>>> getPendingSyncScans() =>
-      repository.getPendingSyncScans();
-
-  Future<Either<Failure, Unit>> removeSyncedScan(final int index) =>
-      repository.removeSyncedScan(index);
-
-  Future<Either<Failure, Unit>> clearAllCache() => repository.clearAllCache();
-
-  // Remote operations
+  /// Remote operations
   Future<Either<Failure, List<SheetEntity>>> getOwnedSheets() =>
       repository.getOwnedSheets();
 
@@ -46,19 +34,4 @@ class SheetSelectionUseCase {
     final ScanResultEntity entity,
     final String sheetId,
   ) => repository.saveScan(entity, sheetId);
-
-  Future<Either<Failure, List<ScanResultEntity>>> getAllScans(
-    final String sheetId,
-  ) => repository.getAllScans(sheetId);
-
-  Future<Either<Failure, Unit>> updateScan(
-    final String sheetId,
-    final String range,
-    final ScanResultEntity entity,
-  ) => repository.updateScan(sheetId, range, entity);
-
-  Future<Either<Failure, Unit>> deleteScan(
-    final String sheetId,
-    final String range,
-  ) => repository.deleteScan(sheetId, range);
 }

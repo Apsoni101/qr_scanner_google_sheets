@@ -4,12 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:home_widget/home_widget.dart';
+import 'package:qr_scanner_practice/core/app_theming/app_color_theme_extension.dart';
 import 'package:qr_scanner_practice/core/app_theming/app_dark_theme_colors.dart';
 import 'package:qr_scanner_practice/core/app_theming/app_light_theme_colors.dart';
 import 'package:qr_scanner_practice/core/constants/app_constants.dart';
 
 import 'package:qr_scanner_practice/core/controller/theme_controller.dart';
 import 'package:qr_scanner_practice/core/di/app_injector.dart';
+import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/localisation/app_localizations.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.dart';
 import 'package:qr_scanner_practice/core/local_storage/hive_key_constants.dart';
@@ -61,11 +63,15 @@ class MyApp extends StatelessWidget {
           themeMode: themeMode,
           theme: ThemeData(
             brightness: Brightness.light,
-            extensions: <ThemeExtension>[AppLightThemeColors()],
+            extensions: <ThemeExtension<AppColorThemeExtension>>[
+              AppLightThemeColors(),
+            ],
           ),
           darkTheme: ThemeData(
             brightness: Brightness.dark,
-            extensions: <ThemeExtension>[AppDarkThemeColors()],
+            extensions: <ThemeExtension<AppColorThemeExtension>>[
+              AppDarkThemeColors(),
+            ],
           ),
         );
       },

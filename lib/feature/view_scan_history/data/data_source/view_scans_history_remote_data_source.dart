@@ -45,57 +45,76 @@ class ViewScansHistoryRemoteDataSourceImpl
   ) async {
     const String query =
         'mimeType="${NetworkConstants.sheetMimeType}" and "me" in owners and trashed=false';
-    final String encodedQuery = Uri.encodeComponent(query);
+
+    final Map<String, dynamic> queryParams = <String, dynamic>{
+      'q': query,
+      'fields': NetworkConstants.sheetFields,
+      'pageSize': NetworkConstants.pageSize,
+      'orderBy': NetworkConstants.orderBy,
+    };
 
     return apiClient.request<List<SheetModel>>(
-      url:
-          '${NetworkConstants.driveBaseUrl}?q=$encodedQuery&fields=${NetworkConstants.sheetFields}&pageSize=${NetworkConstants.pageSize}&orderBy=${NetworkConstants.orderBy}',
+      url: NetworkConstants.driveBaseUrl,
       method: HttpMethod.get,
       options: options,
+      queryParameters: queryParams,
       responseParser: (final Map<String, dynamic> json) {
-        final List files = json['files'] as List<dynamic>? ?? <dynamic>[];
-        return files
-            .where((final f) {
-              final String description = f['description']?.toString() ?? '';
-              final Map<String, dynamic> properties =
-                  f['properties'] as Map<String, dynamic>? ??
-                  <String, dynamic>{};
-              final String appMark = properties['appCreated']?.toString() ?? '';
-
-              return description.contains(AppConstants.appCreatedLabel) ||
-                  appMark == AppConstants.appCreatedLabel;
-            })
-            .map(
-              (final f) => SheetModel(
-                id: f['id']?.toString() ?? '',
-                title: f['name']?.toString() ?? 'Untitled',
-                createdTime: f['createdTime']?.toString(),
-                modifiedTime: f['modifiedTime']?.toString(),
-              ),
-            )
-            .toList();
+        final List files = json['files'] ?? <dynamic>[];
+        return _filterAndMapSheets(files);
       },
     );
   }
 
+  List<SheetModel> _filterAndMapSheets(final List files) {
+    return files.where(_isAppCreatedSheet).map(_mapToSheetModel).toList();
+  }
+
+  bool _isAppCreatedSheet(final dynamic file) {
+    final String description = file['description']?.toString() ?? '';
+    final Map<String, dynamic> properties =
+        file['properties'] ?? <String, dynamic>{};
+    final String appMark = properties['appCreated']?.toString() ?? '';
+
+    return description.contains(AppConstants.appCreatedLabel) ||
+        appMark == AppConstants.appCreatedLabel;
+  }
+
+  SheetModel _mapToSheetModel(final dynamic file) {
+    return SheetModel(
+      id: file['id']?.toString() ?? '',
+      title: file['name']?.toString() ?? 'Untitled',
+      createdTime: file['createdTime']?.toString(),
+      modifiedTime: file['modifiedTime']?.toString(),
+    );
+  }
+
   Future<Either<Failure, List<ScanResultModel>>> _readScansFromSheet(
-    String sheetId,
-    Options options,
+    final String sheetId,
+    final Options options,
   ) async {
+    final String sheetRange =
+        '${AppConstants.sheetName}!${AppConstants.readRange}';
+    final String url =
+        '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/$sheetRange';
+
     return apiClient.request<List<ScanResultModel>>(
-      url:
-          '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${AppConstants.readRange}',
+      url: url,
       method: HttpMethod.get,
       options: options,
       responseParser: (final Map<String, dynamic> json) {
-        final List values = json['values'] as List<dynamic>? ?? <dynamic>[];
-        return values
-            .map(
-              (final e) => ScanResultModel.fromSheetRow(List<dynamic>.from(e)),
-            )
-            .toList();
+        final List values = json['values'] ?? <dynamic>[];
+        return _mapToScanResultModels(values);
       },
     );
+  }
+
+  List<ScanResultModel> _mapToScanResultModels(final List values) {
+    return values
+        .map(
+          (final dynamic row) =>
+              ScanResultModel.fromSheetRow(List<dynamic>.from(row)),
+        )
+        .toList();
   }
 
   @override
@@ -103,55 +122,73 @@ class ViewScansHistoryRemoteDataSourceImpl
   getAllScansFromAllSheets() async {
     final Either<Failure, Options> authOptions = await _getAuthorizedOptions();
 
-    return await authOptions.fold(
-      (final Failure failure) async {
-        return Left<Failure, List<PendingSyncEntity>>(failure);
-      },
-      (final Options options) async {
-        /// Get all sheets
-        final Either<Failure, List<SheetModel>> sheetsResult =
-            await _getOwnedSheets(options);
+    return authOptions.fold(
+      (final Failure failure) async =>
+          Left<Failure, List<PendingSyncEntity>>(failure),
+      (final Options options) async => _fetchAllScansFromSheets(options),
+    );
+  }
 
-        return await sheetsResult.fold(
-          (final Failure failure) async {
-            return Left<Failure, List<PendingSyncEntity>>(failure);
-          },
-          (final List<SheetModel> sheets) async {
-            final List<PendingSyncEntity> allScans = <PendingSyncEntity>[];
+  Future<Either<Failure, List<PendingSyncEntity>>> _fetchAllScansFromSheets(
+    final Options options,
+  ) async {
+    final Either<Failure, List<SheetModel>> sheetsResult =
+        await _getOwnedSheets(options);
 
-            /// For each sheet, fetch all scans
-            for (final SheetModel sheet in sheets) {
-              final Either<Failure, List<ScanResultModel>> scansResult =
-                  await _readScansFromSheet(sheet.id, options);
+    return sheetsResult.fold(
+      (final Failure failure) async =>
+          Left<Failure, List<PendingSyncEntity>>(failure),
+      (final List<SheetModel> sheets) async =>
+          _collectScansFromAllSheets(sheets, options),
+    );
+  }
 
-              scansResult.fold(
-                (final Failure _) {
-                  /// Continuing even if one sheet fails
-                },
-                (final List<ScanResultModel> scans) {
-                  final List<PendingSyncEntity> sheetScans = scans
-                      .map(
-                        (final ScanResultModel scan) => PendingSyncEntity(
-                          scan: scan.toEntity(),
-                          sheetId: sheet.id,
-                          sheetTitle: sheet.title,
-                        ),
-                      )
-                      .toList();
-                  allScans.addAll(sheetScans);
-                },
-              );
-            }
+  Future<Either<Failure, List<PendingSyncEntity>>> _collectScansFromAllSheets(
+    final List<SheetModel> sheets,
+    final Options options,
+  ) async {
+    final List<PendingSyncEntity> allScans = <PendingSyncEntity>[];
 
-            allScans.sort(
-              (final PendingSyncEntity a, final PendingSyncEntity b) =>
-                  b.scan.timestamp.compareTo(a.scan.timestamp),
-            );
+    for (final SheetModel sheet in sheets) {
+      final Either<Failure, List<ScanResultModel>> scansResult =
+          await _readScansFromSheet(sheet.id, options);
 
-            return Right<Failure, List<PendingSyncEntity>>(allScans);
-          },
-        );
-      },
+      scansResult.fold(
+        (final Failure _) {
+          /// Continue even if one sheet fails
+        },
+        (final List<ScanResultModel> scans) {
+          final List<PendingSyncEntity> sheetScans =
+              _convertToPendingSyncEntities(scans, sheet);
+          allScans.addAll(sheetScans);
+        },
+      );
+    }
+
+    _sortScansByTimestamp(allScans);
+
+    return Right<Failure, List<PendingSyncEntity>>(allScans);
+  }
+
+  List<PendingSyncEntity> _convertToPendingSyncEntities(
+    final List<ScanResultModel> scans,
+    final SheetModel sheet,
+  ) {
+    return scans
+        .map(
+          (final ScanResultModel scan) => PendingSyncEntity(
+            scan: scan.toEntity(),
+            sheetId: sheet.id,
+            sheetTitle: sheet.title,
+          ),
+        )
+        .toList();
+  }
+
+  void _sortScansByTimestamp(final List<PendingSyncEntity> scans) {
+    scans.sort(
+      (final PendingSyncEntity a, final PendingSyncEntity b) =>
+          b.scan.timestamp.compareTo(a.scan.timestamp),
     );
   }
 }

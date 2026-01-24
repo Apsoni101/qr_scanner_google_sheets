@@ -19,8 +19,8 @@ class HttpApiClient extends HttpNetworkService {
     required final String url,
     required final HttpMethod method,
     required final T Function(Map<String, dynamic> response) responseParser,
-    //ignore:avoid_annotating_with_dynamic
     final dynamic data,
+    final Map<String, dynamic>? queryParameters,
     final Options? options,
   }) {
     return super.request(
@@ -28,6 +28,7 @@ class HttpApiClient extends HttpNetworkService {
       method: method,
       responseParser: responseParser,
       data: data,
+      queryParameters: queryParameters,
       options: options,
     );
   }
