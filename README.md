@@ -9,6 +9,74 @@ Note 2 :- The app can only list the sheets that are created in app by user (done
 
 ---
 
+# Project Info 📱
+
+## Environments
+
+The project operates in three environments:
+
+| Environment | Description |
+|-------------|-------------|
+| **DEV** | Development environment |
+| **UAT** | User Acceptance Testing environment |
+| **PROD** | Production environment |
+
+## Platform Support
+
+The app is currently deployed on the following platforms:
+
+- ✅ **iOS**
+- ✅ **Android**
+
+---
+
+# Installation Prerequisites ⚙️
+
+Ensure you have the following installed:
+
+- **Flutter SDK**
+- **Android Studio** or **Visual Studio Code**
+- **Xcode** (for iOS development)
+
+## Development Tool Versions
+
+| Tool | Version |
+|------|---------|
+| **JDK** | openjdk 17.0.17 |
+| **Flutter** | 3.38.7 |
+| **Dart** | 3.10.7 |
+| **DevTools** | 2.51.1 |
+
+## Quick Setup
+```bash
+# Verify Flutter installation
+flutter --version
+
+# Check Flutter doctor
+flutter doctor
+
+# Get dependencies
+flutter pub get
+
+# Run code generation
+dart run build_runner build --delete-conflicting-outputs
+```
+
+## Running the App
+```bash
+# Run in DEV environment
+flutter run --flavor dev
+
+# Run in UAT environment
+flutter run --flavor uat
+
+# Run in PROD environment
+flutter run --flavor prod
+```
+
+
+
+
 ## 📸 App Screenshots
 
 | Signin Screen |
