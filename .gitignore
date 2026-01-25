@@ -31,6 +31,7 @@ ios/Runner/GoogleService-Info.plist
 macos/
 windows/
 linux/
+web/
 
 
 # IntelliJ related
