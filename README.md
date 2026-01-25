@@ -67,6 +67,27 @@ Google signin for authentication
 
 ---
 
+
+
+
+# Folder Structure Convention
+
+## Top-level directory layout
+```
+.
+├── android/
+├── assets/
+├── build/
+├── ios/
+├── lib/
+└── test/
+```
+
+
+
+
+
+
 # Source files 
 ```
 lib/
