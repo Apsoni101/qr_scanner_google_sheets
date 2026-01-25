@@ -115,50 +115,13 @@ flutter run --flavor prod
 |-------------|-------------|---------|
 | ![](https://github.com/user-attachments/assets/0bfc2b43-63a6-4156-923f-52f41a7d733f)| ![](https://github.com/user-attachments/assets/d9d8bc2f-ca2e-42f3-a036-03763c694946) | ![](https://github.com/user-attachments/assets/6ebc197f-cf68-48ca-90c9-ce3ccb2dfe6f) |
 
----
-
-## 🚀 App Flow for saving and local sync when no internet 
 
 
-https://github.com/user-attachments/assets/9d032b9c-1b97-478d-9bc1-c0a85caff0bc
-
-## 🚀 App Screens 
-
-### 🏠 1. Home Screen
-This is the **first screen** when the app opens.
-It consist of two buttons one to go to scan qr code and one to view history button .
-Home screen is responsible for syncing when network connectivity changes for syncing with remote when saved locally due to no connectivity . 
+| Sheet Selection Screen | Settings Screen | Settings Screen |
+|-------------|-------------|---------|
+| ![](https://github.com/user-attachments/assets/b5b6c779-910a-4ef0-b9e5-8b2d207a1d01)| ![](https://github.com/user-attachments/assets/90a8c5f7-6473-4773-87b8-844c39a17f5d) | ![](https://github.com/user-attachments/assets/ed5122f0-db2e-4035-9b87-1e9f705976bc) |
 
 ---
-
-### 📷 2. QR Scanner Screen
-This screen opens the **camera**.
-It Toggles flash .
-Can Scan Qr And Analyze .
-Can open camera and gallery for capturing QR .
-
----
-
-### ✅ 3. Scan Result Screen
-After scanning, the app shows the result.
-In this screen we can add comments or notes to be saved in sheet . 
-
----
-
-### 📄 4. Review and Sheets Selection for saving 
-
-Can review the comment and scanned data before saving . 
-This screen shows all saved sheets for selecting sheet to save .
-Can Also create new sheets . 
-
----
-
-###  5. Signin Screen 
-Google signin for authentication 
-
----
-
-
 
 
 # Features
