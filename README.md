@@ -1,4 +1,4 @@
-# 📱 QR Scanner Google sheets
+# 📱 CodiScan
 
 A Flutter QR Scanner application that allows users to scan QR codes, view results, handle errors, and store scanned data in google sheets with scan data , device id , timestamp , userid .  
 The app follows **Clean Architecture**, uses **BLoC** for state management, and supports **offline storage**. 
