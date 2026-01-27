@@ -12,6 +12,10 @@ final class OnConfirmationLoadSheets extends SheetSelectionEvent {
   const OnConfirmationLoadSheets();
 }
 
+final class OnConfirmationLoadMoreSheets extends SheetSelectionEvent {
+  const OnConfirmationLoadMoreSheets();
+}
+
 final class OnConfirmationSheetSelected extends SheetSelectionEvent {
   const OnConfirmationSheetSelected(this.sheetId);
 

@@ -261,5 +261,6 @@
   "permissionPermanentlyDeniedMessage": "अनुमति स्थायी रूप से अस्वीकृत है। कृपया इसे ऐप सेटिंग्स में सक्षम करें।",
   "openSettings": "सेटिंग्स खोलें",
   "retry": "पुनः प्रयास करें",
-  "cancelButtonLabel": "रद्द करें"
+  "cancelButtonLabel": "रद्द करें",
+  "loadMore": "और लोड करें"
 }

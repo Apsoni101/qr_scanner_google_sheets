@@ -7,11 +7,15 @@ import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/core/network/http_api_client.dart';
 import 'package:qr_scanner_practice/core/network/http_method.dart';
 import 'package:qr_scanner_practice/core/services/device_info_service.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/paged_sheets_model.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
 
 abstract class SheetSelectionRemoteDataSource {
-  Future<Either<Failure, List<SheetModel>>> getOwnedSheets();
+  Future<Either<Failure, PagedSheetsModel>> getOwnedSheets({
+    String? pageToken,
+    int? pageSize,
+  });
 
   Future<Either<Failure, String>> createSheet(final String sheetName);
 
@@ -68,7 +72,10 @@ class SheetSelectionRemoteDataSourceImpl
   }
 
   @override
-  Future<Either<Failure, List<SheetModel>>> getOwnedSheets() async {
+  Future<Either<Failure, PagedSheetsModel>> getOwnedSheets({
+    String? pageToken,
+    int? pageSize,
+  }) async {
     final Either<Failure, Options> authOptions = await _getAuthorizedOptions();
 
     return authOptions.fold(Left.new, (final Options options) async {
@@ -79,24 +86,24 @@ class SheetSelectionRemoteDataSourceImpl
           'and (properties has { key="appCreated" and value="${AppConstants.appCreatedLabel}" } '
           'or fullText contains "${AppConstants.appCreatedLabel}")';
 
-      return apiClient.request<List<SheetModel>>(
+      final Map<String, dynamic> queryParams = <String, dynamic>{
+        'q': query,
+        'fields': '${NetworkConstants.sheetFields}, nextPageToken',
+        'pageSize': pageSize ?? NetworkConstants.pageSize,
+        'orderBy': NetworkConstants.orderBy,
+      };
+
+      if (pageToken != null && pageToken.isNotEmpty) {
+        queryParams['pageToken'] = pageToken;
+      }
+
+      return apiClient.request<PagedSheetsModel>(
         url: NetworkConstants.driveBaseUrl,
         method: HttpMethod.get,
         options: options,
-        queryParameters: <String, dynamic>{
-          'q': query,
-          'fields': NetworkConstants.sheetFields,
-          'pageSize': NetworkConstants.pageSize,
-          'orderBy': NetworkConstants.orderBy,
-        },
+        queryParameters: queryParams,
         responseParser: (final Map<String, dynamic> json) {
-          final List<dynamic> files = json['files'] ?? [];
-          return files
-              .map(
-                (final dynamic f) =>
-                    SheetModel.fromJson(f as Map<String, dynamic>),
-              )
-              .toList();
+          return PagedSheetsModel.fromJson(json);
         },
       );
     });
@@ -164,9 +171,10 @@ class SheetSelectionRemoteDataSourceImpl
       return spreadsheetId.fold(Left.new, (final String id) async {
         final Either<Failure, Unit> updateResult = await apiClient
             .request<Unit>(
-              url: '${NetworkConstants.driveBaseUrl}/$id?fields=properties',
+              url: '${NetworkConstants.driveBaseUrl}/$id',
               method: HttpMethod.patch,
               options: options,
+              queryParameters: <String, dynamic>{'fields': 'properties'},
               data: <String, dynamic>{
                 'properties': <String, dynamic>{
                   'appCreated': AppConstants.appCreatedLabel,

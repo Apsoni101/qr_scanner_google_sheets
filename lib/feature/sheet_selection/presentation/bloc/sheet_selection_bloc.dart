@@ -3,11 +3,13 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/paged_sheets_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/use_case/sheet_selection_use_case.dart';
 
 part 'sheet_selection_event.dart';
+
 part 'sheet_selection_state.dart';
 
 class SheetSelectionBloc
@@ -15,6 +17,8 @@ class SheetSelectionBloc
   SheetSelectionBloc({required this.useCase})
     : super(const ResultSavingInitial()) {
     on<OnConfirmationLoadSheets>(_onLoadSheets);
+    on<OnConfirmationLoadMoreSheets>(_onLoadMoreSheets);
+
     on<OnConfirmationSheetSelected>(_onSheetSelected);
     on<OnConfirmationCreateSheet>(_onCreateSheet);
     on<OnConfirmationSheetNameChanged>(_onSheetNameChanged);
@@ -28,46 +32,84 @@ class SheetSelectionBloc
     final OnConfirmationLoadSheets event,
     final Emitter<SheetSelectionState> emit,
   ) async {
-    emit(state.copyWith(isLoadingSheets: true));
+    emit(
+      state.copyWith(
+        isLoadingSheets: true,
+        sheets: <SheetEntity>[],
+        hasMoreSheets: true,
+      ),
+    );
 
-    final Either<Failure, List<SheetEntity>> remoteResult = await useCase
-        .getOwnedSheets();
+    final Either<Failure, PagedSheetsEntity> result = await useCase
+        .getOwnedSheets(pageSize: 5);
 
-    await remoteResult.fold(
+    await result.fold(
       (final Failure failure) async {
-        final Either<Failure, List<SheetEntity>> localResult = await useCase
+        final Either<Failure, List<SheetEntity>> local = await useCase
             .getLocalSheets();
-
-        localResult.fold(
-          (final Failure localFailure) {
-            emit(
-              state.copyWith(
-                isLoadingSheets: false,
-                sheetsLoadError: 'Failed to load sheets: ${failure.message}',
-              ),
-            );
-          },
-          (final List<SheetEntity> sheets) {
-            emit(
-              state.copyWith(
-                isLoadingSheets: false,
-                sheets: sheets,
-                isCachedData: true,
-              ),
-            );
-          },
+        local.fold(
+          (final Failure e) => emit(
+            state.copyWith(
+              isLoadingSheets: false,
+              sheetsLoadError: failure.message,
+            ),
+          ),
+          (final List<SheetEntity> sheets) => emit(
+            state.copyWith(
+              isLoadingSheets: false,
+              sheets: sheets,
+              isCachedData: true,
+              hasMoreSheets: false,
+            ),
+          ),
         );
       },
-      (final List<SheetEntity> sheets) async {
-        for (final SheetEntity sheet in sheets) {
+      (final PagedSheetsEntity paged) async {
+        for (final SheetEntity sheet in paged.sheets) {
           await useCase.cacheSheet(sheet);
         }
 
         emit(
           state.copyWith(
             isLoadingSheets: false,
-            sheets: sheets,
+            sheets: paged.sheets,
+            nextPageToken: paged.nextPageToken,
+            hasMoreSheets: paged.nextPageToken != null,
             isCachedData: false,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onLoadMoreSheets(
+    final OnConfirmationLoadMoreSheets event,
+    final Emitter<SheetSelectionState> emit,
+  ) async {
+    if (state.isLoadingMoreSheets || !state.hasMoreSheets) {
+      return;
+    }
+
+    emit(state.copyWith(isLoadingMoreSheets: true));
+
+    final Either<Failure, PagedSheetsEntity> result = await useCase
+        .getOwnedSheets(pageToken: state.nextPageToken, pageSize: 5);
+
+    await result.fold(
+      (final Failure failure) {
+        emit(state.copyWith(isLoadingMoreSheets: false));
+      },
+      (final PagedSheetsEntity paged) async {
+        for (final SheetEntity sheet in paged.sheets) {
+          await useCase.cacheSheet(sheet);
+        }
+
+        emit(
+          state.copyWith(
+            isLoadingMoreSheets: false,
+            sheets: <SheetEntity>[...state.sheets, ...paged.sheets],
+            nextPageToken: paged.nextPageToken,
+            hasMoreSheets: paged.nextPageToken != null,
           ),
         );
       },
@@ -178,8 +220,8 @@ class SheetSelectionBloc
       (final String sheetId) async {
         emit(state.copyWith(isCreatingSheet: false));
 
-        final Either<Failure, List<SheetEntity>> loadResult = await useCase
-            .getOwnedSheets();
+        final Either<Failure, PagedSheetsEntity> loadResult = await useCase
+            .getOwnedSheets(pageSize: 5);
 
         await loadResult.fold(
           (final Failure failure) {
@@ -191,10 +233,11 @@ class SheetSelectionBloc
               ),
             );
           },
-          (final List<SheetEntity> sheets) async {
-            for (final SheetEntity sheet in sheets) {
+          (final PagedSheetsEntity pagedSheetsEntity) async {
+            for (final SheetEntity sheet in pagedSheetsEntity.sheets) {
               await useCase.cacheSheet(sheet);
             }
+            final List<SheetEntity> sheets = pagedSheetsEntity.sheets;
 
             final int newSheetIndex = sheets.indexWhere(
               (final SheetEntity s) => s.id == sheetId,
@@ -211,6 +254,8 @@ class SheetSelectionBloc
                 isCreatingNewSheet: false,
                 newSheetName: '',
                 isCachedData: false,
+                nextPageToken: state.nextPageToken,
+                hasMoreSheets: state.hasMoreSheets,
               ),
             );
           },

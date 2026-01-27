@@ -15,6 +15,9 @@ class SheetSelectionState extends Equatable {
     this.scanSaveError,
     this.isScanSaved = false,
     this.isCachedData = false,
+    this.isLoadingMoreSheets = false,
+    this.hasMoreSheets = true,
+    this.nextPageToken,
   });
 
   final bool isLoadingSheets;
@@ -30,6 +33,9 @@ class SheetSelectionState extends Equatable {
   final String? scanSaveError;
   final bool isScanSaved;
   final bool isCachedData;
+  final bool isLoadingMoreSheets;
+  final bool hasMoreSheets;
+  final String? nextPageToken;
 
   SheetSelectionState copyWith({
     final bool? isLoadingSheets,
@@ -45,6 +51,9 @@ class SheetSelectionState extends Equatable {
     final String? scanSaveError,
     final bool? isScanSaved,
     final bool? isCachedData,
+    final bool? isLoadingMoreSheets,
+    final bool? hasMoreSheets,
+    final String? nextPageToken,
   }) {
     return SheetSelectionState(
       isLoadingSheets: isLoadingSheets ?? this.isLoadingSheets,
@@ -60,6 +69,9 @@ class SheetSelectionState extends Equatable {
       scanSaveError: scanSaveError,
       isScanSaved: isScanSaved ?? this.isScanSaved,
       isCachedData: isCachedData ?? this.isCachedData,
+      isLoadingMoreSheets: isLoadingMoreSheets ?? this.isLoadingMoreSheets,
+      hasMoreSheets: hasMoreSheets ?? this.hasMoreSheets,
+      nextPageToken: nextPageToken ?? this.nextPageToken,
     );
   }
 
@@ -78,6 +90,9 @@ class SheetSelectionState extends Equatable {
     scanSaveError,
     isScanSaved,
     isCachedData,
+    isLoadingMoreSheets,
+    hasMoreSheets,
+    nextPageToken,
   ];
 }
 

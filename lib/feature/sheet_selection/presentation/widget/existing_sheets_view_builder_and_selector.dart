@@ -6,6 +6,7 @@ import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/extensions/string_extensions.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/common_loading_view.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/decorated_svg_asset_icon_container.dart';
+import 'package:qr_scanner_practice/feature/common/presentation/widgets/elevated_icon_button.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/error_or_empty_message_container.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/presentation/bloc/sheet_selection_bloc.dart';
@@ -23,12 +24,16 @@ class ExistingSheetsViewBuilderAndSelector extends StatelessWidget {
       SheetSelectionState,
       ({
         bool isFetchingSheets,
+        bool isLoadingMore,
+        bool hasMore,
         String? loadError,
         List<SheetEntity> availableSheets,
       })
     >(
       selector: (final SheetSelectionState state) => (
         isFetchingSheets: state.isLoadingSheets,
+        isLoadingMore: state.isLoadingMoreSheets,
+        hasMore: state.hasMoreSheets,
         loadError: state.sheetsLoadError,
         availableSheets: state.sheets,
       ),
@@ -37,6 +42,8 @@ class ExistingSheetsViewBuilderAndSelector extends StatelessWidget {
             final BuildContext context,
             final ({
               String? loadError,
+              bool isLoadingMore,
+              bool hasMore,
               bool isFetchingSheets,
               List<SheetEntity> availableSheets,
             })
@@ -61,7 +68,33 @@ class ExistingSheetsViewBuilderAndSelector extends StatelessWidget {
                     textColor: context.appColors.textSecondary,
                   )
                 else
-                  _SheetListView(availableSheets: sheetData.availableSheets),
+                  Column(
+                    children: [
+                      _SheetListView(
+                        availableSheets: sheetData.availableSheets,
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      if (sheetData.hasMore)
+                        sheetData.isLoadingMore
+                            ? const CommonLoadingView()
+                            : ElevatedIconButton(
+                                icon: Icons.expand_circle_down_outlined,
+                                label: context.locale.loadMore,
+                                backgroundColor:
+                                    context.appColors.primaryDefault,
+                                iconColor: context.appColors.surfaceL1,
+                                labelColor:
+                                    context.appColors.textInversePrimary,
+                                onPressed: () {
+                                  context.read<SheetSelectionBloc>().add(
+                                    const OnConfirmationLoadMoreSheets(),
+                                  );
+                                },
+                              ),
+                    ],
+                  ),
               ],
             );
           },

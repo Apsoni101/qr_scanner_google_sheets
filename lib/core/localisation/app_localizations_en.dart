@@ -432,5 +432,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get retry => 'Retry';
 
   @override
+  String get loadMore => 'Load More';
+
+  @override
   String get cancelButtonLabel => 'Cancel';
 }

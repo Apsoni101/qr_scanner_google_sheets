@@ -261,5 +261,6 @@
   "permissionPermanentlyDeniedMessage": "Permission is permanently denied. Please enable it in app settings.",
   "openSettings": "Open Settings",
   "retry": "Retry",
+  "loadMore": "Load More",
   "cancelButtonLabel": "Cancel"
 }

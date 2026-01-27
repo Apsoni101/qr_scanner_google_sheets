@@ -842,6 +842,12 @@ abstract class AppLocalizations {
   /// **'Retry'**
   String get retry;
 
+  /// No description provided for @loadMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Load More'**
+  String get loadMore;
+
   /// No description provided for @cancelButtonLabel.
   ///
   /// In en, this message translates to:

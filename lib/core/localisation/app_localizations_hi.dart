@@ -433,5 +433,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String get retry => 'पुनः प्रयास करें';
 
   @override
+  String get loadMore => 'और लोड करें';
+
+  @override
   String get cancelButtonLabel => 'रद्द करें';
 }

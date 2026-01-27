@@ -2,8 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_local_data_source.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/data_source/sheet_selection_remote_data_source.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/data/model/paged_sheets_model.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/model/scan_result_model.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/data/model/sheet_model.dart';
+import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/paged_sheets_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/repo/sheet_selection_repository.dart';
@@ -39,8 +41,18 @@ class SheetSelectionRepositoryImpl implements SheetSelectionRepository {
 
   /// Remote operations
   @override
-  Future<Either<Failure, List<SheetEntity>>> getOwnedSheets() =>
-      remoteDataSource.getOwnedSheets();
+  Future<Either<Failure, PagedSheetsEntity>> getOwnedSheets({
+    final String? pageToken,
+    final int? pageSize,
+  }) async {
+    final Either<Failure, PagedSheetsModel> result = await remoteDataSource
+        .getOwnedSheets(pageToken: pageToken, pageSize: pageSize);
+    return result.fold(
+      Left.new,
+      (final PagedSheetsModel pagedSheets) =>
+          Right<Failure, PagedSheetsEntity>(pagedSheets.toEntity()),
+    );
+  }
 
   @override
   Future<Either<Failure, String>> createSheet(final String sheetName) =>
