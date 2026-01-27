@@ -97,7 +97,7 @@ class _ResultViewState extends State<_ResultView> {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         children: <Widget>[
-          if (imagePreview != null) ...[
+          if (imagePreview != null) ...<Widget>[
             OcrImagePreview(image: imagePreview),
             const SizedBox(height: 24),
           ],

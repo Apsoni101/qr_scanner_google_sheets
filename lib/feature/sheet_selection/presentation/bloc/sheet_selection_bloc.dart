@@ -52,8 +52,6 @@ class SheetSelectionBloc
               state.copyWith(
                 isLoadingSheets: false,
                 sheets: sheets,
-                selectedSheetId: null,
-                selectedSheetTitle: null,
                 isCachedData: true,
               ),
             );
@@ -69,8 +67,6 @@ class SheetSelectionBloc
           state.copyWith(
             isLoadingSheets: false,
             sheets: sheets,
-            selectedSheetId: null,
-            selectedSheetTitle: null,
             isCachedData: false,
           ),
         );

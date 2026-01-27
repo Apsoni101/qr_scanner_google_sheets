@@ -32,7 +32,7 @@ class HistoryCardItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 4,
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Text(
               data,
               maxLines: 1,

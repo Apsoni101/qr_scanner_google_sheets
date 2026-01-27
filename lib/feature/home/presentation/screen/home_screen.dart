@@ -8,7 +8,6 @@ import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 import 'package:qr_scanner_practice/core/navigation/app_router.gr.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/on_screen_option_item_card.dart';
 import 'package:qr_scanner_practice/feature/home/presentation/bloc/home_screen_bloc/home_screen_bloc.dart';
-import 'package:qr_scanner_practice/feature/home/presentation/widgets/home_screen_app_bar.dart';
 import 'package:qr_scanner_practice/feature/home/presentation/widgets/sync_status_banner.dart';
 
 @RoutePage()

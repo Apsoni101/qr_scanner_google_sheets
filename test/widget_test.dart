@@ -12,7 +12,9 @@ import 'package:qr_scanner_practice/core/controller/app_settings_controller.dart
 import 'package:qr_scanner_practice/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Counter increments smoke test', (
+    final WidgetTester tester,
+  ) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(
       MyApp(appSettingsController: AppSettingsController()),

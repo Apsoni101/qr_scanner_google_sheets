@@ -4,15 +4,13 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_scanner_practice/core/services/connectivity_service.dart';
 import 'package:qr_scanner_practice/core/network/failure.dart';
+import 'package:qr_scanner_practice/core/services/connectivity_service.dart';
 import 'package:qr_scanner_practice/feature/home/domain/use_case/home_screen_use_case.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/pending_sync_entity.dart';
 import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/result_scan_entity.dart';
-import 'package:qr_scanner_practice/feature/sheet_selection/domain/entity/sheet_entity.dart';
 
 part 'home_screen_event.dart';
-
 part 'home_screen_state.dart';
 
 class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
@@ -29,7 +27,7 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     _connectivitySubscription = connectivityService
         .onConnectivityChanged()
         .listen((final bool isOnline) {
-          add(OnHomeNetworkStatusChanged(isOnline));
+          add(OnHomeNetworkStatusChanged(isConnected: isOnline));
         });
   }
 

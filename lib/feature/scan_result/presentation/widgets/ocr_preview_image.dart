@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_scanner_practice/feature/common/presentation/widgets/rounded_corner_elevated_card.dart';
 
 class OcrImagePreview extends StatelessWidget {
-  const OcrImagePreview({super.key, required this.image});
+  const OcrImagePreview({required this.image, super.key});
 
   final ImageProvider image;
 

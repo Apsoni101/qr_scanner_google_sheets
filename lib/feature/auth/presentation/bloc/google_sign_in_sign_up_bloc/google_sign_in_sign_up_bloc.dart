@@ -35,7 +35,7 @@ class GoogleSignInSignUpBloc
         emit(const LoginInitial());
       },
       (final UserEntity user) async {
-        emit(LoginSuccess());
+        emit(const LoginSuccess());
       },
     );
   }

@@ -6,7 +6,7 @@ final List<AutoRoute> withBottomNavBarRoutes = <AutoRoute>[
   AutoRoute(
     page: DashboardRoute.page,
     initial: true,
-    children: [
+    children: <AutoRoute>[
       AutoRoute(page: HomeRoute.page, path: RoutePaths.home, initial: true),
       AutoRoute(page: ViewScansHistoryRoute.page, path: RoutePaths.history),
     ],

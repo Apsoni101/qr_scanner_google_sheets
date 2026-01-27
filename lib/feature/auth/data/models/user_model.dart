@@ -10,6 +10,16 @@ class UserModel extends UserEntity {
     super.profilePicture,
   });
 
+  factory UserModel.fromEntity(final UserEntity entity) {
+    return UserModel(
+      uid: entity.uid,
+      email: entity.email,
+      name: entity.name,
+      surname: entity.surname,
+      profilePicture: entity.profilePicture,
+    );
+  }
+
   factory UserModel.fromFirebaseUser(final User user) {
     final String fullName =
         user.displayName ?? user.email?.split('@').first ?? '';
@@ -54,16 +64,6 @@ class UserModel extends UserEntity {
       name: name,
       surname: surname,
       profilePicture: profilePicture,
-    );
-  }
-
-  factory UserModel.fromEntity(final UserEntity entity) {
-    return UserModel(
-      uid: entity.uid,
-      email: entity.email,
-      name: entity.name,
-      surname: entity.surname,
-      profilePicture: entity.profilePicture,
     );
   }
 }

@@ -70,37 +70,31 @@ class SheetSelectionRemoteDataSourceImpl
   @override
   Future<Either<Failure, List<SheetModel>>> getOwnedSheets() async {
     final Either<Failure, Options> authOptions = await _getAuthorizedOptions();
+
     return authOptions.fold(Left.new, (final Options options) async {
       const String query =
-          'mimeType="${NetworkConstants.sheetMimeType}" and "me" in owners and trashed=false';
-      final String encodedQuery = Uri.encodeComponent(query);
+          'mimeType="${NetworkConstants.sheetMimeType}" '
+          'and "me" in owners '
+          'and trashed=false '
+          'and (properties has { key="appCreated" and value="${AppConstants.appCreatedLabel}" } '
+          'or fullText contains "${AppConstants.appCreatedLabel}")';
 
       return apiClient.request<List<SheetModel>>(
-        url:
-            '${NetworkConstants.driveBaseUrl}?q=$encodedQuery&fields=${NetworkConstants.sheetFields}&pageSize=${NetworkConstants.pageSize}&orderBy=${NetworkConstants.orderBy}',
+        url: NetworkConstants.driveBaseUrl,
         method: HttpMethod.get,
         options: options,
+        queryParameters: <String, dynamic>{
+          'q': query,
+          'fields': NetworkConstants.sheetFields,
+          'pageSize': NetworkConstants.pageSize,
+          'orderBy': NetworkConstants.orderBy,
+        },
         responseParser: (final Map<String, dynamic> json) {
-          final List files = json['files'] as List<dynamic>? ?? <dynamic>[];
+          final List<dynamic> files = json['files'] ?? [];
           return files
-              .where((final f) {
-                final String description = f['description']?.toString() ?? '';
-                final Map<String, dynamic> properties =
-                    f['properties'] as Map<String, dynamic>? ??
-                    <String, dynamic>{};
-                final String appMark =
-                    properties['appCreated']?.toString() ?? '';
-
-                return description.contains(AppConstants.appCreatedLabel) ||
-                    appMark == AppConstants.appCreatedLabel;
-              })
               .map(
-                (final f) => SheetModel(
-                  id: f['id']?.toString() ?? '',
-                  title: f['name']?.toString() ?? 'Untitled',
-                  createdTime: f['createdTime']?.toString(),
-                  modifiedTime: f['modifiedTime']?.toString(),
-                ),
+                (final dynamic f) =>
+                    SheetModel.fromJson(f as Map<String, dynamic>),
               )
               .toList();
         },
@@ -203,9 +197,10 @@ class SheetSelectionRemoteDataSourceImpl
           );
           return apiClient.request<Unit>(
             url:
-                '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${NetworkConstants.appendRange}?valueInputOption=RAW',
+                '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${NetworkConstants.appendRange}',
             method: HttpMethod.post,
             options: options,
+            queryParameters: <String, dynamic>{'valueInputOption': 'RAW'},
             data: <String, dynamic>{
               'values': <List<dynamic>>[modelWithIds.toSheetRow()],
             },

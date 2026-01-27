@@ -53,16 +53,16 @@ class FirebaseAuthService {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
       if (googleUser == null) {
-        return Left<Failure, User>(
+        return const Left<Failure, User>(
           Failure(message: 'Google sign in cancelled'),
         );
       }
 
-      final GoogleSignInAuthentication? googleAuth =
+      final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       final OAuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
       );
       final UserCredential result = await auth.signInWithCredential(credential);
       return Right<Failure, User>(result.user!);

@@ -3,7 +3,7 @@ import 'package:qr_scanner_practice/core/constants/app_textstyles.dart';
 import 'package:qr_scanner_practice/core/extensions/context_extensions.dart';
 
 class SectionTitle extends StatelessWidget {
-  const SectionTitle({super.key, required this.label});
+  const SectionTitle({required this.label, super.key});
 
   final String label;
 

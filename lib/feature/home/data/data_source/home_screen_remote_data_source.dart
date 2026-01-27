@@ -61,9 +61,10 @@ class HomeScreenRemoteDataSourceImpl implements HomeScreenRemoteDataSource {
         final ScanResultModel modelWithUserId = model.copyWith(userId: userId);
         return apiClient.request<Unit>(
           url:
-              '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${NetworkConstants.appendRange}?valueInputOption=RAW',
+              '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/${AppConstants.sheetName}!${NetworkConstants.appendRange}',
           method: HttpMethod.post,
           options: options,
+          queryParameters: <String, String>{'valueInputOption': 'RAW'},
           data: <String, dynamic>{
             'values': <List<dynamic>>[modelWithUserId.toSheetRow()],
           },

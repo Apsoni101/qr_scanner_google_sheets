@@ -22,14 +22,14 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<Either<Failure, Unit>> signOut() => remoteDataSource.signOut();
 
   @override
-  Future<void> saveThemeMode(String themeName) =>
+  Future<void> saveThemeMode(final String themeName) =>
       localDataSource.saveThemeMode(themeName);
 
   @override
   String getThemeMode() => localDataSource.getThemeMode() ?? 'system';
 
   @override
-  Future<void> saveLanguage(String languageCode) =>
+  Future<void> saveLanguage(final String languageCode) =>
       localDataSource.saveLanguage(languageCode);
 
   @override

@@ -1,5 +1,7 @@
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:qr_scanner_practice/core/network/failure.dart';
 import 'package:qr_scanner_practice/feature/auth/domain/entities/user_entity.dart';
 import 'package:qr_scanner_practice/feature/setting/domain/usecase/settings_usecase.dart';
 
@@ -18,18 +20,19 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final SettingsUseCase settingsUseCase;
 
   Future<void> _onLoadSettings(
-    LoadSettingsEvent event,
-    Emitter<SettingsState> emit,
+    final LoadSettingsEvent event,
+    final Emitter<SettingsState> emit,
   ) async {
     emit(const SettingsLoading());
 
-    final userResult = await settingsUseCase.getCurrentUser();
-    final themeName = settingsUseCase.getThemeMode();
-    final languageCode = settingsUseCase.getLanguage();
+    final Either<Failure, UserEntity> userResult = await settingsUseCase
+        .getCurrentUser();
+    final String themeName = settingsUseCase.getThemeMode();
+    final String languageCode = settingsUseCase.getLanguage();
 
     userResult.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (user) => emit(
+      (final Failure failure) => emit(SettingsError(message: failure.message)),
+      (final UserEntity user) => emit(
         SettingsLoaded(
           user: user,
           themeName: themeName,
@@ -40,39 +43,39 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   }
 
   Future<void> _onSignOut(
-    SignOutEvent event,
-    Emitter<SettingsState> emit,
+    final SignOutEvent event,
+    final Emitter<SettingsState> emit,
   ) async {
     emit(const SettingsLoading());
 
-    final result = await settingsUseCase.signOut();
+    final Either<Failure, Unit> result = await settingsUseCase.signOut();
 
     result.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
+      (final Failure failure) => emit(SettingsError(message: failure.message)),
       (_) => emit(const SignOutSuccess()),
     );
   }
 
   Future<void> _onSaveThemeMode(
-    SaveThemeModeEvent event,
-    Emitter<SettingsState> emit,
+    final SaveThemeModeEvent event,
+    final Emitter<SettingsState> emit,
   ) async {
     await settingsUseCase.saveThemeMode(event.themeName);
 
     if (state is SettingsLoaded) {
-      final currentState = state as SettingsLoaded;
+      final SettingsLoaded currentState = state as SettingsLoaded;
       emit(currentState.copyWith(themeName: event.themeName));
     }
   }
 
   Future<void> _onSaveLanguage(
-    SaveLanguageEvent event,
-    Emitter<SettingsState> emit,
+    final SaveLanguageEvent event,
+    final Emitter<SettingsState> emit,
   ) async {
     await settingsUseCase.saveLanguage(event.languageCode);
 
     if (state is SettingsLoaded) {
-      final currentState = state as SettingsLoaded;
+      final SettingsLoaded currentState = state as SettingsLoaded;
       emit(currentState.copyWith(languageCode: event.languageCode));
     }
   }

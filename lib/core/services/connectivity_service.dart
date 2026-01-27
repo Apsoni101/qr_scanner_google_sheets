@@ -1,6 +1,5 @@
 // lib/core/services/connectivity/connectivity_service.dart
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/material.dart';
 
 class ConnectivityService {
   ConnectivityService({final Connectivity? connectivity})

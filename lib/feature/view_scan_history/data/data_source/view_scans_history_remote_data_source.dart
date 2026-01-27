@@ -29,7 +29,7 @@ class ViewScansHistoryRemoteDataSourceImpl
         .getGoogleAccessToken();
     return tokenResult.fold(
       Left.new,
-      (final String token) => Right(
+      (final String token) => Right<Failure, Options>(
         Options(
           headers: <String, dynamic>{
             'Authorization': 'Bearer $token',
@@ -44,7 +44,11 @@ class ViewScansHistoryRemoteDataSourceImpl
     final Options options,
   ) async {
     const String query =
-        'mimeType="${NetworkConstants.sheetMimeType}" and "me" in owners and trashed=false';
+        'mimeType="${NetworkConstants.sheetMimeType}" '
+        'and "me" in owners '
+        'and trashed=false '
+        'and (properties has { key="appCreated" and value="${AppConstants.appCreatedLabel}" } '
+        'or fullText contains "${AppConstants.appCreatedLabel}")';
 
     final Map<String, dynamic> queryParams = <String, dynamic>{
       'q': query,
@@ -59,32 +63,14 @@ class ViewScansHistoryRemoteDataSourceImpl
       options: options,
       queryParameters: queryParams,
       responseParser: (final Map<String, dynamic> json) {
-        final List files = json['files'] ?? <dynamic>[];
-        return _filterAndMapSheets(files);
+        final List<dynamic> files = json['files'] ?? <dynamic>[];
+        return files
+            .map(
+              (final dynamic file) =>
+                  SheetModel.fromJson(Map<String, dynamic>.from(file)),
+            )
+            .toList();
       },
-    );
-  }
-
-  List<SheetModel> _filterAndMapSheets(final List files) {
-    return files.where(_isAppCreatedSheet).map(_mapToSheetModel).toList();
-  }
-
-  bool _isAppCreatedSheet(final dynamic file) {
-    final String description = file['description']?.toString() ?? '';
-    final Map<String, dynamic> properties =
-        file['properties'] ?? <String, dynamic>{};
-    final String appMark = properties['appCreated']?.toString() ?? '';
-
-    return description.contains(AppConstants.appCreatedLabel) ||
-        appMark == AppConstants.appCreatedLabel;
-  }
-
-  SheetModel _mapToSheetModel(final dynamic file) {
-    return SheetModel(
-      id: file['id']?.toString() ?? '',
-      title: file['name']?.toString() ?? 'Untitled',
-      createdTime: file['createdTime']?.toString(),
-      modifiedTime: file['modifiedTime']?.toString(),
     );
   }
 
@@ -92,7 +78,7 @@ class ViewScansHistoryRemoteDataSourceImpl
     final String sheetId,
     final Options options,
   ) async {
-    final String sheetRange =
+    const String sheetRange =
         '${AppConstants.sheetName}!${AppConstants.readRange}';
     final String url =
         '${NetworkConstants.sheetsBaseUrl}/$sheetId/values/$sheetRange';

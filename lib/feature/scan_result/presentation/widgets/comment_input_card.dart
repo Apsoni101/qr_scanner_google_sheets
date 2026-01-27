@@ -8,7 +8,7 @@ import 'package:qr_scanner_practice/feature/scan_result/presentation/bloc/result
 import 'package:qr_scanner_practice/feature/scan_result/presentation/widgets/section_title.dart';
 
 class CommentInputCard extends StatelessWidget {
-  const CommentInputCard({super.key, required this.commentController});
+  const CommentInputCard({required this.commentController, super.key});
 
   final TextEditingController commentController;
 
@@ -32,7 +32,7 @@ class CommentInputCard extends StatelessWidget {
 }
 
 class CommentInputField extends StatelessWidget {
-  const CommentInputField({required this.controller});
+  const CommentInputField({required this.controller, super.key});
 
   final TextEditingController controller;
 
