@@ -29,7 +29,22 @@ The app is currently deployed on the following platforms:
 - ✅ **Android**
 
 ---
+# Setup & Configuration 🔧
 
+## Firebase & Google Console Setup
+
+Before running the app, you need to configure Firebase and Google Console services. Follow the detailed setup guide:
+
+📖 **[Firebase & Google Console Setup Guide](https://github.com/Apsoni101/qr_scanner_google_sheets/blob/main/FIREBASE_AND_GOOGLE_CONSOLE_SETUP.md)**
+
+This guide covers:
+- Firebase project setup
+- Google Sheets API configuration
+- Google Sign-In setup
+- Platform-specific configurations (Android & iOS)
+- Service account setup for Google Sheets integration
+
+---
 # Installation Prerequisites ⚙️
 
 Ensure you have the following installed:
