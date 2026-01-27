@@ -42,7 +42,6 @@ This guide covers:
 - Google Sheets API configuration
 - Google Sign-In setup
 - Platform-specific configurations (Android & iOS)
-- Service account setup for Google Sheets integration
 
 ---
 # Installation Prerequisites ⚙️
