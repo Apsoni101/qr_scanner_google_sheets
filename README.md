@@ -1,3 +1,28 @@
+# 📑 Index
+
+- [📱 CodiScan](#-codiscan)
+- [Project Info 📱](#project-info-)
+  - [Environments](#environments)
+  - [Platform Support](#platform-support)
+- [Setup & Configuration 🔧](#setup--configuration-)
+  - [Firebase & Google Console Setup](#firebase--google-console-setup)
+  - [Home Widget Setup](#home-widget-setup)
+
+- [Installation Prerequisites ⚙️](#installation-prerequisites-)
+  - [Development Tool Versions](#development-tool-versions)
+  - [Quick Setup](#quick-setup)
+  - [Running the App](#running-the-app)
+- [Supported Versions](#supported-versions)
+  - [Platform Version Requirements](#platform-version-requirements)
+  - [Version Details](#version-details)
+- [📸 App Screenshots](#-app-screenshots)
+- [Features](#features)
+- [Folder Structure Convention](#folder-structure-convention)
+  - [Top-level directory layout](#top-level-directory-layout)
+  - [Source files](#source-files)
+- [Dependencies 📚](#dependencies-)
+
+
 # 📱 CodiScan
 
 A Flutter QR Scanner application that allows users to scan QR codes, view results, handle errors, and store scanned data in google sheets with scan data , device id , timestamp , userid .  
@@ -37,14 +62,16 @@ Before running the app, you need to configure Firebase and Google Console servic
 
 📖 **[Firebase & Google Console Setup Guide](https://github.com/Apsoni101/qr_scanner_google_sheets/blob/main/FIREBASE_AND_GOOGLE_CONSOLE_SETUP.md)**
 
-📖 **[Home Widget Setup Guide](https://github.com/Apsoni101/qr_scanner_google_sheets/blob/main/HOME_WIDGET_SETUP.md)**
-
-
 This guide covers:
 - Firebase project setup
 - Google Sheets API configuration
 - Google Sign-In setup
 - Platform-specific configurations (Android & iOS)
+
+## Home Widget Setup 🧩
+
+📖 **[Home Widget Setup Guide](https://github.com/Apsoni101/qr_scanner_google_sheets/blob/main/HOME_WIDGET_SETUP.md)**
+
 
 ---
 # Installation Prerequisites ⚙️
