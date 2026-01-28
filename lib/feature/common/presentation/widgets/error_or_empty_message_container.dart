@@ -16,6 +16,7 @@ class ErrorOrEmptyMessageContainer extends StatelessWidget {
   @override
   Widget build(final BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: backgroundColor,

@@ -82,8 +82,10 @@ class SheetSelectionRemoteDataSourceImpl
           'mimeType="${NetworkConstants.sheetMimeType}" '
           'and "me" in owners '
           'and trashed=false '
-          'and (properties has { key="appCreated" and value="${AppConstants.appCreatedLabel}" } '
-          'or fullText contains "${AppConstants.appCreatedLabel}")';
+          'and properties has { '
+          'key="appCreated" '
+          'and value="${AppConstants.appCreatedLabel}" '
+          '}';
 
       final Map<String, dynamic> queryParams = <String, dynamic>{
         'q': query,

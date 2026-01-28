@@ -33,6 +33,7 @@ class ViewScansHistoryRemoteDataSourceImpl
   Future<Either<Failure, Options>> _getAuthorizedOptions() async {
     final Either<Failure, String> tokenResult = await authService
         .getGoogleAccessToken();
+
     return tokenResult.fold(
       Left.new,
       (final String token) => Right<Failure, Options>(
@@ -58,12 +59,14 @@ class ViewScansHistoryRemoteDataSourceImpl
           'mimeType="${NetworkConstants.sheetMimeType}" '
           'and "me" in owners '
           'and trashed=false '
-          'and (properties has { key="appCreated" and value="${AppConstants.appCreatedLabel}" } '
-          'or fullText contains "${AppConstants.appCreatedLabel}")';
+          'and properties has { '
+          'key="appCreated" '
+          'and value="${AppConstants.appCreatedLabel}" '
+          '}';
 
       final Map<String, dynamic> queryParams = <String, dynamic>{
         'q': query,
-        'fields': '${NetworkConstants.sheetFields}, nextPageToken',
+        'fields': '${NetworkConstants.sheetFields},nextPageToken',
         'pageSize': pageSize ?? NetworkConstants.pageSize,
         'orderBy': NetworkConstants.orderBy,
       };
@@ -111,7 +114,7 @@ class ViewScansHistoryRemoteDataSourceImpl
       method: HttpMethod.get,
       options: options,
       responseParser: (final Map<String, dynamic> json) {
-        final List values = json['values'] ?? <dynamic>[];
+        final List<dynamic> values = json['values'] ?? <dynamic>[];
         return values
             .map(
               (final dynamic row) =>
