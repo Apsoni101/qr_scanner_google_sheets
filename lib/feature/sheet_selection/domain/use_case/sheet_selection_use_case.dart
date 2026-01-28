@@ -14,8 +14,11 @@ class SheetSelectionUseCase {
   Future<Either<Failure, List<SheetEntity>>> getLocalSheets() =>
       repository.getLocalSheets();
 
-  Future<Either<Failure, Unit>> cacheSheet(final SheetEntity sheet) =>
-      repository.cacheSheet(sheet);
+  Future<Either<Failure, Unit>> saveSheetLocally(final SheetEntity sheet) =>
+      repository.saveSheetLocally(sheet);
+
+  Future<Either<Failure, Unit>> clearLocalSheets() =>
+      repository.clearLocalSheets();
 
   Future<Either<Failure, Unit>> cacheScanResult(
     final ScanResultEntity scan,

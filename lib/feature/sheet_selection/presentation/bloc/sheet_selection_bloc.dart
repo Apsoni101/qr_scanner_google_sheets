@@ -65,8 +65,10 @@ class SheetSelectionBloc
         );
       },
       (final PagedSheetsEntity paged) async {
+        await useCase.clearLocalSheets();
+
         for (final SheetEntity sheet in paged.sheets) {
-          await useCase.cacheSheet(sheet);
+          await useCase.saveSheetLocally(sheet);
         }
 
         emit(
@@ -101,7 +103,7 @@ class SheetSelectionBloc
       },
       (final PagedSheetsEntity paged) async {
         for (final SheetEntity sheet in paged.sheets) {
-          await useCase.cacheSheet(sheet);
+          await useCase.saveSheetLocally(sheet);
         }
 
         emit(
@@ -188,7 +190,7 @@ class SheetSelectionBloc
           modifiedTime: DateTime.now().toIso8601String(),
         );
 
-        await useCase.cacheSheet(sheet);
+        await useCase.saveSheetLocally(sheet);
 
         final Either<Failure, List<SheetEntity>> loadResult = await useCase
             .getLocalSheets();
@@ -235,7 +237,7 @@ class SheetSelectionBloc
           },
           (final PagedSheetsEntity pagedSheetsEntity) async {
             for (final SheetEntity sheet in pagedSheetsEntity.sheets) {
-              await useCase.cacheSheet(sheet);
+              await useCase.saveSheetLocally(sheet);
             }
             final List<SheetEntity> sheets = pagedSheetsEntity.sheets;
 

@@ -8,13 +8,15 @@ abstract class SheetSelectionRepository {
   /// Local operations
   Future<Either<Failure, List<SheetEntity>>> getLocalSheets();
 
-  Future<Either<Failure, Unit>> cacheSheet(final SheetEntity sheet);
+  Future<Either<Failure, Unit>> saveSheetLocally(final SheetEntity sheet);
 
   Future<Either<Failure, Unit>> cacheScanResult(
     final ScanResultEntity scan,
     final String sheetId,
     final String sheetTitle,
   );
+
+  Future<Either<Failure, Unit>> clearLocalSheets();
 
   /// Remote operations
   Future<Either<Failure, PagedSheetsEntity>> getOwnedSheets({

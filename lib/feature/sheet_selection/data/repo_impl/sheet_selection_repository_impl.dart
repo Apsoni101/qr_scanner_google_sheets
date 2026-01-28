@@ -25,7 +25,7 @@ class SheetSelectionRepositoryImpl implements SheetSelectionRepository {
       localDataSource.getLocalSheets();
 
   @override
-  Future<Either<Failure, Unit>> cacheSheet(final SheetEntity sheet) =>
+  Future<Either<Failure, Unit>> saveSheetLocally(final SheetEntity sheet) =>
       localDataSource.saveSheetLocally(SheetModel.fromEntity(sheet));
 
   @override
@@ -38,6 +38,9 @@ class SheetSelectionRepositoryImpl implements SheetSelectionRepository {
     sheetId,
     sheetTitle,
   );
+
+  Future<Either<Failure, Unit>> clearLocalSheets() =>
+      localDataSource.clearLocalSheets();
 
   /// Remote operations
   @override
