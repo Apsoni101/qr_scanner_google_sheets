@@ -5,7 +5,7 @@ sealed class ViewScansHistoryScreenEvent extends Equatable {
   const ViewScansHistoryScreenEvent();
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => <Object?>[];
 }
 
 class OnHistoryLoadScans extends ViewScansHistoryScreenEvent {
@@ -22,5 +22,5 @@ class OnHistorySearchScans extends ViewScansHistoryScreenEvent {
   final String query;
 
   @override
-  List<Object?> get props => [query];
+  List<Object?> get props => <Object?>[query];
 }

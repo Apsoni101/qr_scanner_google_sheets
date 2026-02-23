@@ -13,7 +13,7 @@ class SplashLogoContainer extends StatelessWidget {
       decoration: BoxDecoration(
         color: context.appColors.surfaceL1,
         borderRadius: .circular(24),
-        boxShadow: [
+        boxShadow: <BoxShadow>[
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.14),
 
